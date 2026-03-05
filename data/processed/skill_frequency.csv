@@ -1,0 +1,182 @@
+skill,count,pct_of_jobs
+Python,1503,0.5206
+Microsoft Office,1230,0.426
+SQL,1120,0.3879
+Scala,835,0.2892
+Git,802,0.2778
+AWS,774,0.2681
+ETL,610,0.2113
+Statistics,536,0.1857
+Agile,463,0.1604
+Azure,441,0.1528
+Spark,438,0.1517
+PyTorch,433,0.15
+LLM,393,0.1361
+Rust,388,0.1344
+TensorFlow,383,0.1327
+Deep Learning,348,0.1205
+GCP,337,0.1167
+Big Data,334,0.1157
+NLP,319,0.1105
+Tableau,283,0.098
+CI/CD,282,0.0977
+Power BI,258,0.0894
+Data Analytics,229,0.0793
+Kubernetes,224,0.0776
+JavaScript,216,0.0748
+Docker,215,0.0745
+Databricks,172,0.0596
+Snowflake,171,0.0592
+Natural Language Processing,169,0.0585
+scikit-learn,168,0.0582
+Go,162,0.0561
+Java,152,0.0526
+R,147,0.0509
+Airflow,146,0.0506
+Computer Vision,141,0.0488
+Google Cloud,139,0.0481
+Kafka,133,0.0461
+pandas,131,0.0454
+PostgreSQL,117,0.0405
+REST API,115,0.0398
+Large Language Models,111,0.0384
+SQL Server,111,0.0384
+Hugging Face,104,0.036
+BigQuery,104,0.036
+PySpark,99,0.0343
+NumPy,96,0.0333
+GitHub,93,0.0322
+Redshift,93,0.0322
+Keras,88,0.0305
+Terraform,87,0.0301
+C/C++,77,0.0267
+dbt,75,0.026
+"Computer Science, Engineering",70,0.0242
+Bash,65,0.0225
+OpenAI API,64,0.0222
+TypeScript,61,0.0211
+Azure Data Factory,59,0.0204
+MongoDB,56,0.0194
+MLflow,53,0.0184
+LangChain,52,0.018
+Ph.D.,44,0.0152
+PowerBI,44,0.0152
+MapReduce,43,0.0149
+GitLab,39,0.0135
+Spring Boot,37,0.0128
+Microsoft Azure,30,0.0104
+FastAPI,29,0.01
+Amazon Web Services,29,0.01
+XGBoost,29,0.01
+Elasticsearch,28,0.0097
+Matplotlib,28,0.0097
+AI/ML Engineer,28,0.0097
+PL/SQL,27,0.0094
+Mental Health,27,0.0094
+Life and Serious Injury,27,0.0094
+Health Plans,27,0.0094
+Health Savings,27,0.0094
+Disability Programs,27,0.0094
+Stock Option Program,27,0.0094
+"Computer Science, Statistics",27,0.0094
+Google Analytics,26,0.009
+GraphQL,26,0.009
+Commitment to Diversity,26,0.009
+Artificial Intelligence,25,0.0087
+MS Office,25,0.0087
+"Computer Science, Engineering,",25,0.0087
+Computer Engineering,24,0.0083
+Information Technology,23,0.008
+"Tableau, Power BI",23,0.008
+OpenAI,21,0.0073
+Node.js,21,0.0073
+ML Engineers,21,0.0073
+ML Infrastructure,21,0.0073
+Operations Research,21,0.0073
+Apache Spark,20,0.0069
+US Citizenship,20,0.0069
+VMware,19,0.0066
+ML Ops,19,0.0066
+PowerShell,19,0.0066
+PhD.,19,0.0066
+Project Management,18,0.0062
+SageMaker,18,0.0062
+Apache Airflow,18,0.0062
+Causal Inference,18,0.0062
+NeurIPS,18,0.0062
+Glassdoor Best Place to Work,18,0.0062
+TikTok,17,0.0059
+Linear Algebra,17,0.0059
+"Computer Science, Data Science",17,0.0059
+Redis,17,0.0059
+DynamoDB,17,0.0059
+Microsoft Excel,17,0.0059
+Marketing Technology,17,0.0059
+Data Modeling,16,0.0055
+ChatGPT,16,0.0055
+NASDAQ,16,0.0055
+Software Engineers,16,0.0055
+SharePoint,16,0.0055
+Spark ML,16,0.0055
+Supply Chain,15,0.0052
+Data Quality,15,0.0052
+"Python, Ruby",15,0.0052
+Fortune 500,14,0.0048
+Parental Leave,14,0.0048
+Neo4j,14,0.0048
+Information Systems,14,0.0048
+"Computer Science, Statistics,",14,0.0048
+Financial Services,14,0.0048
+Plotly,14,0.0048
+Target Earnings,14,0.0048
+MATLAB,14,0.0048
+CSS3,14,0.0048
+AutoCAD,14,0.0048
+AI Engineer,13,0.0045
+Systems Engineering,13,0.0045
+"Data Science, Statistics",13,0.0045
+LlamaIndex,13,0.0045
+Business Intelligence,13,0.0045
+HTML5,13,0.0045
+JazzHR,12,0.0042
+NodeJS,12,0.0042
+CloudFormation,12,0.0042
+Data Warehousing,12,0.0042
+Project Managers,12,0.0042
+Applied Mathematics,12,0.0042
+Reinforcement Learning,12,0.0042
+"Vision, Life Insurance",12,0.0042
+Spark MLLib,12,0.0042
+NLP/NLU,11,0.0038
+Software Development Engineer,11,0.0038
+Product Management,11,0.0038
+Recruiting Partner,11,0.0038
+Big Query,11,0.0038
+Google BigQuery,11,0.0038
+"Operations Research,",11,0.0038
+Software Engineer,11,0.0038
+Hugging Face Transformers,10,0.0035
+Artificial Intelligence (AI,10,0.0035
+Machine Learning Operations,10,0.0035
+"Extract, Transform, Load (ETL",10,0.0035
+Data Analysts,10,0.0035
+Data Analysis,10,0.0035
+Google Sheets,10,0.0035
+Business Objects,10,0.0035
+RemoteDuration,10,0.0035
+Fidelity Investments,10,0.0035
+QualificationsBachelor,10,0.0035
+FanDuel,10,0.0035
+FanDuel TV,10,0.0035
+FanDuel Group,10,0.0035
+Industrial Engineering,10,0.0035
+EDUCATION,10,0.0035
+Gender Identity,10,0.0035
+Employee Purchase Program,10,0.0035
+Student Loan Program,10,0.0035
+Wellness Incentives,10,0.0035
+Software Development,10,0.0035
+HuggingFace,10,0.0035
+REMOTE,10,0.0035
+Chemical Engineering,10,0.0035
+Weights & Biases,3,0.001

@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"
     TOP_K_JOBS: int = 5
     SKILL_FREQUENCY_THRESHOLD: float = 0.30
-    ROLE_CAP: int = 1000
+    ROLE_CAP: int = 2000
 
     # ── API settings ──────────────────────────────────────────────────────────
     API_HOST: str = "0.0.0.0"
@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     LLM_TIMEOUT: int = 10
 
     # ── Secrets (from .env) ───────────────────────────────────────────────────
-    ANTHROPIC_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 

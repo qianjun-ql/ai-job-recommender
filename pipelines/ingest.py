@@ -176,6 +176,17 @@ def ingest() -> pd.DataFrame:
     logger.info("FR-01: Starting ingestion pipeline")
     logger.info("═" * 60)
 
+    sources_changed = any(
+        [
+            dataset_changed(settings.JOB_POSTINGS_CSV),
+            dataset_changed(settings.AI_ML_JOBS_CSV),
+            dataset_changed(settings.CLEAN_JOBS_CSV),
+        ]
+    )
+    if not sources_changed and settings.JOBS_CLEANED_CSV.exists():
+        logger.info("No dataset changes detected — returning cached output ✅")
+        return pd.read_csv(settings.JOBS_CLEANED_CSV)
+
     # ── 1. Load all 3 datasets ────────────────────────────────────────────────
     try:
         df1 = load_job_postings()
@@ -204,7 +215,9 @@ def ingest() -> pd.DataFrame:
     df["description"] = df["description"].apply(strip_html)
 
     # ── 6. Normalize roles ────────────────────────────────────────────────────
-    df["role"] = df["title"].apply(normalize_role)
+    df["job_text"] = df["title"] + " " + df["description"].str[:300]
+    df["role"] = df["job_text"].apply(normalize_role)
+    df.drop(columns=["job_text"], inplace=True)
     unmatched = df["role"].isna().sum()
     df.dropna(subset=["role"], inplace=True)
     logger.info(f"Unmatched roles dropped: {unmatched:,} — {len(df):,} remain")

@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Type check
+        run: mypy pipelines/ config/ --ignore-missing-imports
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
