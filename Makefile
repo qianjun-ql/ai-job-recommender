@@ -1,10 +1,15 @@
-.PHONY: ingest extract embed api ui test eval
+.PHONY: ingest extract train train-jobbert embed api ui test eval
 
 ingest:
 	python pipelines/ingest.py
 
 extract:
 	python pipelines/extract_skills.py
+
+train-jobbert:
+	python pipelines/train_jobbert.py --epochs 15 --batch-size 4
+
+train: train-jobbert
 
 embed:
 	python pipelines/embed.py

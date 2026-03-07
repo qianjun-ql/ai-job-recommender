@@ -1,0 +1,83 @@
+"""
+API request/response schemas — Pydantic v2.
+All FR-07 endpoints use these models for validation and serialisation.
+"""
+
+from pydantic import BaseModel, Field
+
+# ── Shared sub-models ─────────────────────────────────────────────────────────
+
+
+class JobMatchResponse(BaseModel):
+    job_id: str
+    title: str
+    role: str
+    location: str
+    match_score: float
+    skills: list[str]
+    snippet: str
+
+
+class ProjectResponse(BaseModel):
+    title: str
+    description: str
+    skills_addressed: list[str]
+    difficulty: str  # Beginner | Intermediate | Advanced
+    estimated_hours: int
+
+
+class SkillDemand(BaseModel):
+    skill: str
+    demand_count: int
+    pct_of_jobs: float
+
+
+# ── POST /analyze ─────────────────────────────────────────────────────────────
+
+
+class AnalyzeRequest(BaseModel):
+    skills: list[str] = Field(..., min_length=1)
+    target_role: str
+    location: str | None = None
+
+
+class AnalyzeResponse(BaseModel):
+    top_jobs: list[JobMatchResponse]
+    matched_skills: list[str]
+    missing_skills: list[str]
+    match_score: float
+    projects: list[ProjectResponse]
+
+
+# ── POST /chat ────────────────────────────────────────────────────────────────
+
+
+class ChatRequest(BaseModel):
+    message: str = Field(..., min_length=1)
+    session_id: str
+    user_skills: list[str] = Field(default_factory=list)
+
+
+class ChatResponse(BaseModel):
+    answer: str
+    sources: list[str]  # job_ids cited
+    tool_calls_made: list[str]
+    session_id: str
+
+
+# ── GET /top_skills ───────────────────────────────────────────────────────────
+
+
+class TopSkillsResponse(BaseModel):
+    role: str
+    skills: list[SkillDemand]
+
+
+# ── GET /health ───────────────────────────────────────────────────────────────
+
+
+class HealthResponse(BaseModel):
+    status: str
+    version: str
+    dataset_rows: int
+    index_size: int

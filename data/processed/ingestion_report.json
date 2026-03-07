@@ -1,17 +1,23 @@
 {
-  "raw_rows": 17796,
-  "final_rows": 2887,
-  "dupe_count": 0,
+  "raw_rows": 121974,
+  "final_rows": 10000,
+  "dupe_count": 5741,
   "role_counts": {
-    "SWE": 1000,
-    "Data Scientist": 745,
-    "ML Engineer": 696,
-    "Data Engineer": 315,
-    "AI Engineer": 131
+    "AI Engineer": 2000,
+    "Data Engineer": 2000,
+    "Data Scientist": 2000,
+    "ML Engineer": 2000,
+    "SWE": 2000
   },
   "source_counts": {
-    "linkedin_postings": 1305,
-    "clean_jobs": 800,
-    "ai_ml_linkedin": 782
+    "all_jobs_csv": 6146,
+    "postings": 1648,
+    "ai_ml_linkedin": 392,
+    "linkedin_postings": 382,
+    "ml_jobs_us": 382,
+    "clean_jobs": 287,
+    "ds_jobs_indeed": 274,
+    "jobs_dataset": 246,
+    "final_job_list": 243
   }
 }

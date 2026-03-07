@@ -1,8 +1,10 @@
 """
-FR-02: Skill Extraction (Hybrid: Dictionary + spaCy NER)
+FR-02: Skill Extraction (Hybrid: Dictionary + NER)
 Extracts technical skills from job descriptions using two methods:
   Method A — keyword dictionary (precise, known skills)
-  Method B — spaCy NER (catches unknown/emerging skills)
+  Method B — JobBERT NER (fine-tuned on job postings; dictionary-only if not yet trained)
+
+Run:  python pipelines/train_jobbert.py  to fine-tune JobBERT.
 
 Input:  data/processed/jobs_cleaned.csv
 Output: data/processed/job_skills.json
@@ -17,443 +19,211 @@ from collections import Counter
 from pathlib import Path
 
 import pandas as pd
-import spacy
+import torch
 
 sys.path.append(str(Path(__file__).parent.parent))
 from config.settings import settings
+from pipelines.utils import get_torch_device
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s — %(message)s",
-)
 logger = logging.getLogger(__name__)
 
-# ── Load spaCy model once at module level ─────────────────────────────────────
-try:
-    nlp = spacy.load("en_core_web_sm")
-    logger.info("spaCy model loaded ✅")
-except OSError:
-    raise RuntimeError("spaCy model not found. Run: python -m spacy download en_core_web_sm")
+
+# ── Method B backend: JobBERT (lazy-loaded on first use) ─────────────────────
+JOBBERT_DIR = settings.BASE_DIR / "models" / "jobbert-skill-ner"
+
+# Labels that count as "skill" at inference time.
+# With aggregation_strategy="simple", HuggingFace strips B-/I- prefixes —
+# entity_group will be "Skill" or "Knowledge", never "B-Skill" etc.
+_SKILL_ENTITY_GROUPS = {"Skill", "Knowledge"}
+
+# Detect model availability at import time (fast — no weights loaded).
+_METHOD_B: str = (
+    "jobbert" if JOBBERT_DIR.exists() and (JOBBERT_DIR / "config.json").exists() else "none"
+)
+if _METHOD_B == "none":
+    logger.warning(
+        "JobBERT model not found — dictionary-only mode. " "Run: python pipelines/train_jobbert.py"
+    )
+
+_jobbert_pipe: object | None = None  # loaded on first extract call
+_jobbert_load_failed: bool = False
+
+
+def _get_pipe() -> object | None:
+    """Lazy-load JobBERT NER pipeline on first call (~400 MB; skipped at API import time)."""
+    global _jobbert_pipe, _jobbert_load_failed
+    if _jobbert_load_failed or _METHOD_B != "jobbert":
+        return None
+    if _jobbert_pipe is not None:
+        return _jobbert_pipe
+    try:
+        from transformers import AutoTokenizer
+        from transformers import pipeline as hf_pipeline
+
+        _tok = AutoTokenizer.from_pretrained(str(JOBBERT_DIR), model_max_length=512)
+        _jobbert_pipe = hf_pipeline(
+            "ner",
+            model=str(JOBBERT_DIR),
+            tokenizer=_tok,
+            aggregation_strategy="simple",
+            device=get_torch_device(),
+        )
+        logger.info("Method B: JobBERT NER loaded ✅  (domain-tuned on job postings)")
+        return _jobbert_pipe
+    except Exception as e:
+        logger.warning(f"JobBERT load failed ({e}) — dictionary-only mode")
+        _jobbert_load_failed = True
+        return None
+
 
 # ── Skills dictionary (Method A) ──────────────────────────────────────────────
-SKILLS: dict[str, list[str]] = {
-    # Languages
-    "Python": ["python"],
-    "SQL": ["sql", "mysql", "postgresql", "sqlite"],
-    "Java": [" java "],
-    "JavaScript": ["javascript", "node.js", "nodejs"],
-    "TypeScript": ["typescript"],
-    "R": [" r ", "r programming", "rstudio"],
-    "Scala": ["scala"],
-    "C/C++": ["c/c++", " c ", "c programming"],
-    "Go": [" go ", "golang"],
-    "Rust": ["rust"],
-    "Bash": ["bash", "shell scripting"],
-    # ML / AI
-    "PyTorch": ["pytorch"],
-    "TensorFlow": ["tensorflow"],
-    "scikit-learn": ["scikit-learn", "sklearn"],
-    "Keras": ["keras"],
-    "Hugging Face": ["hugging face", "huggingface", "transformers"],
-    "LangChain": ["langchain"],
-    "OpenAI API": ["openai", "gpt-4", "gpt-3", "chatgpt"],
-    "Computer Vision": ["computer vision", "opencv", "cv2"],
-    "NLP": ["nlp", "natural language processing", "spacy", "nltk"],
-    "LLM": ["llm", "large language model"],
-    "MLflow": ["mlflow"],
-    "Weights & Biases": ["wandb", "weights and biases"],
-    "Large Language Models": ["large language models"],
-    "Natural Language Processing": ["natural language processing"],
-    "XGBoost": ["xgboost", "xgb"],
-    # Data
-    "pandas": ["pandas"],
-    "NumPy": ["numpy"],
-    "Spark": ["spark", "pyspark", "apache spark"],
-    "Kafka": ["kafka", "apache kafka"],
-    "Airflow": ["airflow", "apache airflow"],
-    "dbt": ["dbt", "data build tool"],
-    "Databricks": ["databricks"],
-    "Snowflake": ["snowflake"],
-    "BigQuery": ["bigquery", "big query"],
-    "Redshift": ["redshift"],
-    "ETL": ["etl", "data pipeline", "data ingestion"],
-    "PySpark": ["pyspark"],
-    "Big Data": ["big data", "hadoop", "mapreduce", "hive"],
-    "SQL Server": ["sql server", "mssql", "microsoft sql"],
-    "Azure Data Factory": ["azure data factory", "adf"],
-    "Microsoft Office": ["microsoft office", "excel", "powerpoint"],
-    "MapReduce": ["mapreduce", "map reduce"],
-    "Google Analytics": ["google analytics"],
-    "PL/SQL": ["pl/sql", "plsql"],
-    "Data Analytics": ["data analytics"],
-    # Cloud
-    "AWS": ["aws", "amazon web services", "s3", "ec2", "sagemaker", "lambda"],
-    "GCP": ["gcp", "google cloud", "vertex ai"],
-    "Google Cloud": ["google cloud platform", "google cloud"],
-    "Azure": ["azure", "microsoft azure"],
-    # DevOps / MLOps
-    "Docker": ["docker", "dockerfile"],
-    "Kubernetes": ["kubernetes", "k8s"],
-    "CI/CD": ["ci/cd", "github actions", "jenkins", "gitlab ci"],
-    "Terraform": ["terraform"],
-    "Git": ["git", "github", "version control"],
-    "GitHub": ["github"],
-    "GitLab": ["gitlab"],
-    # APIs / Backend
-    "FastAPI": ["fastapi"],
-    "REST API": ["rest api", "restful"],
-    "GraphQL": ["graphql"],
-    "Spring Boot": ["spring boot"],
-    # Databases
-    "MongoDB": ["mongodb", "mongo"],
-    "Redis": ["redis"],
-    "Elasticsearch": ["elasticsearch"],
-    "PostgreSQL": ["postgresql", "postgres"],
-    # Viz / BI
-    "Tableau": ["tableau"],
-    "Power BI": ["power bi", "powerbi", "ms office powerbi"],
-    "Plotly": ["plotly"],
-    "Matplotlib": ["matplotlib"],
-    # Soft / Process
-    "Agile": ["agile", "scrum", "kanban"],
-    "Statistics": ["statistics", "statistical analysis"],
-    "Linear Algebra": ["linear algebra"],
-    "Deep Learning": ["deep learning", "neural network", "cnn", "rnn", "lstm"],
+# Edit models/skills_dictionary.json to add/remove skills — no code changes needed.
+if not settings.SKILLS_DICT.exists():
+    raise FileNotFoundError(
+        f"Skills dictionary not found: {settings.SKILLS_DICT}\n"
+        "Expected: models/skills_dictionary.json"
+    )
+SKILLS: dict[str, list[str]] = json.loads(settings.SKILLS_DICT.read_text())
+
+# Flat set of all alias strings — for O(1) dedup against ALL aliases, not just canonical names
+SKILL_ALIASES_LOWER: set[str] = {alias.strip() for aliases in SKILLS.values() for alias in aliases}
+
+# ── Compiled regex for fast dictionary lookup ──────────────────────────────────
+# Sort aliases longest-first so "apache spark" matches before "spark".
+# Strips space-hack aliases (" java " → "java"); word boundaries handle isolation.
+_ALIAS_TO_SKILL: dict[str, str] = {
+    alias.strip(): skill for skill, aliases in SKILLS.items() for alias in aliases
 }
-
-# ── Known tech indicators for spaCy NER filtering ────────────────────────────
-TECH_SUFFIXES = {
-    "js",
-    "py",
-    "ai",
-    "ml",
-    "db",
-    "sql",
-    "api",
-    "sdk",
-    "cli",
-    "net",
-    "io",
-    "hub",
-    "ops",
-    "lab",
-    "flow",
-    "base",
-}
-TECH_STOPWORDS = {
-    "experience",
-    "knowledge",
-    "skills",
-    "ability",
-    "team",
-    "work",
-    "years",
-    "strong",
-    "good",
-    "excellent",
-    "plus",
-    "preferred",
-    "required",
-    "etc",
-    "including",
-    "using",
-    "with",
-    "and",
-    "or",
-    "the",
-    "a",
-    "an",
-    "in",
-    "of",
-    "for",
-    "to",
-    "is",
-    "are",
-}
-
-ROLE_NOISE = {
-    "devops",
-    "ai/ml",
-    "ml/ai",
-    "machine learning",
-    "data engineering",
-    "data scientist",
-    "data scientists",
-    "data engineer",
-    "data engineers",
-    "computer science",
-    "software engineering",
-    "machine learning engineer",
-    "machine learning engineers",
-    "ml engineer",
-    "data science",
-    "whatsapp",
-    "linkedin",
-    "inc.",
-    "inc",
-    "llc",
-    "ltd",
-    "electrical engineering",
-    "mechanical engineering",
-    "civil engineering",
-    "powerpoint",
-    "microsoft word",
-}
+_DICT_PATTERN = re.compile(
+    r"\b("
+    + "|".join(re.escape(a) for a in sorted(_ALIAS_TO_SKILL, key=len, reverse=True))
+    + r")\b",
+    re.IGNORECASE,
+)
 
 
-# Common English words that start with uppercase but aren't tech skills
-COMMON_ENGLISH = {
-    # Sentence starters / pronouns
-    "what",
-    "this",
-    "that",
-    "these",
-    "those",
-    "here",
-    "there",
-    "when",
-    "doordash",
-    "youtube",
-    "covid",
-    "covid-19",
-    "discrimination",
-    "non-discrimination",
-    "research",
-    "operations",
-    "information",
-    "technology",
-    "engineering",
-    "science",
-    "statistics",
-    "analytics",
-    "disability",
-    "insurance",
-    "diversity",
-    "inclusion",
-    "equity",
-    "benefits",
-    "compensation",
-    "salary",
-    "stock",
-    "option",
-    "health",
-    "dental",
-    "vision",
-    "mental",
-    "savings",
-    "commitment",
-    "program",
-    "programs",
-    "plans",
-    "injury",
-    "life",
-    "serious",
-    "bachelor",
-    "master",
-    "where",
-    "which",
-    "who",
-    "how",
-    "why",
-    "we",
-    "you",
-    "they",
-    "our",
-    "your",
-    "their",
-    "its",
-    # Days / months
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
-    "january",
-    "february",
-    "march",
-    "april",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
-    # Places
-    "new",
-    "york",
-    "london",
-    "united",
-    "states",
-    "america",
-    "canada",
-    "north",
-    "south",
-    "east",
-    "west",
-    # Job description noise
-    "bachelor",
-    "master",
-    "phd",
-    "degree",
-    "university",
-    "college",
-    "english",
-    "french",
-    "spanish",
-    "about",
-    "join",
-    "help",
-    "role",
-    "team",
-    "company",
-    "position",
-    "candidate",
-    "please",
-    "responsibilities",
-    "requirements",
-    "qualifications",
-    "benefits",
-    "opportunity",
-    "environment",
-    "solutions",
-    "services",
-    "systems",
-    "management",
-    "development",
-    "engineering",
-    "science",
-    "business",
-    "experience",
-    "knowledge",
-    "skills",
-    "ability",
-    "years",
-    "work",
-    "also",
-    "will",
-    "must",
-    "able",
-    "have",
-    "with",
-    "from",
-    "been",
-    "some",
-    "more",
-    "other",
-    "both",
-    "each",
-    "such",
-    "well",
-    "into",
-}
+def _filter_novel(ner_skills: list[str]) -> list[str]:
+    """Remove NER results already covered by the dictionary (any alias, case-insensitive)."""
+    return [s for s in ner_skills if s.lower() not in SKILL_ALIASES_LOWER]
 
 
-def is_likely_tech_term(text: str) -> bool:
-    t = text.strip().lower()
-    if len(t) < 4 or len(t) > 30:
+# Stopwords / noise tokens loaded from models/ner_stopwords.json.
+# Edit that file to add/remove entries — no code changes needed.
+_NER_STOPWORDS: frozenset[str] = frozenset(
+    json.loads(settings.NER_STOPWORDS.read_text())["stopwords"]
+    if settings.NER_STOPWORDS.exists()
+    else []
+)
+
+_TRAILING_PUNCT: frozenset[str] = frozenset(".,;:!?")
+
+
+def _is_valid_ner_word(word: str) -> bool:
+    """
+    Return True if a NER-tagged word is a plausible skill token.
+    Rejects:
+      - BERT subword artifacts (e.g. "##ing", "##s" — not merged by aggregation)
+      - tokens not starting with a letter (fragments like "s degree", "##bor")
+      - tokens ending with punctuation (e.g. "design,")
+      - spans longer than 5 words (run-on phrases from bad aggregation)
+      - min length < 3 chars
+      - stopwords
+    """
+    w = word.strip()
+    if "##" in w:
         return False
-    if t in TECH_STOPWORDS:
+    if not w or not w[0].isalpha():
         return False
-    if t in COMMON_ENGLISH:
+    if len(w.split()[0]) <= 1:  # single-letter fragment: "s degree", "c + +"
         return False
-    if t in ROLE_NOISE:
+    if w[-1] in _TRAILING_PUNCT:
         return False
-    if t.isalpha() and t == t.lower() and len(t) < 6:
+    if len(w) < 3:
         return False
-    if re.match(r"^[A-Z]\.([A-Z]\.)+$", text):
+    if len(w.split()) > 5:
         return False
-    if t[-2:] in TECH_SUFFIXES:
-        return True
-    if text[0].isupper() and any(c.isdigit() or c in "-_." for c in text):
-        return True
-    if len(text) >= 5 and text[0].isupper() and any(c.isupper() for c in text[1:]):
-        return True
-    return False
+    if w.lower() in _NER_STOPWORDS:
+        return False
+    return True
 
 
-# ── Extraction functions ───────────────────────────────────────────────────────
+# ── Extraction functions ──────────────────────────────────────────────────────
 def extract_by_dictionary(description: str) -> list[str]:
-    """Method A — match against known skill keywords."""
-    text = description.lower()
-    return [skill for skill, kws in SKILLS.items() if any(kw in text for kw in kws)]
+    """Method A — single compiled-regex pass across all aliases (~10x faster than per-alias loop)."""
+    matches = _DICT_PATTERN.findall(description)
+    return list({_ALIAS_TO_SKILL[m.lower()] for m in matches})
 
 
-def extract_by_spacy(description: str) -> list[str]:
-    """Method B — use spaCy NER + noun chunks to find emerging/unknown skills."""
-    doc = nlp(description[:5000])  # cap at 5000 chars for performance
-    candidates: list[str] = []
+def extract_by_jobbert(description: str) -> list[str]:
+    """Method B (primary) — use fine-tuned JobBERT NER to detect skill spans."""
+    pipe = _get_pipe()
+    if pipe is None:
+        return []
+    results = pipe(description[:2048])  # tokenizer model_max_length=512 handles token truncation
+    return list(
+        {
+            r["word"].strip()
+            for r in results
+            if r["entity_group"] in _SKILL_ENTITY_GROUPS and _is_valid_ner_word(r["word"])
+        }
+    )
 
-    # Named entities — ORG and PRODUCT often map to tech tools
-    for ent in doc.ents:
-        if ent.label_ in ("ORG", "PRODUCT") and is_likely_tech_term(ent.text):
-            candidates.append(ent.text.strip())
 
-    # Noun chunks — single-token proper nouns that look like tech
-    for chunk in doc.noun_chunks:
-        if len(chunk) == 1 and is_likely_tech_term(chunk.text):
-            candidates.append(chunk.text.strip())
-
-    return list(set(candidates))
+def extract_by_jobbert_batch(texts: list[str]) -> list[list[str]]:
+    """Batch JobBERT inference — much faster than calling extract_by_jobbert() per row."""
+    pipe = _get_pipe()
+    if pipe is None:
+        return [[] for _ in texts]
+    batch_results = pipe(
+        texts, batch_size=settings.JOBBERT_BATCH_SIZE
+    )  # texts already truncated upstream
+    output = []
+    for results in batch_results:
+        skills = list(
+            {
+                r["word"].strip()
+                for r in results
+                if r["entity_group"] in _SKILL_ENTITY_GROUPS and _is_valid_ner_word(r["word"])
+            }
+        )
+        output.append(skills)
+    return output
 
 
 def extract_skills(description: str) -> list[str]:
     """
-    Hybrid extraction — combines dictionary + spaCy NER.
-    Dictionary skills take canonical names; spaCy adds unknowns.
+    Single-item hybrid extraction — for tests and one-off calls only.
+    Use extract_all() for bulk processing: it uses batch NER inference (~8x faster).
     """
     dict_skills = extract_by_dictionary(description)
-    spacy_skills = extract_by_spacy(description)
-
-    # Remove spaCy results already covered by dictionary
-    dict_lower = {s.lower() for s in dict_skills}
-    novel_skills = [s for s in spacy_skills if s.lower() not in dict_lower]
-
-    return dict_skills + novel_skills
+    ner_skills = extract_by_jobbert(description)  # returns [] if pipe unavailable
+    return dict_skills + _filter_novel(ner_skills)
 
 
 def extract_all(df: pd.DataFrame) -> dict[str, list[str]]:
     """
     Return mapping of job_id -> [skill_list] for all rows.
-    Uses nlp.pipe() for batch processing — much faster than iterrows().
+    JobBERT uses batch inference (pipeline batch_size=32) for speed.
+    Falls back to dictionary-only if JobBERT is not trained.
     """
     result: dict[str, list[str]] = {}
-    descriptions = df["description"].str[:5000].tolist()
+    MAX_DESC_CHARS = 2048  # single truncation point for both dict and NER passes
+    descriptions = df["description"].str[:MAX_DESC_CHARS].tolist()
     job_ids = df["job_id"].astype(str).tolist()
 
-    logger.info(f"  Batch processing {len(descriptions):,} descriptions with spaCy...")
+    if _METHOD_B == "jobbert":
+        logger.info(f"  Batch processing {len(descriptions):,} descriptions with JobBERT NER...")
+        ner_results = extract_by_jobbert_batch(descriptions)
+        for job_id, dict_desc, ner_skills in zip(job_ids, descriptions, ner_results):
+            dict_skills = extract_by_dictionary(dict_desc)
+            result[job_id] = dict_skills + _filter_novel(ner_skills)
 
-    docs = nlp.pipe(descriptions, batch_size=64)
-
-    for i, (job_id, doc) in enumerate(zip(job_ids, docs)):
-        if i % 500 == 0 and i > 0:
-            logger.info(f"  Progress: {i:,} / {len(descriptions):,}")
-
-        # Method A — dictionary on raw text
-        dict_skills = extract_by_dictionary(descriptions[i])
-
-        # Method B — spaCy on pre-parsed doc (no re-parsing)
-        spacy_skills = extract_by_spacy_doc(doc)
-
-        dict_lower = {s.lower() for s in dict_skills}
-        novel = [s for s in spacy_skills if s.lower() not in dict_lower]
-        result[job_id] = dict_skills + novel
+    else:
+        logger.warning("JobBERT not available — dictionary-only extraction")
+        for job_id, desc in zip(job_ids, descriptions):
+            result[job_id] = extract_by_dictionary(desc)
 
     return result
-
-
-def extract_by_spacy_doc(doc: spacy.tokens.Doc) -> list[str]:
-    """Method B — accepts pre-parsed spaCy doc (used in batch processing)."""
-    candidates: list[str] = []
-    for ent in doc.ents:
-        if ent.label_ in ("ORG", "PRODUCT") and is_likely_tech_term(ent.text):
-            candidates.append(ent.text.strip())
-    for chunk in doc.noun_chunks:
-        if len(chunk) == 1 and is_likely_tech_term(chunk.text):
-            candidates.append(chunk.text.strip())
-    return list(set(candidates))
 
 
 def compute_frequency(job_skills: dict[str, list[str]], total_jobs: int) -> pd.DataFrame:
@@ -488,12 +258,12 @@ def extract() -> dict[str, list[str]]:
     df = pd.read_csv(settings.JOBS_CLEANED_CSV)
     logger.info(f"Loaded {len(df):,} jobs")
 
-    logger.info("Extracting skills (dictionary + spaCy)...")
-    logger.info("This may take 1-2 minutes for spaCy processing...")
+    backend = "JobBERT" if _METHOD_B == "jobbert" else "dictionary-only"
+    logger.info(f"Extracting skills (dictionary + {backend})...")
     job_skills = extract_all(df)
 
     # ── Filter low-frequency novel skills ────────────────────────────────────
-    MIN_SKILL_FREQUENCY = 10  # must appear in at least 10 jobs
+    MIN_SKILL_FREQUENCY = settings.NOVEL_SKILL_MIN_FREQUENCY
     known_skills = set(SKILLS.keys())
 
     # Count novel skill frequency
@@ -524,7 +294,7 @@ def extract() -> dict[str, list[str]]:
 
     logger.info(f"Jobs with ≥1 skill:        {jobs_with_skills:,} / {len(df):,}")
     logger.info(f"Average skills per job:    {avg:.1f}")
-    logger.info(f"Novel skills via spaCy:    {len(set(novel)):,} unique")
+    logger.info(f"Novel skills via {backend}:    {len(set(novel)):,} unique")
 
     # ── Save outputs ──────────────────────────────────────────────────────────
     settings.PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
@@ -546,4 +316,8 @@ def extract() -> dict[str, list[str]]:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s — %(message)s",
+    )
     extract()

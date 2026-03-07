@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from config.settings import settings
 from pipelines.ingest import ingest, normalize_role, strip_html
 
 
@@ -50,10 +51,10 @@ class TestNormalizeRole:
 
 class TestIngestOutput:
     def test_output_file_exists(self):
-        assert Path("data/processed/jobs_cleaned.csv").exists()
+        assert settings.JOBS_CLEANED_CSV.exists()
 
     def test_no_nulls_in_required_columns(self):
-        df = pd.read_csv("data/processed/jobs_cleaned.csv")
+        df = pd.read_csv(settings.JOBS_CLEANED_CSV)
         assert df["description"].isna().sum() == 0
         assert df["title"].isna().sum() == 0
         assert df["role"].isna().sum() == 0
@@ -66,13 +67,13 @@ class TestIngestOutput:
             "Data Engineer",
             "SWE",
         }
-        df = pd.read_csv("data/processed/jobs_cleaned.csv")
+        df = pd.read_csv(settings.JOBS_CLEANED_CSV)
         assert set(df["role"].unique()).issubset(valid_roles)
 
     def test_minimum_row_count(self):
-        df = pd.read_csv("data/processed/jobs_cleaned.csv")
-        assert len(df) >= 1000
+        df = pd.read_csv(settings.JOBS_CLEANED_CSV)
+        assert len(df) >= 10000  # PRD requirement: ≥ 10,000 rows
 
     def test_no_duplicate_job_ids(self):
-        df = pd.read_csv("data/processed/jobs_cleaned.csv")
+        df = pd.read_csv(settings.JOBS_CLEANED_CSV)
         assert df["job_id"].duplicated().sum() == 0

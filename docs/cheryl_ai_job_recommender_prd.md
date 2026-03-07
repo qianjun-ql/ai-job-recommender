@@ -1,231 +1,698 @@
-| AI Job Skills & Project Recommendation System _Product Requirements Document • v2.0_ Status: Draft Target: Claude Code AI Pipeline Author: TBD Date: 2025 |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------: |
+# AI Job Skills & Project Recommendation System
 
-| 6 Weeks Timeline | 4 Phases Delivery | 7 FRs Features | 10k+ Jobs Data Target |
-| :--------------: | :---------------: | :------------: | :-------------------: |
+**Product Requirements Document · v4.0**
 
-# **01 Problem & Product Vision**
+Status: Active · Target: Production Deployment · 2026
 
-## **Problem Statement**
+| 8 Weeks | 5 Phases | 11 FRs | 10k+ Jobs | Agentic RAG | Docker Ready |
+| :-----: | :------: | :----: | :-------: | :---------: | :----------: |
 
-Developers transitioning into new roles — e.g., Software Engineer to AI Engineer — face three compounding challenges:
+---
+
+# 01 Problem & Product Vision
+
+## Problem Statement
+
+Developers transitioning into new roles face three compounding challenges:
 
 - Job postings contain required skills, but the data is unstructured and impractical to analyze manually.
-
 - Engineers cannot quickly determine which of their existing skills transfer and which are missing.
+- There is no data-driven, conversational mechanism to explore skill gaps and get actionable recommendations.
 
-- There is no data-driven mechanism to suggest portfolio projects that close skill gaps efficiently.
+## Solution
 
-## **Solution**
+Build a production-grade AI pipeline that:
 
-Build an AI-powered pipeline that:
+- Ingests and normalizes 10,000+ job postings from multiple sources.
+- Extracts required skills using a curated dictionary + **JobBERT NER** fine-tuned on job postings.
+- Semantically matches user skill profiles to job embeddings via FAISS vector search.
+- Performs precise skill gap analysis — job skills minus user skills.
+- Generates actionable portfolio project recommendations via LLM.
+- Exposes an **Agentic RAG chatbot** — an AI agent with tools that answers questions grounded in real job data.
+- Traces all LLM calls via Langfuse for observability and cost monitoring.
+- Evaluates RAG quality automatically with RAGAS metrics.
+- Fully containerized with Docker Compose, deployable to any cloud provider.
 
-- Ingests and normalizes job postings at scale.
+## Why This Project, Not a Generic RAG App
 
-- Extracts required skills using NLP \+ LLM hybrid methods.
+| Factor                    | This Project                            | Generic RAG Doc Q&A           |
+| :------------------------ | :-------------------------------------- | :---------------------------- |
+| RAG component             | ✅ FR-08 agentic chatbot with tools     | ✅ Core feature               |
+| FAISS vector search       | ✅ FR-03/04                             | ✅ Core feature               |
+| Data pipeline             | ✅ FR-01/02 — unique differentiator     | ❌ Usually just a PDF loader  |
+| Skill gap analysis        | ✅ FR-05 — domain-specific feature      | ❌ Not present                |
+| Agentic AI (ReAct)        | ✅ FR-08 — multi-tool decision loop     | ❌ Simple chat only           |
+| RAG evaluation            | ✅ FR-10 RAGAS — faithfulness/relevancy | ❌ Not present                |
+| LLMOps observability      | ✅ FR-11 Langfuse tracing               | ❌ Not present                |
+| Portfolio differentiation | ✅ High — unusual combination           | ❌ Low — everyone builds this |
+| Time to complete          | 8 weeks                                 | 4–5 weeks                     |
 
-- Semantically matches user skill profiles to job embeddings via FAISS.
+## System Architecture — v4.0
 
-- Performs precise skill gap analysis (job skills minus user skills).
+```
+User Query / Skills Input
+    │
+    ├─► FastAPI Layer (FR-07)
+    │       │
+    │   ┌───▼──────────┐   ┌──────────────┐   ┌──────────────┐
+    │   │   FR-04      │   │    FR-05     │   │    FR-06     │
+    │   │ FAISS Matcher│──►│ Skill Gap    │──►│ LLM Projects │
+    │   └───▲──────────┘   └──────────────┘   └──────────────┘
+    │       │                                        │
+    │   ┌───┴──────────┐   ┌──────────────┐          │ Langfuse
+    │   │   FR-03      │   │    FR-02     │          │ FR-11 traces
+    │   │ Embed + FAISS│◄──│ Skill Ext.   │◄── FR-01 Ingest
+    │   └──────────────┘   └──────────────┘
+    │
+    ├─► FR-08 Agentic RAG Chatbot
+    │       │
+    │       └─► ReAct Agent
+    │               ├── Tool: search_jobs(query)
+    │               ├── Tool: get_skill_gap(role)
+    │               ├── Tool: get_trending_skills(role)
+    │               └── Tool: recommend_projects(gaps)
+    │
+    ├─► FR-10 RAGAS Evaluation (offline)
+    │       └── faithfulness · answer_relevancy · context_precision · context_recall
+    │
+    └─► FR-09 React Frontend
+```
 
-- Generates actionable portfolio project recommendations via an LLM.
+---
 
-- Exposes everything via a FastAPI REST layer \+ Streamlit dashboard.
+# 02 Target Personas & User Stories
 
-## **Example User Workflow**
+## Primary Personas
 
-| INPUT Current skills : Python, TensorFlow, SQL Target role : ML Engineer Location : Calgary, AB OUTPUT Top matching jobs : ML Engineer, Data Scientist, AI Engineer Missing skills : PyTorch, Docker, AWS SageMaker Suggested projects : 1\. NLP document classifier with PyTorch \+ Docker deployment 2\. SageMaker model training & inference pipeline |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Persona                | Background                    | Primary Goal                                        |
+| :--------------------- | :---------------------------- | :-------------------------------------------------- |
+| Transitioning Engineer | 5 yrs SWE, moving into ML     | Identify gaps vs ML Engineer JDs, get project ideas |
+| Junior Developer       | 0–2 yrs, recent bootcamp grad | Understand in-demand skills, build portfolio fast   |
+| CS Student             | Final year, no industry exp   | Align coursework to real job requirements           |
 
-# **02 Target Personas & User Stories**
+## User Stories
 
-## **Primary Personas**
+| ID    | Story                                                   | Acceptance Criteria                                               |
+| :---- | :------------------------------------------------------ | :---------------------------------------------------------------- |
+| US-01 | Input skills + target role to see missing skills.       | Returns missing_skills within 2s. Empty input → 400.              |
+| US-02 | See top 5 matching jobs for my profile.                 | Top-5 with match_score ≥ 0, sorted descending.                    |
+| US-03 | Get AI project ideas based on my skill gaps.            | Returns 2–5 projects. LLM failure → cache fallback, not 500.      |
+| US-04 | Filter jobs by location.                                | Returns only postings matching city. Invalid → empty 200.         |
+| US-05 | Chat with AI career agent about my skill gaps.          | Agent calls correct tools. Answers cite real job postings.        |
+| US-06 | See trending skills for my target role.                 | Ordered skill list with demand_count. Refreshes per request.      |
+| US-07 | Ask the agent to explain why a specific job matches me. | Agent calls search_jobs + get_skill_gap, returns grounded answer. |
 
-| Persona                    | Background                        | Primary Goal                                                |
-| :------------------------- | :-------------------------------- | :---------------------------------------------------------- |
-| **Transitioning Engineer** | 5 yrs SWE, wants to move into ML  | Identify gaps vs ML Engineer JDs, get project ideas         |
-| **Junior Developer**       | 0-2 yrs exp, recent bootcamp grad | Understand which skills are in demand, build portfolio fast |
-| **CS Student**             | Final year, no industry exp       | Align coursework to real job requirements                   |
+---
 
-## **User Stories**
+# 03 Functional Requirements
 
-| ID        | Story                                                                                                                | Acceptance Criteria                                                                                                     |
-| :-------- | :------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
-| **US-01** | As a transitioning engineer, I want to input my skills and target role so I can see which skills I am missing.       | Given valid skills \+ role, system returns missing_skills list within 2s. Empty input returns 400 error.                |
-| **US-02** | As a user, I want to see the top 5 matching job postings for my profile so I can evaluate fit.                       | Top-5 jobs returned with title, match_score ≥ 0, sorted descending. No results returns empty array, not error.          |
-| **US-03** | As a junior developer, I want AI-generated project ideas based on my skill gaps so I can build a targeted portfolio. | Returns 2-5 projects. Each has title, description, and skills_addressed. LLM failure returns cached fallback, not 500\. |
-| **US-04** | As a user, I want to filter jobs by location so I can see market demand in my city.                                  | Location filter returns only postings matching city string. Invalid location returns empty list with 200 status.        |
-| **US-05** | As a user, I want to see trending skills for my target role so I can prioritize learning.                            | Returns ordered skill list with demand_count. Data refreshes from dataset on each request.                              |
+---
 
-# **03 Functional Requirements**
+### FR-01 — Job Data Ingestion
 
-**FR-01 Job Data Ingestion** Priority: **P0** Owner: Data Eng
+**Priority:** P0 · **Owner:** Data Engineering · **Status:** ✅ Complete
 
-Import, deduplicate, and normalize raw job postings into a clean dataset for downstream processing.
+**Inputs:** 3 raw CSVs: `job_postings.csv`, `ai_ml_jobs_linkedin.csv`, `clean_jobs.csv`
 
-| Inputs         | • Raw CSV with fields: job_id, title, role, description, location, date                                                                                                                                                          |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Processing** | 1\. Remove duplicate job_id entries 2\. Strip HTML tags and normalize whitespace 3\. Standardize role names to enum: \[ML Engineer, Data Scientist, AI Engineer, SWE, Data Engineer\] 4\. Drop rows missing description or title |
-| **Outputs**    | • jobs_cleaned.csv • ingestion_report.json (row counts, dupe count, error count)                                                                                                                                                 |
-| **Schema**     | job_id STRING NOT NULL UNIQUE title STRING NOT NULL role ENUM NOT NULL description TEXT NOT NULL location STRING NULLABLE date DATE NULLABLE                                                                                     |
-| **Done When**  | **jobs_cleaned.csv exists, row count ≥ 10,000, zero duplicate job_ids, all role values in enum.**                                                                                                                                |
+**Processing:**
 
-**FR-02 Skill Extraction** Priority: **P0** Owner: NLP
+1. Merge 3 datasets (target ≥ 10,000 rows — add 4th dataset if needed)
+2. Remove duplicate job_ids
+3. Strip HTML, normalize whitespace
+4. Classify role via keyword match on `title + description[:300]`
+5. Balance roles (cap 2,000 per role)
+6. Hash-based change detection — skip reprocessing if unchanged
 
-Extract a normalized list of technical skills from each job description using a hybrid NLP approach.
+**Outputs:** `jobs_cleaned.csv` · `ingestion_report.json` (row counts, dupe count, role breakdown)
 
-| Inputs         | • jobs_cleaned.csv                                                                                                                                                                                                                                                                     |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Processing** | 1\. Method A: keyword matching against skills_dictionary.json (≥200 skills) 2\. Method B: spaCy NER \+ LLM extraction for skills not caught by dictionary 3\. Deduplicate and normalize skill names (e.g., "pytorch" → "PyTorch") 4\. Store results as job_id → \[skill_list\] mapping |
-| **Outputs**    | • job_skills.json • skill_frequency.csv (skill, count, pct_of_jobs)                                                                                                                                                                                                                    |
-| **Schema**     | { "job_id": "string", "skills": \["string"\] }                                                                                                                                                                                                                                         |
-| **Done When**  | **Every job_id in cleaned dataset has a non-empty skills list. skill_frequency.csv has ≥200 unique skills.**                                                                                                                                                                           |
+**Schema:**
 
-**FR-03 Embedding Generation** Priority: **P0** Owner: ML
+```
+job_id       STRING NOT NULL UNIQUE
+title        STRING NOT NULL
+role         ENUM[ML Engineer | Data Scientist | AI Engineer | SWE | Data Engineer]
+description  TEXT NOT NULL
+location     STRING NULLABLE
+source       STRING NOT NULL
+```
 
-Convert job descriptions and user skill profiles into dense vector embeddings for semantic similarity.
+**Done When ✅** `jobs_cleaned.csv` exists · row count ≥ 10,000 · zero duplicate job_ids · all roles valid
 
-| Inputs         | • jobs_cleaned.csv • user_profile (skills list \+ target role)                                                                                                                                                                                                      |
-| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Processing** | 1\. Use sentence-transformers/all-MiniLM-L6-v2 (default) or OpenAI text-embedding-3-small 2\. Generate one embedding per job description 3\. Store in FAISS IndexFlatIP (inner product / cosine similarity) 4\. Cache embeddings; regenerate only on dataset change |
-| **Outputs**    | • faiss_jobs.index • job_id_map.json (index position → job_id)                                                                                                                                                                                                      |
-| **Schema**     | faiss_jobs.index — FAISS binary index file job_id_map.json — { "0": "job_124", "1": "job_125", ... }                                                                                                                                                                |
-| **Done When**  | **FAISS index loads without error. Query returns results in \< 100ms on 10k vectors. Index size matches job count.**                                                                                                                                                |
+---
 
-**FR-04 Semantic Job Matching** Priority: **P0** Owner: ML
+### FR-02 — Skill Extraction
 
-Return the top-k job postings most semantically similar to a user's skill profile.
+**Priority:** P0 · **Owner:** NLP · **Status:** ✅ Complete
 
-| Inputs         | • user skills list • k (default=5, max=20) • optional: location filter                                                                                                                                                                                     |
-| :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Processing** | 1\. Join user skills into a single string, embed with same model as FR-03 2\. Query FAISS index, retrieve top-k job_ids and cosine scores 3\. Apply location filter post-retrieval if provided 4\. Fetch job metadata from jobs_cleaned.csv for each match |
-| **Outputs**    | • \[{ job_id, title, role, location, match_score, description_snippet }\]                                                                                                                                                                                  |
-| **Done When**  | **Returns ≥1 result for any valid skill input. Scores in range \[0,1\]. Precision@5 ≥ 0.8 on evaluation set. Latency \< 200ms.**                                                                                                                           |
+**Inputs:** `jobs_cleaned.csv`
 
-**FR-05 Skill Gap Analysis** Priority: **P0** Owner: ML
+**Processing:**
 
-Compute the delta between the skills required for a target role and the skills the user already has.
+1. Method A: curated keyword dictionary (≥ 200 skills, canonical names — primary method)
+2. Method B: **JobBERT NER** fine-tuned on SkillSpan dataset (domain-specific, ~3.2M job postings pre-training)
+   - Run `make train-jobbert` once to fine-tune and save to `models/jobbert-skill-ner/`
+   - Falls back to spaCy `en_core_web_sm` if JobBERT model not yet trained
+3. Deduplicate NER candidates against all dictionary aliases (not just canonical names)
+4. Normalize skill names (case-insensitive canonical form)
+5. Store `job_id → [skill_list]` mapping
 
-| Inputs         | • user_skills: list\[str\] • target_role: str (must match role enum)                                                                                                                                                                                                                                                     |
-| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Processing** | 1\. Aggregate all skills for postings in target_role from job_skills.json 2\. Compute frequency threshold: skills appearing in ≥30% of role postings are "required" 3\. missing_skills \= required_skills − user_skills (case-insensitive set difference) 4\. Compute match_score \= len(matched) / len(required) \* 100 |
-| **Outputs**    | • { matched_skills, missing_skills, match_score, total_required }                                                                                                                                                                                                                                                        |
-| **Done When**  | **missing_skills is never null (empty list if full match). match_score is float 0–100. Deterministic output for same inputs.**                                                                                                                                                                                           |
+**Training pipeline:** `pipelines/train_jobbert.py`
 
-**FR-06 AI Project Recommendations** Priority: **P1** Owner: LLM
+- Dataset: `jjzha/skillspan` (HuggingFace) — pre-labeled job postings
+- Base model: `jjzha/jobbert-base-cased`
+- Fine-tuning: ~15 min on Apple MPS / ~1-2 hr on CPU
+- Output: `models/jobbert-skill-ner/` (model + tokenizer + label config)
 
-Generate 2–5 concrete portfolio project ideas that address the user's missing skills for their target role.
+**Outputs:** `job_skills.json` · `skill_frequency.csv` (skill, count, pct_of_jobs)
 
-| Inputs         | • missing_skills: list\[str\] • target_role: str • user_skills: list\[str\] (context)                                                                                                                                                                                                                                                                       |
-| :------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ----------------------------------- |
-| **Processing** | 1\. Build structured prompt with constraints (see CLAUDE.md prompt template) 2\. Call Claude claude-sonnet-4-20250514 via GEMINI API 3\. Parse structured JSON response 4\. Validate each project has: title, description, skills_addressed, difficulty, estimated_hours 5\. On LLM failure: return top-3 cached fallback projects from projects_cache.json |
-| **Outputs**    | • \[{ title, description, skills_addressed, difficulty, estimated_hours }\]                                                                                                                                                                                                                                                                                 |
-| **Schema**     | { "title": "str", "description": "str", "skills_addressed": \["str"\], "difficulty": "Beginner                                                                                                                                                                                                                                                              | Intermediate | Advanced", "estimated_hours": int } |
-| **Done When**  | **Returns 2-5 projects. Each project addresses ≥1 missing skill. LLM timeout (\>10s) falls back to cache without 500 error.**                                                                                                                                                                                                                               |
+**Schema:** `{ "job_id": "string", "skills": ["string"] }`
 
-**FR-07 REST API Layer** Priority: **P0** Owner: Backend
+**Done When ✅** Every job_id has non-empty skills list · `skill_frequency.csv` has ≥ 200 unique skills · JobBERT F1 ≥ 0.85 on SkillSpan test set
 
-Expose all pipeline functionality via a documented FastAPI REST interface.
+---
 
-| Inputs         | • See endpoint specs below                                                                                                                                              |
-| :------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Processing** | 1\. Validate all inputs with Pydantic models 2\. Return consistent error envelope: { error, message, request_id } 3\. Log all requests with request_id for traceability |
-| **Outputs**    | • See endpoint specs below                                                                                                                                              |
-| **Done When**  | **All endpoints return correct status codes. /health returns 200\. /docs (Swagger) loads without error. Pydantic rejects bad input with 422\.**                         |
+### FR-03 — Embedding Generation
 
-# **04 API Contract**
+**Priority:** P0 · **Owner:** ML
 
-## **POST /analyze — Skill Gap Analysis**
+**Inputs:** `jobs_cleaned.csv` · user_profile (skills list + target role)
 
-| // REQUEST { "skills" : \["Python", "TensorFlow", "SQL"\], "target_role" : "ML Engineer", "location" : "Calgary" // optional } // RESPONSE 200 { "top_jobs" : \[{ "job_id": "str", "title": "str", "match_score": 0.92, "location": "str" }\], "matched_skills": \["Python", "SQL"\], "missing_skills": \["PyTorch", "Docker", "AWS"\], "match_score" : 40.0, "projects" : \[{ "title": "str", "description": "str", "skills_addressed": \["PyTorch"\] }\] } // ERROR ENVELOPE { "error": "VALIDATION_ERROR", "message": "str", "request_id": "uuid" } |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+**Processing:**
 
-## **GET /top_skills?role={role}\&limit={n}**
+1. Use `sentence-transformers/all-MiniLM-L6-v2` (384-dim, local, no API cost)
+2. Generate one embedding per job description
+3. Store in `FAISS IndexFlatIP` (inner product = cosine similarity on normalized vectors)
+4. Cache — regenerate only on dataset hash change
+5. Save `job_id_map.json` (FAISS index position → job_id)
 
-| // RESPONSE 200 { "role" : "ML Engineer", "skills": \[ { "skill": "Python", "demand_count": 8420, "pct_of_jobs": 0.94 }, { "skill": "PyTorch", "demand_count": 6130, "pct_of_jobs": 0.68 } \] } |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+**Outputs:** `models/faiss_jobs.index` · `models/job_id_map.json`
 
-## **GET /health**
+**Done When ✅** FAISS index loads without error · query returns results < 100ms on 10k vectors · index size matches job count
 
-| { "status": "ok", "version": "1.0.0", "dataset_rows": 10523, "index_size": 10523 } |
-| :--------------------------------------------------------------------------------- |
+---
 
-| Status  | Code                | When                                          |
-| :------ | :------------------ | :-------------------------------------------- |
-| **200** | OK                  | Successful response                           |
-| **400** | BAD_REQUEST         | Missing required field                        |
-| **422** | VALIDATION_ERROR    | Pydantic schema violation (e.g. unknown role) |
-| **404** | NOT_FOUND           | job_id not found                              |
-| **503** | SERVICE_UNAVAILABLE | LLM or FAISS unavailable; fallback triggered  |
+### FR-04 — Semantic Job Matching
 
-# **05 CLAUDE.md Reference — What Claude Code Must Know**
+**Priority:** P0 · **Owner:** ML
 
-Claude Code reads CLAUDE.md automatically at session start. Create this file at the repo root. Below is the complete required content.
+**Inputs:** user skills list · k (default=5, max=20) · optional: location filter
 
-| \# CLAUDE.md — AI Job Skills Recommender \#\# Project Purpose AI pipeline: ingest job data → extract skills → embed → FAISS match → gap analysis → LLM projects. \#\# Architecture data/raw/ → pipelines/ingest.py → data/processed/jobs_cleaned.csv → pipelines/extract_skills.py → data/processed/job_skills.json → pipelines/embed.py → models/faiss_jobs.index api/main.py (FastAPI) → services/matcher.py, services/gap.py, services/recommender.py ui/app.py (Streamlit) \#\# Commands make ingest \# runs pipelines/ingest.py make extract \# runs pipelines/extract_skills.py make embed \# runs pipelines/embed.py make api \# uvicorn api.main:app \--reload \--port 8000 make ui \# streamlit run ui/app.py make test \# pytest tests/ \-v make eval \# python eval/precision_at_k.py \#\# Code Style \- Python 3.11, type hints on all functions, docstrings on all public methods \- Black formatter, isort imports, max line length 100 \- Pydantic v2 models for all API I/O \- No hardcoded paths — use config/settings.py (pydantic-settings) \#\# LLM Prompt Template (FR-06) system: "You are a senior ML engineer. Return ONLY valid JSON. No markdown, no explanation." user: "Generate {n} portfolio projects for a developer targeting {role}. Missing skills: {missing_skills}. Existing skills: {user_skills}. Each project must: use ≥1 missing skill, be completable in ≤40 hours, be deployable to GitHub. Return JSON array matching ProjectRecommendation schema." \#\# Critical Constraints \- FAISS index must be rebuilt when dataset changes (detect via hash) \- All API inputs validated with Pydantic before any processing \- LLM calls must have 10s timeout \+ fallback to projects_cache.json \- Skill normalization must be case-insensitive (store canonical form in skills_dictionary.json) \- Never log user skill lists to disk (PII consideration) |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+**Processing:**
 
-# **06 Project Folder Structure**
+1. Join user skills into a single string, embed with same model as FR-03
+2. Query FAISS index, retrieve top-k job_ids + cosine scores
+3. Apply location filter post-retrieval if provided
+4. Fetch job metadata from `jobs_cleaned.csv` for each match
 
-| ai-job-recommender/ ├── CLAUDE.md \# ← Claude Code reads this first ├── Makefile \# ingest | extract | embed | api | ui  | test | eval ├── README.md ├── pyproject.toml │ ├── config/ │ └── settings.py \# pydantic-settings, all env vars │ ├── data/ │ ├── raw/ \# original CSVs (gitignored if large) │ └── processed/ │ ├── jobs_cleaned.csv │ ├── job_skills.json │ └── skill_frequency.csv │ ├── models/ │ ├── faiss_jobs.index │ ├── job_id_map.json │ └── skills_dictionary.json \# canonical skill list ≥200 skills │ ├── pipelines/ │ ├── ingest.py \# FR-01 │ ├── extract_skills.py \# FR-02 │ └── embed.py \# FR-03 │ ├── api/ │ ├── main.py \# FastAPI app, /analyze, /top_skills, /health │ ├── models.py \# Pydantic request/response schemas │ └── services/ │ ├── matcher.py \# FR-04 │ ├── gap.py \# FR-05 │ └── recommender.py \# FR-06 │ ├── ui/ │ └── app.py \# Streamlit dashboard │ ├── eval/ │ └── precision_at_k.py \# evaluation harness │ └── tests/ ├── test_ingest.py ├── test_skills.py ├── test_api.py └── fixtures/ |
-| :----------------------------------------------------------------------------------------- | ------- | ----- | --- | --- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+**Outputs:** `[{ job_id, title, role, location, match_score, description_snippet }]`
 
-# **07 Success Metrics & Evaluation**
+**Done When ✅** Returns ≥ 1 result for valid input · scores in [0,1] · Precision@5 ≥ 0.80 · latency < 200ms
 
-| Category    | Metric                      | Target                                  | Measurement                                   |
-| :---------- | :-------------------------- | :-------------------------------------- | :-------------------------------------------- |
-| **Quality** | Precision@5 (job matching)  | **≥ 0.80**                              | eval/precision_at_k.py on 100 labeled queries |
-| **Quality** | Skill extraction recall     | **≥ 80% of known skills found**         | Manual audit of 50 random job descriptions    |
-| **Quality** | Project usefulness rating   | **≥ 4.0 / 5.0**                         | Internal review of 20 generated outputs       |
-| **Perf**    | POST /analyze latency (p95) | **\< 500ms (no LLM), \< 5s (with LLM)** | locust load test, 10 concurrent users         |
-| **Perf**    | FAISS vector search         | **\< 100ms on 10k vectors**             | pytest benchmark                              |
-| **Data**    | Job postings ingested       | **≥ 10,000 unique**                     | ingestion_report.json                         |
-| **Data**    | Unique skills in dictionary | **≥ 200**                               | len(skills_dictionary.json)                   |
+---
 
-# **08 Technology Stack**
+### FR-05 — Skill Gap Analysis
 
-| Layer          | Technology                                       | Rationale / Notes                                       |
-| :------------- | :----------------------------------------------- | :------------------------------------------------------ |
-| **Language**   | **Python 3.11**                                  | Type hints, match-case, performance improvements        |
-| **API**        | **FastAPI \+ Uvicorn**                           | Auto-generated OpenAPI docs; async-ready                |
-| **Data**       | **pandas 2.x \+ pyarrow**                        | Parquet support; fast filtering on 50k rows             |
-| **NLP**        | **spaCy 3.x \+ NLTK**                            | Tokenization, entity recognition for skill extraction   |
-| **Embeddings** | **sentence-transformers (all-MiniLM-L6-v2)**     | Local, no API cost, 384-dim, strong semantic quality    |
-| **Vector DB**  | **FAISS (IndexFlatIP)**                          | \< 100ms on 50k vectors; no external service dependency |
-| **LLM**        | **GEMINI**                                       | Structured JSON output; reliable tool use               |
-| **Validation** | **Pydantic v2**                                  | All API I/O; settings via pydantic-settings             |
-| **UI**         | **Streamlit 1.x**                                | Fast prototyping; built-in charting                     |
-| **Viz**        | **Plotly**                                       | Skill trend charts, location comparison                 |
-| **Testing**    | **pytest \+ pytest-benchmark**                   | Unit \+ perf tests                                      |
-| **Storage**    | **CSV/Parquet (Phase 1), PostgreSQL (Phase 2\)** | CSV for simplicity; Postgres when multi-user needed     |
+**Priority:** P0 · **Owner:** ML
 
-# **09 Milestones & Deliverables**
+**Inputs:** `user_skills: list[str]` · `target_role: str` (must match role enum)
 
-| Phase  | Timeline | Deliverables                                                                    | Done When                                                          |
-| :----- | :------- | :------------------------------------------------------------------------------ | :----------------------------------------------------------------- |
-| **P1** | Week 1–2 | Dataset ingestion (FR-01), Skill extraction (FR-02), skills_dictionary.json     | jobs_cleaned.csv ≥10k rows; skill_frequency.csv ≥200 skills        |
-| **P2** | Week 3–4 | Embeddings \+ FAISS (FR-03), Job matching (FR-04), Skill gap (FR-05)            | All FRs pass unit tests; Precision@5 ≥ 0.80 on eval set            |
-| **P3** | Week 5   | LLM project generator (FR-06), evaluation harness, projects_cache.json fallback | Returns 2–5 projects; LLM timeout handled; usefulness ≥ 4/5        |
-| **P4** | Week 6   | FastAPI layer (FR-07), Streamlit dashboard, Docker Compose, README              | /analyze \< 500ms p95; /docs loads; Docker Compose brings up stack |
+**Processing:**
 
-# **10 Risks & Mitigations**
+1. Aggregate all skills for `target_role` from `job_skills.json`
+2. Frequency threshold: skills in ≥ 30% of role postings = required
+3. `missing_skills = required_skills − user_skills` (case-insensitive set diff)
+4. `match_score = len(matched) / len(required) × 100`
 
-| Risk                                          | Likelihood | Impact     | Mitigation                                                                 |
-| :-------------------------------------------- | :--------- | :--------- | :------------------------------------------------------------------------- |
-| Skill extraction misses domain-specific tools | **High**   | **Medium** | Hybrid dictionary \+ LLM; manual audit of 50 JDs; expandable dictionary    |
-| LLM hallucinates unrealistic projects         | **Medium** | **Medium** | Strict JSON schema in prompt; difficulty/hours constraints; fallback cache |
-| Dataset skewed toward US roles                | **Medium** | **Low**    | Supplement with Kaggle \+ LinkedIn scrapes; location filter in API         |
-| FAISS search degrades \>50k vectors           | **Low**    | **High**   | Switch to IndexIVFFlat with nlist=100 for larger datasets                  |
-| API latency \>500ms under load                | **Medium** | **Medium** | Async FastAPI; FAISS in-memory; LLM calls non-blocking with fallback       |
+**Outputs:** `{ matched_skills, missing_skills, match_score, total_required }`
 
-# **11 Phase 2 — Optional Extensions**
+**Done When ✅** `missing_skills` never null · `match_score` float 0–100 · deterministic for same inputs
 
-| Feature                     | Description                                                                                                       | Dependencies                                |
-| :-------------------------- | :---------------------------------------------------------------------------------------------------------------- | :------------------------------------------ |
-| **Trend Analyzer**          | Track skill demand over time using date field in job postings. Surface top-10 rising skills per role per quarter. | FR-01, FR-02 complete; date field populated |
-| **Location Comparison**     | Compare skill demand across cities (Calgary vs Toronto vs Vancouver). Surface city-specific in-demand skills.     | location field populated in ≥70% of rows    |
-| **Multi-Role Support**      | Allow user to input multiple target roles and see blended skill gap across all.                                   | FR-05 complete                              |
-| **Visualization Dashboard** | Streamlit pages for: skill demand bar chart, skill gap radar, project board with difficulty filter.               | FR-07 complete; Plotly                      |
-| **PostgreSQL Migration**    | Replace CSV/parquet with PostgreSQL for multi-user support, query performance, and concurrent writes.             | Phase 1 complete; Docker Compose            |
+---
 
-_End of PRD v2.0 — AI Job Skills & Project Recommendation System_
+### FR-06 — LLM Project Recommendations
+
+**Priority:** P1 · **Owner:** LLM
+
+**Inputs:** `missing_skills: list[str]` · `target_role: str` · `user_skills: list[str]`
+
+**Processing:**
+
+1. Build structured prompt with constraints (see CLAUDE.md prompt template)
+2. Call Gemini 2.0 Flash via `google-genai` SDK
+3. Parse structured JSON response
+4. Validate: `title`, `description`, `skills_addressed`, `difficulty`, `estimated_hours`
+5. On LLM failure (timeout > 10s): return `projects_cache.json` fallback
+6. All LLM calls decorated with `@observe()` for Langfuse tracing (FR-11)
+
+**Outputs:** `[{ title, description, skills_addressed, difficulty, estimated_hours }]`
+
+**Schema:**
+
+```json
+{
+  "title": "str",
+  "description": "str",
+  "skills_addressed": ["str"],
+  "difficulty": "Beginner | Intermediate | Advanced",
+  "estimated_hours": 0
+}
+```
+
+**Done When ✅** Returns 2–5 projects · each addresses ≥ 1 missing skill · LLM timeout → cache fallback, no 500
+
+---
+
+### FR-07 — REST API Layer
+
+**Priority:** P0 · **Owner:** Backend
+
+**Inputs:** See endpoint contract in Section 04
+
+**Processing:**
+
+1. Validate all inputs with Pydantic v2 models
+2. Consistent error envelope: `{ error, message, request_id }`
+3. Log all requests with `request_id` for traceability
+4. API key middleware for authentication
+5. Rate limiting: 100 requests/day per key
+
+**Outputs:** JSON responses per endpoint specs · OpenAPI docs at `/docs`
+
+**Done When ✅** All endpoints return correct status codes · `/health` → 200 · `/docs` loads · Pydantic rejects bad input → 422
+
+---
+
+### FR-08 — Agentic RAG Chatbot ⭐ UPGRADED
+
+**Priority:** P1 · **Owner:** LLM + Retrieval
+
+**Inputs:** `message: str` · `session_id: str` · `user_skills: list[str]` (optional context)
+
+**Processing:**
+
+1. User message passed to a **LangChain ReAct agent**
+2. Agent decides which tools to call based on the question:
+   - `search_jobs(query)` → embeds query, searches FAISS index, returns top-5 job snippets
+   - `get_skill_gap(role)` → calls FR-05 service, returns missing skills
+   - `get_trending_skills(role)` → calls `/top_skills` endpoint, returns demand-ranked skills
+   - `recommend_projects(gaps)` → calls FR-06 service, returns project ideas
+3. Agent builds answer grounded in tool outputs — must cite source job_ids
+4. Conversation history maintained with `ConversationBufferWindowMemory` (last 10 turns)
+5. All LLM calls decorated with `@observe()` for Langfuse tracing (FR-11)
+
+**Outputs:** `{ answer: str, sources: [job_id], tool_calls_made: [str], session_id: str }`
+
+**Schema:** `POST /chat { message, session_id, user_skills } → { answer, sources, tool_calls_made, session_id }`
+
+**Done When ✅** Agent calls correct tools for different question types · answers cite real job postings · multi-turn conversation works · `tool_calls_made` populated in every response
+
+---
+
+### FR-09 — React Frontend
+
+**Priority:** P2 · **Owner:** Frontend
+
+**Inputs:** FastAPI endpoints (FR-07) · Chat endpoint (FR-08)
+
+**Processing:**
+
+1. Skill input form + role selector
+2. Results dashboard: matched jobs, skill gap chart, project cards
+3. Chat interface with message history + tool call transparency (shows which tools agent used)
+4. Skill frequency visualization (bar chart)
+5. Responsive design — mobile + desktop
+
+**Outputs:** Deployed React app communicating with FastAPI backend
+
+**Tech:** TypeScript + React 18 · Tailwind CSS · Recharts · Axios
+
+**Done When ✅** All FR-07 endpoints accessible via UI · chat interface works · loads in < 2s
+
+---
+
+### FR-10 — RAG Evaluation (RAGAS) ⭐ NEW
+
+**Priority:** P1 · **Owner:** ML
+
+**Why:** The previous success metric for FR-08 was "manual review of 20 sessions ≥ 4.0/5.0" — a vibe check, not a metric. RAGAS provides automated, reproducible quality scores.
+
+**Inputs:** 50-question evaluation dataset (`eval/ragas_questions.json`) · chatbot responses from FR-08
+
+**Processing:**
+
+1. For each eval question, run FR-08 agent and capture: `question`, `answer`, `contexts` (retrieved job snippets), `ground_truth`
+2. Compute RAGAS metrics:
+   - **Faithfulness** — is the answer grounded in retrieved job postings, or hallucinated?
+   - **Answer Relevancy** — does the answer actually address the question asked?
+   - **Context Precision** — are the retrieved job postings relevant to the question?
+   - **Context Recall** — are relevant job postings being missed?
+3. Output scores as `eval/ragas_report.json`
+4. Run via `make eval`
+
+**Outputs:** `eval/ragas_report.json` · printed score table
+
+**Done When ✅** All 4 RAGAS scores computed without error · faithfulness ≥ 0.85 · answer_relevancy ≥ 0.80
+
+---
+
+### FR-11 — LLMOps Observability (Langfuse) ⭐ NEW
+
+**Priority:** P1 · **Owner:** MLOps
+
+**Why:** Without tracing, there is no visibility into LLM call latency, token cost, prompt changes, or failure patterns. This is table stakes for production LLM systems in 2026.
+
+**Inputs:** All LLM calls in FR-06 and FR-08
+
+**Processing:**
+
+1. Instrument FR-06 (`generate_recommendations`) and FR-08 (`agent_chat`) with `@observe()` decorator
+2. Each trace captures: prompt text, response, latency (ms), token count, model name, estimated cost
+3. Traces visible in Langfuse cloud dashboard (free tier — no self-hosting needed for Phase 1)
+4. Prompt templates versioned and managed in Langfuse Prompt Management
+5. `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` loaded from `.env`
+
+**Outputs:** Langfuse dashboard with trace history, latency trends, token cost tracking
+
+**Done When ✅** Every FR-06 and FR-08 LLM call creates a trace in Langfuse · dashboard shows latency + token cost · prompt versions tracked
+
+---
+
+# 04 API Contract
+
+## POST /analyze — Full Pipeline
+
+**Request:**
+
+```json
+{
+  "skills": ["Python", "TensorFlow", "SQL"],
+  "target_role": "ML Engineer",
+  "location": "Calgary"
+}
+```
+
+**Response 200:**
+
+```json
+{
+  "top_jobs": [
+    { "job_id": "str", "title": "str", "match_score": 0.92, "location": "str" }
+  ],
+  "matched_skills": ["Python", "SQL"],
+  "missing_skills": ["PyTorch", "Docker", "AWS"],
+  "match_score": 40.0,
+  "projects": [
+    { "title": "str", "description": "str", "skills_addressed": ["PyTorch"] }
+  ]
+}
+```
+
+## POST /chat — Agentic RAG Chatbot
+
+**Request:**
+
+```json
+{
+  "message": "What skills do I need for ML Engineer in Calgary?",
+  "session_id": "uuid-1234",
+  "user_skills": ["Python", "SQL"]
+}
+```
+
+**Response 200:**
+
+```json
+{
+  "answer": "Based on 696 ML Engineer postings in our dataset, the top required skills are PyTorch (52%), Docker (38%), and AWS SageMaker (27%)...",
+  "sources": ["job_124", "job_891", "job_203"],
+  "tool_calls_made": ["search_jobs", "get_trending_skills"],
+  "session_id": "uuid-1234"
+}
+```
+
+## GET /top_skills?role={role}&limit={n}
+
+**Response 200:**
+
+```json
+{
+  "role": "ML Engineer",
+  "skills": [
+    { "skill": "Python", "demand_count": 696, "pct_of_jobs": 0.52 },
+    { "skill": "PyTorch", "demand_count": 433, "pct_of_jobs": 0.15 }
+  ]
+}
+```
+
+## GET /health
+
+```json
+{
+  "status": "ok",
+  "version": "4.0.0",
+  "dataset_rows": 10000,
+  "index_size": 10000
+}
+```
+
+## HTTP Status Codes
+
+| Status | Code                | When                                         |
+| :----- | :------------------ | :------------------------------------------- |
+| 200    | OK                  | Successful response                          |
+| 400    | BAD_REQUEST         | Missing required field                       |
+| 422    | VALIDATION_ERROR    | Pydantic schema violation                    |
+| 404    | NOT_FOUND           | job_id not found                             |
+| 503    | SERVICE_UNAVAILABLE | LLM or FAISS unavailable; fallback triggered |
+
+---
+
+# 05 CLAUDE.md Reference
+
+```markdown
+## Project Purpose
+
+AI pipeline: ingest → extract skills → embed → FAISS match → gap analysis →
+LLM projects → Agentic RAG chatbot → RAGAS eval → Langfuse observability.
+
+## Architecture
+
+data/raw/ → pipelines/ingest.py → data/processed/jobs_cleaned.csv
+→ pipelines/extract_skills.py → data/processed/job_skills.json
+→ pipelines/embed.py → models/faiss_jobs.index
+
+api/main.py (FastAPI)
+→ services/matcher.py FR-04
+→ services/gap.py FR-05
+→ services/recommender.py FR-06 ← @observe() Langfuse
+→ services/chatbot.py FR-08 ← ReAct Agent + @observe() Langfuse
+
+eval/
+→ precision_at_k.py FR-04 evaluation
+→ ragas_eval.py FR-10 RAG evaluation
+
+react-frontend/ FR-09
+
+## Commands
+
+make ingest # pipelines/ingest.py
+make extract # pipelines/extract_skills.py
+make embed # pipelines/embed.py
+make api # uvicorn api.main:app --reload --port 8000
+make frontend # cd react-frontend && npm start
+make test # pytest tests/ -v
+make eval # python eval/precision_at_k.py && python eval/ragas_eval.py
+make docker # docker-compose up --build
+
+## LLM Prompt Template (FR-06)
+
+system: "You are a senior ML engineer. Return ONLY valid JSON. No markdown, no explanation."
+user: "Generate {n} projects for {role}.
+Missing: {missing_skills}. Have: {user_skills}.
+Each must: use ≥1 missing skill, completable ≤40 hrs, deployable to GitHub."
+
+## Agentic RAG System Prompt (FR-08)
+
+system: "You are an AI career advisor with access to tools.
+Use tools to answer questions grounded in real job data.
+Always cite which job postings informed your answer.
+Never answer from memory alone — always call a tool first."
+
+## Agent Tools (FR-08)
+
+search_jobs(query: str) → top-5 FAISS job snippets
+get_skill_gap(role: str) → missing_skills for user's role
+get_trending_skills(role: str) → demand-ranked skill list
+recommend_projects(gaps: list) → 2-5 portfolio project ideas
+
+## Critical Constraints
+
+- FAISS index rebuilt when dataset changes (hash detection)
+- All API inputs validated with Pydantic before processing
+- LLM calls: 10s timeout + fallback to projects_cache.json
+- Skill normalization case-insensitive (canonical form in dictionary)
+- Never log user skill lists to disk (PII)
+- RAG agent must always return source job_ids in response
+- All LLM calls must be traced via Langfuse (@observe decorator)
+- LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY must be in .env
+```
+
+---
+
+# 06 Project Folder Structure
+
+```
+ai-job-recommender/
+├── CLAUDE.md
+├── Makefile
+├── README.md
+├── pyproject.toml
+├── requirements.txt
+├── docker-compose.yml
+├── .env.example
+│
+├── config/
+│   └── settings.py              # Pydantic settings, all env vars
+│
+├── data/
+│   ├── raw/job_details/         # Original CSVs (gitignored)
+│   └── processed/
+│       ├── jobs_cleaned.csv
+│       ├── job_skills.json
+│       └── skill_frequency.csv
+│
+├── models/
+│   ├── faiss_jobs.index
+│   ├── job_id_map.json
+│   ├── skills_dictionary.json
+│   └── projects_cache.json
+│
+├── pipelines/
+│   ├── ingest.py                # FR-01 ✅
+│   ├── extract_skills.py        # FR-02 ✅
+│   └── embed.py                 # FR-03
+│
+├── api/
+│   ├── main.py                  # FastAPI app
+│   ├── models.py                # Pydantic schemas
+│   └── services/
+│       ├── matcher.py           # FR-04
+│       ├── gap.py               # FR-05
+│       ├── recommender.py       # FR-06
+│       └── chatbot.py           # FR-08 (Agentic RAG + tools)
+│
+├── react-frontend/              # FR-09
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── SkillInput.tsx
+│   │   │   ├── JobResults.tsx
+│   │   │   ├── SkillGapChart.tsx
+│   │   │   ├── ProjectCards.tsx
+│   │   │   └── ChatInterface.tsx  # Shows tool_calls_made
+│   │   └── App.tsx
+│   └── package.json
+│
+├── docker/
+│   ├── Dockerfile.api
+│   └── Dockerfile.frontend
+│
+├── eval/
+│   ├── precision_at_k.py        # FR-04 evaluation
+│   ├── ragas_eval.py            # FR-10 RAG evaluation ← NEW
+│   └── ragas_questions.json     # 50-question eval dataset ← NEW
+│
+└── tests/
+    ├── test_ingest.py           # ✅ passing
+    ├── test_skills.py           # ✅ passing
+    ├── test_embed.py
+    ├── test_api.py
+    ├── test_chatbot.py          # FR-08 agent tool routing tests
+    └── test_ragas.py            # FR-10 smoke tests ← NEW
+```
+
+---
+
+# 07 Success Metrics & Evaluation
+
+| Category | Metric                         | Target                 | Measurement                             |
+| :------- | :----------------------------- | :--------------------- | :-------------------------------------- |
+| Quality  | Precision@5 (job matching)     | ≥ 0.80                 | `eval/precision_at_k.py` on 100 queries |
+| Quality  | RAG faithfulness (RAGAS)       | ≥ 0.85                 | `eval/ragas_eval.py` · 50 questions     |
+| Quality  | RAG answer relevancy (RAGAS)   | ≥ 0.80                 | `eval/ragas_eval.py` · 50 questions     |
+| Quality  | RAG context precision (RAGAS)  | ≥ 0.75                 | `eval/ragas_eval.py` · 50 questions     |
+| Quality  | Project usefulness rating      | ≥ 4.0 / 5.0            | Internal review of 20 outputs           |
+| Quality  | Skill extraction recall        | ≥ 80% on 50 random JDs | Manual audit                            |
+| Perf     | POST /analyze latency p95      | < 500ms (no LLM)       | locust, 10 concurrent users             |
+| Perf     | POST /chat latency p95         | < 3s                   | locust load test                        |
+| Perf     | FAISS vector search            | < 100ms on 10k vectors | pytest-benchmark                        |
+| LLMOps   | LLM call trace coverage        | 100% of FR-06/08 calls | Langfuse dashboard                      |
+| LLMOps   | Avg LLM latency (Gemini Flash) | < 1s p50               | Langfuse metrics                        |
+| Data     | Job postings ingested          | ≥ 10,000 unique        | `ingestion_report.json`                 |
+| Data     | Unique skills in dictionary    | ≥ 200                  | `len(skill_frequency.csv)`              |
+
+---
+
+# 08 Technology Stack
+
+| Layer         | Technology                                                   | Rationale                                      |
+| :------------ | :----------------------------------------------------------- | :--------------------------------------------- |
+| Language      | Python 3.11                                                  | Type hints, performance improvements           |
+| API           | FastAPI + Uvicorn                                            | Auto OpenAPI docs; async-ready                 |
+| Data          | pandas 2.x + pyarrow                                         | Parquet support; fast filtering on 50k rows    |
+| NLP           | JobBERT fine-tuned on SkillSpan (`jjzha/jobbert-base-cased`) | Domain-specific NER; F1 ≥ 0.85 on job postings |
+| Embeddings    | sentence-transformers all-MiniLM-L6-v2                       | Local, no API cost, 384-dim, strong quality    |
+| Vector DB     | FAISS IndexFlatIP                                            | < 100ms on 50k vectors; no external service    |
+| LLM           | Gemini 2.0 Flash (google-genai)                              | Free tier; structured JSON output; fast        |
+| Agent         | LangChain ReAct Agent                                        | Tool-use decision loop; conversation memory    |
+| RAG Eval      | RAGAS                                                        | Automated faithfulness + relevancy scoring     |
+| Observability | Langfuse                                                     | LLM tracing, cost tracking, prompt versioning  |
+| Validation    | Pydantic v2                                                  | All API I/O + settings management              |
+| Frontend      | React 18 + TypeScript                                        | Hireable stack; type-safe; chat UI             |
+| Styling       | Tailwind CSS                                                 | Rapid UI development                           |
+| Charts        | Recharts                                                     | Skill frequency visualizations                 |
+| Testing       | pytest + pytest-benchmark                                    | Unit + performance tests                       |
+| Container     | Docker + Docker Compose                                      | Production deployment; reproducible env        |
+| Storage       | CSV/Parquet → PostgreSQL (Phase 2)                           | CSV for Phase 1; Postgres when multi-user      |
+
+---
+
+# 09 Milestones & Deliverables
+
+| Phase            | Timeline | Deliverables                                                              | Done When                                                                |
+| :--------------- | :------- | :------------------------------------------------------------------------ | :----------------------------------------------------------------------- |
+| P1 — Data        | Week 1–2 | FR-01 ✅, FR-02 ✅, +4th dataset for 10k rows                             | `jobs_cleaned.csv` ≥ 10k · `skill_frequency` ≥ 200 skills                |
+| P2 — ML Core     | Week 3–4 | FR-03 Embeddings + FAISS, FR-04 Matching, FR-05 Gap                       | All FRs pass tests · Precision@5 ≥ 0.80                                  |
+| P3 — LLM + Agent | Week 5   | FR-06 LLM Recommendations, FR-08 Agentic RAG, FR-10 RAGAS, FR-11 Langfuse | Agent calls tools correctly · RAGAS meets targets · all LLM calls traced |
+| P4 — API         | Week 6   | FR-07 FastAPI complete, auth + rate limiting, all tests                   | POST /analyze < 500ms · /chat < 3s · /docs loads                         |
+| P5 — Deploy      | Week 7–8 | FR-09 React Frontend, Docker Compose, public deployment                   | Docker Compose up · public URL live · README complete                    |
+
+---
+
+# 10 Risks & Mitigations
+
+| Risk                           | Likelihood | Impact | Mitigation                                                       |
+| :----------------------------- | :--------- | :----- | :--------------------------------------------------------------- |
+| Dataset < 10k rows             | High       | High   | Add 4th Kaggle dataset (LinkedIn 33k rows)                       |
+| Agent selects wrong tool       | Medium     | Medium | Unit test each tool independently; test 20 question/tool pairs   |
+| LLM hallucinates projects      | Medium     | Medium | Strict JSON schema; hours/difficulty constraints; fallback cache |
+| RAG faithfulness < 0.85        | Medium     | High   | Tighten system prompt; add "only use context" constraint         |
+| FAISS degrades > 50k vectors   | Low        | High   | Switch to IndexIVFFlat with nlist=100                            |
+| API latency > 500ms under load | Medium     | Medium | Async FastAPI; FAISS in-memory; non-blocking LLM calls           |
+| Langfuse free tier rate limits | Low        | Low    | Batch trace upload; sampling in high-volume scenarios            |
+
+---
+
+# 11 Phase 2 — Optional Extensions
+
+| Feature                      | Description                                                                                                                 | Dependencies                              |
+| :--------------------------- | :-------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------- |
+| ~~JobBERT Skill Extraction~~ | ✅ **Done in Phase 1** — `jjzha/jobbert-base-cased` fine-tuned on SkillSpan, integrated in FR-02. Run `make train-jobbert`. | FR-02 complete                            |
+| ESCO Taxonomy Validation     | Validate extracted skills against 13,890-skill ESCO taxonomy. Eliminates manual stopword filtering.                         | JobBERT complete · ESCO CSV downloaded    |
+| PostgreSQL Migration         | Replace CSV with PostgreSQL + pgvector for multi-user support and concurrent writes.                                        | Phase 1 complete · Docker Compose         |
+| Location Intelligence        | Compare skill demand across Calgary, Toronto, Vancouver. Surface city-specific trending skills.                             | FR-05 complete · location field populated |
+| Skill Trend Analysis         | Track skill demand over time. Surface top-10 rising skills per role per quarter.                                            | FR-01/02 complete · date field populated  |
+| Multi-Role Blending          | User inputs multiple target roles. System returns blended skill gap across all targets.                                     | FR-05 complete                            |
+
+---
+
+_End of PRD v4.0 — AI Job Skills & Project Recommendation System_
