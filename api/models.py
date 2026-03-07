@@ -32,6 +32,14 @@ class SkillDemand(BaseModel):
     pct_of_jobs: float
 
 
+class GapResult(BaseModel):
+    matched_skills: list[str]
+    missing_skills: list[str]
+    match_score: float  # 0–100 (% of required skills the user already has)
+    total_required: int
+    top_role_skills: list[SkillDemand]  # top skills by demand, for UI display
+
+
 # ── POST /analyze ─────────────────────────────────────────────────────────────
 
 
