@@ -193,3 +193,53 @@ def match_jobs(
         f"location_filter={location!r}"
     )
     return results
+
+
+def search_by_query(query: str, top_k: int = 5) -> list[JobMatchResponse]:
+    """
+    Semantic search using a raw free-text query (not a skill list).
+
+    Encodes the query string directly so the caller can pass natural language
+    like "machine learning engineer roles requiring PyTorch" rather than a
+    canonical skill list.  Used by the FR-08 chatbot ``search_jobs`` tool.
+
+    Args:
+        query:  Free-text search string.
+        top_k:  Number of results to return (capped at 20).
+
+    Returns:
+        list[JobMatchResponse] sorted by match_score descending.
+    """
+    top_k = min(max(top_k, 1), 20)
+    index, job_id_map, model = _load_resources()
+
+    query_vec: np.ndarray = model.encode(
+        [query],
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+    ).astype(np.float32)
+
+    scores, indices = index.search(query_vec, top_k)
+
+    results: list[JobMatchResponse] = []
+    for score, idx in zip(scores[0].tolist(), indices[0].tolist()):
+        if idx < 0:
+            continue
+        job = job_id_map[idx]
+        results.append(
+            JobMatchResponse(
+                job_id=job["job_id"],
+                title=job.get("title", ""),
+                role=job.get("role", ""),
+                location=job.get("location", ""),
+                match_score=round(float(score), 4),
+                skills=job.get("skills", []),
+                snippet=job.get("snippet", ""),
+            )
+        )
+    return results
+
+
+def warmup() -> None:
+    """Pre-load FAISS index and sentence encoder. Call at API startup."""
+    _load_resources()

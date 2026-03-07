@@ -17,6 +17,7 @@ import re
 import sys
 from collections import Counter
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 import torch
@@ -45,11 +46,11 @@ if _METHOD_B == "none":
         "JobBERT model not found — dictionary-only mode. " "Run: python pipelines/train_jobbert.py"
     )
 
-_jobbert_pipe: object | None = None  # loaded on first extract call
+_jobbert_pipe: Any = None  # transformers.Pipeline; loaded on first extract call
 _jobbert_load_failed: bool = False
 
 
-def _get_pipe() -> object | None:
+def _get_pipe() -> Any:  # returns transformers.Pipeline or None
     """Lazy-load JobBERT NER pipeline on first call (~400 MB; skipped at API import time)."""
     global _jobbert_pipe, _jobbert_load_failed
     if _jobbert_load_failed or _METHOD_B != "jobbert":
@@ -61,7 +62,7 @@ def _get_pipe() -> object | None:
         from transformers import pipeline as hf_pipeline
 
         _tok = AutoTokenizer.from_pretrained(str(JOBBERT_DIR), model_max_length=512)
-        _jobbert_pipe = hf_pipeline(
+        _jobbert_pipe = hf_pipeline(  # type: ignore[call-overload]
             "ner",
             model=str(JOBBERT_DIR),
             tokenizer=_tok,

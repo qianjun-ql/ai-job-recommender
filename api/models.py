@@ -3,7 +3,18 @@ API request/response schemas — Pydantic v2.
 All FR-07 endpoints use these models for validation and serialisation.
 """
 
+from enum import Enum
+
 from pydantic import BaseModel, Field
+
+
+class Role(str, Enum):
+    AI_ENGINEER = "AI Engineer"
+    DATA_ENGINEER = "Data Engineer"
+    DATA_SCIENTIST = "Data Scientist"
+    ML_ENGINEER = "ML Engineer"
+    SWE = "SWE"
+
 
 # ── Shared sub-models ─────────────────────────────────────────────────────────
 
@@ -38,6 +49,7 @@ class GapResult(BaseModel):
     match_score: float  # 0–100 (% of required skills the user already has)
     total_required: int
     top_role_skills: list[SkillDemand]  # top skills by demand, for UI display
+    target_role: str = ""  # echoed back so callers don't need to re-pass it
 
 
 # ── POST /analyze ─────────────────────────────────────────────────────────────
@@ -45,7 +57,7 @@ class GapResult(BaseModel):
 
 class AnalyzeRequest(BaseModel):
     skills: list[str] = Field(..., min_length=1)
-    target_role: str
+    target_role: Role
     location: str | None = None
 
 

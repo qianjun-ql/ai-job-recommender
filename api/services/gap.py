@@ -21,16 +21,14 @@ import json
 import logging
 from collections import Counter
 
-from api.models import GapResult, SkillDemand
+from api.models import GapResult, Role, SkillDemand
 from config.settings import settings
 
 logger = logging.getLogger(__name__)
 
 # ── Valid roles ───────────────────────────────────────────────────────────────
 
-VALID_ROLES: frozenset[str] = frozenset(
-    ["AI Engineer", "Data Engineer", "Data Scientist", "ML Engineer", "SWE"]
-)
+VALID_ROLES: frozenset[str] = frozenset(r.value for r in Role)
 
 # ── Lazy-loaded role index ────────────────────────────────────────────────────
 # Built once on first call.  Structure:
@@ -206,6 +204,7 @@ def compute_gap(
         match_score=match_score,
         total_required=total_required,
         top_role_skills=required,  # already sorted by demand
+        target_role=target_role,
     )
 
 

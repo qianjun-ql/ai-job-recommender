@@ -17,6 +17,7 @@ import logging
 import os
 import sys
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import torch
@@ -25,6 +26,7 @@ from transformers import (
     AutoModelForTokenClassification,
     AutoTokenizer,
     DataCollatorForTokenClassification,
+    EvalPrediction,
     Trainer,
     TrainingArguments,
 )
@@ -50,10 +52,10 @@ SKILL_LABELS = {"B-Skill", "I-Skill", "B-Knowledge", "I-Knowledge"}
 
 
 def tokenize_and_align_labels(
-    examples: dict,
-    tokenizer: AutoTokenizer,
+    examples: dict[str, Any],
+    tokenizer: Any,  # AutoTokenizer; typed Any to satisfy mypy's transformers stubs
     label_all_tokens: bool = False,
-) -> dict:
+) -> dict[str, Any]:
     """
     Tokenize words and align NER labels to subword tokens.
 
@@ -87,10 +89,10 @@ def tokenize_and_align_labels(
         aligned_labels.append(label_row)
 
     tokenized["labels"] = aligned_labels
-    return tokenized
+    return dict(tokenized)  # cast from BatchEncoding → dict[str, Any]
 
 
-def compute_metrics(eval_pred: tuple, id2label: dict) -> dict:
+def compute_metrics(eval_pred: EvalPrediction, id2label: dict[int, str]) -> dict[str, Any]:
     """
     Compute token-level NER metrics using seqeval.
     Reports per-class F1 + macro average.
@@ -143,7 +145,7 @@ def train(num_epochs: int = 3, batch_size: int = 4, force_cpu: bool = False) -> 
     skill_str2id = {"O": 0, "B": 1, "I": 2}
     know_str2id = {"O": 0, "B": 3, "I": 4}
 
-    def merge_tags(examples: dict) -> dict:
+    def merge_tags(examples: dict[str, Any]) -> dict[str, Any]:
         merged = []
         for skill_row, know_row in zip(examples["tags_skill"], examples["tags_knowledge"]):
             row = []
@@ -232,10 +234,11 @@ def train(num_epochs: int = 3, batch_size: int = 4, force_cpu: bool = False) -> 
     class WeightedTrainer(Trainer):
         """Trainer subclass that applies inverse-frequency class weights to the loss."""
 
-        def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
+        def compute_loss(self, model: Any, inputs: dict[str, Any], return_outputs: bool = False, **kwargs: Any) -> Any:  # type: ignore[override]
             labels = inputs.get("labels")
             outputs = model(**inputs)
             logits = outputs.get("logits")
+            assert logits is not None, "model output missing 'logits'"
             loss_fn = torch.nn.CrossEntropyLoss(weight=class_weights, ignore_index=-100)
             loss = loss_fn(logits.view(-1, model.config.num_labels), labels.view(-1))
             return (loss, outputs) if return_outputs else loss

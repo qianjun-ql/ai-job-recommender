@@ -19,6 +19,7 @@ import json
 import logging
 import sys
 from pathlib import Path
+from typing import Any
 
 import faiss
 import numpy as np
@@ -105,7 +106,7 @@ def build_index() -> None:
 
     # ── Build text corpus ─────────────────────────────────────────────────────
     logger.info("Building job text representations …")
-    job_id_map: list[dict] = []
+    job_id_map: list[dict[str, Any]] = []
     texts: list[str] = []
 
     for _, row in df.iterrows():
@@ -165,7 +166,7 @@ def build_index() -> None:
     HASH_FILE.write_text(_combined_hash())
 
     # ── Summary ───────────────────────────────────────────────────────────────
-    role_counts = {}
+    role_counts: dict[str, int] = {}
     for j in job_id_map:
         role_counts[j["role"]] = role_counts.get(j["role"], 0) + 1
     logger.info("Jobs indexed by role:")

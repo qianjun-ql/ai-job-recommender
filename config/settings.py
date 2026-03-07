@@ -54,6 +54,10 @@ class Settings(BaseSettings):
     # ── API settings ──────────────────────────────────────────────────────────
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
+    API_VERSION: str = "1.0.0"
+    # Optional API key — if set, all endpoints require X-API-Key header.
+    # Leave empty to disable auth (local dev / demo mode).
+    API_KEY: str = ""
     LLM_TIMEOUT: int = 10
 
     # ── Secrets (from .env) ───────────────────────────────────────────────────
