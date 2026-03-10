@@ -3,8 +3,8 @@ FR-07: REST API Layer
 
 Endpoints:
     POST /analyze          — FR-04 + FR-05 + FR-06 combined pipeline
-    GET  /top_skills       — top N skills for a role (?role=&limit=)
-    GET  /health           — liveness + dataset stats
+    GET  /top_skills       — top N skills for a role (?role=&limit=)    GET  /market_stats      — cross-role market intelligence
+    GET  /skills_by_role    — top skills grouped by role (for comparison chart)    GET  /health           — liveness + dataset stats
     POST /chat             — FR-08 agentic RAG chatbot (LangChain + Gemini)
 
 Cross-cutting:
@@ -15,6 +15,7 @@ Cross-cutting:
     - All 422 Pydantic validation errors follow the same envelope
 """
 
+import csv
 import logging
 import uuid
 from contextlib import asynccontextmanager
@@ -32,8 +33,13 @@ from api.models import (
     AnalyzeResponse,
     ChatRequest,
     ChatResponse,
+    ExtractJDRequest,
+    ExtractJDResponse,
     HealthResponse,
+    MarketStatsResponse,
     Role,
+    RoleSkillsItem,
+    SkillsByRoleResponse,
     TopSkillsResponse,
 )
 from api.services.chatbot import agent_chat
@@ -198,6 +204,28 @@ async def top_skills(
     return TopSkillsResponse(role=role, skills=skills)
 
 
+# ── POST /extract_jd ─────────────────────────────────────────────────────────
+
+
+@app.post("/extract_jd", response_model=ExtractJDResponse)
+@limiter.limit("200/day")
+async def extract_jd(request: Request, body: ExtractJDRequest) -> ExtractJDResponse:
+    """Extract technical skills from a raw job description.
+
+    Uses hybrid NLP extraction (JobBERT NER + dictionary matching).
+    No auth required — public endpoint for the landing page.
+    Returns deduplicated canonical skill names.
+    """
+    from pipelines.extract_skills import _METHOD_B, extract_skills
+
+    skills = extract_skills(body.text)
+    return ExtractJDResponse(
+        skills=skills,
+        method="hybrid" if _METHOD_B == "jobbert" else "dictionary",
+        count=len(skills),
+    )
+
+
 # ── GET /health ───────────────────────────────────────────────────────────────
 
 
@@ -247,3 +275,72 @@ async def chat(request: Request, body: ChatRequest) -> ChatResponse:
         session_id=body.session_id,
         user_skills=body.user_skills,
     )
+
+
+# ── GET /market_stats ────────────────────────────────────────────────────────
+
+
+@app.get("/market_stats", response_model=MarketStatsResponse)
+async def market_stats(request: Request, limit: int = 15) -> MarketStatsResponse:
+    """Cross-role market intelligence for the landing page.
+
+    Returns total job/skill counts, role breakdown, and top N skills overall.
+    No auth required — public landing page data.
+    """
+    limit = max(1, min(limit, 50))
+
+    # Dataset-level counts from ingestion report
+    report: dict = {}
+    try:
+        import json
+
+        report = json.loads(settings.INGESTION_REPORT.read_text())
+    except Exception:
+        pass
+
+    # Total unique skills and top-N from skill_frequency.csv
+    total_skills = 0
+    top_skills_list = []
+    try:
+        from api.models import SkillDemand
+
+        with open(settings.SKILL_FREQUENCY) as f:
+            reader = csv.DictReader(f)
+            for i, row in enumerate(reader):
+                total_skills += 1
+                if i < limit:
+                    top_skills_list.append(
+                        SkillDemand(
+                            skill=row["skill"],
+                            demand_count=int(row["count"]),
+                            pct_of_jobs=float(row["pct_of_jobs"]),
+                        )
+                    )
+        # Count remaining rows if limit was hit
+        if total_skills <= limit:
+            pass  # already counted all rows above
+    except Exception as exc:
+        logger.warning("Could not read skill_frequency.csv: %s", exc)
+
+    return MarketStatsResponse(
+        total_jobs=report.get("final_rows", 0),
+        total_skills=total_skills,
+        roles=report.get("role_counts", {}),
+        top_skills=top_skills_list,
+    )
+
+
+# ── GET /skills_by_role ────────────────────────────────────────────────────────
+
+
+@app.get("/skills_by_role", response_model=SkillsByRoleResponse)
+async def skills_by_role_endpoint(request: Request, limit: int = 8) -> SkillsByRoleResponse:
+    """Top N skills for each role, for use in the role comparison chart.
+
+    Returns a list of { role, skills } objects, one per known role.
+    """
+    limit = max(1, min(limit, 20))
+    role_items = [
+        RoleSkillsItem(role=role.value, skills=get_top_skills(role, n=limit)) for role in Role
+    ]
+    return SkillsByRoleResponse(roles=role_items)

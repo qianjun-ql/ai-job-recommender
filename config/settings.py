@@ -62,6 +62,18 @@ class Settings(BaseSettings):
 
     # ── Secrets (from .env) ───────────────────────────────────────────────────
     GEMINI_API_KEY: str = ""
+    # Primary model — gemini-2.0-flash-lite has 1500 req/day on free tier.
+    # Fallbacks tried in order on RESOURCE_EXHAUSTED (429).
+    GEMINI_MODEL: str = "gemini-2.0-flash-lite"
+    GEMINI_FALLBACK_MODELS: list[str] = [
+        "gemini-1.5-flash",
+        "gemini-2.0-flash",
+    ]
+
+    # Groq fallback — 14 400 req/day free, tried after all Gemini models fail.
+    # Get a free key at https://console.groq.com
+    GROQ_API_KEY: str = ""
+    GROQ_MODEL: str = "llama-3.1-8b-instant"
 
     # Langfuse observability (optional; pipeline runs without these set)
     LANGFUSE_PUBLIC_KEY: str = ""

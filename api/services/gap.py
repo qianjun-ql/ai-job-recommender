@@ -214,11 +214,14 @@ def compute_gap(
 def get_top_skills(role: str, n: int = 20) -> list[SkillDemand]:
     """
     Return the top-n most demanded skills for a role, regardless of user input.
-    Used by the GET /top_skills/{role} endpoint.
+    Used by the GET /top_skills/{role} endpoint and the /skills_by_role chart.
+
+    Uses threshold=0.0 so all roles (including SWE, where top skills are below
+    the 30% gap-analysis threshold) still return results for the UI display.
 
     Args:
         role:  Must be one of VALID_ROLES.
         n:     Number of skills to return (default 20, capped at 50).
     """
     n = min(n, 50)
-    return get_required_skills(role)[:n]
+    return get_required_skills(role, threshold=0.0)[:n]

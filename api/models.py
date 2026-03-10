@@ -57,7 +57,7 @@ class GapResult(BaseModel):
 
 class AnalyzeRequest(BaseModel):
     skills: list[str] = Field(..., min_length=1)
-    target_role: Role
+    target_role: Role | None = None  # optional — analyze across all roles if omitted
     location: str | None = None
 
 
@@ -74,7 +74,7 @@ class AnalyzeResponse(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1)
-    session_id: str
+    session_id: str = ""  # empty string → new session
     user_skills: list[str] = Field(default_factory=list)
 
 
@@ -91,6 +91,41 @@ class ChatResponse(BaseModel):
 class TopSkillsResponse(BaseModel):
     role: str
     skills: list[SkillDemand]
+
+
+# ── GET /market_stats ────────────────────────────────────────────────────────
+
+
+class MarketStatsResponse(BaseModel):
+    total_jobs: int
+    total_skills: int
+    roles: dict[str, int]  # role_name -> job count
+    top_skills: list[SkillDemand]
+
+
+# ── GET /skills_by_role ───────────────────────────────────────────────────────
+
+
+class RoleSkillsItem(BaseModel):
+    role: str
+    skills: list[SkillDemand]
+
+
+class SkillsByRoleResponse(BaseModel):
+    roles: list[RoleSkillsItem]
+
+
+# ── POST /extract_jd ─────────────────────────────────────────────────────────
+
+
+class ExtractJDRequest(BaseModel):
+    text: str = Field(..., min_length=20, description="Raw job description text")
+
+
+class ExtractJDResponse(BaseModel):
+    skills: list[str]
+    method: str  # "hybrid" | "dictionary"
+    count: int
 
 
 # ── GET /health ───────────────────────────────────────────────────────────────

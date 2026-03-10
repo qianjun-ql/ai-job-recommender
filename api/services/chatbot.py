@@ -27,6 +27,7 @@ from typing import Any
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
 
@@ -74,21 +75,37 @@ _SYSTEM_PROMPT = (
 _memory_saver = MemorySaver()
 
 
-# ── LLM factory (lazy singleton) ──────────────────────────────────────────────
+# ── LLM factory (lazy singleton per model name) ──────────────────────────────
 
-_llm: ChatGoogleGenerativeAI | None = None
+_llm_cache: dict[str, ChatGoogleGenerativeAI | ChatGroq] = {}
+
+# Sentinel prefix used to identify Groq model names in the fallback list.
+_GROQ_PREFIX = "groq:"
 
 
-def _get_llm() -> ChatGoogleGenerativeAI:
-    """Lazy-load Gemini 2.0 Flash (shared across requests)."""
-    global _llm
-    if _llm is None:
-        _llm = ChatGoogleGenerativeAI(
-            model="gemini-2.0-flash",
-            google_api_key=settings.GEMINI_API_KEY or None,
-            temperature=0.1,
-        )
-    return _llm
+def _get_llm(model_spec: str | None = None) -> ChatGoogleGenerativeAI | ChatGroq:
+    """Return a cached LLM instance.
+
+    model_spec can be:
+      - a plain Gemini model name ("gemini-2.0-flash-lite")
+      - a Groq model prefixed with "groq:" ("groq:llama-3.1-8b-instant")
+    """
+    spec = model_spec or settings.GEMINI_MODEL
+    if spec not in _llm_cache:
+        if spec.startswith(_GROQ_PREFIX):
+            groq_model = spec[len(_GROQ_PREFIX) :]
+            _llm_cache[spec] = ChatGroq(
+                model=groq_model,
+                api_key=settings.GROQ_API_KEY or None,  # type: ignore[arg-type]
+                temperature=0.1,
+            )
+        else:
+            _llm_cache[spec] = ChatGoogleGenerativeAI(
+                model=spec,
+                google_api_key=settings.GEMINI_API_KEY or None,
+                temperature=0.1,
+            )
+    return _llm_cache[spec]
 
 
 # ── Tool factory ─────────────────────────────────────────────────────────────
@@ -261,48 +278,79 @@ def agent_chat(
     Never raises — all exceptions produce a graceful error ChatResponse.
     """
     tools = _build_tools(user_skills)
-    llm = _get_llm()
-
-    # Build a fresh graph on each call — it's stateless (history in _memory_saver).
-    # Rebuilding per request ensures user_skills changes are reflected immediately.
-    graph = create_react_agent(
-        model=llm,
-        tools=tools,
-        prompt=_SYSTEM_PROMPT,
-        checkpointer=_memory_saver,
-    )
-
     config: dict[str, Any] = {"configurable": {"thread_id": session_id}}
 
-    try:
-        result = graph.invoke(
-            {"messages": [HumanMessage(content=message)]},
-            config=config,
-        )
-    except Exception as exc:
-        logger.error("agent_chat error session=%s: %s", session_id, exc)
-        return ChatResponse(
-            answer=(
-                "I encountered an error processing your request. "
-                "Please try again or rephrase your question."
-            ),
-            sources=[],
-            tool_calls_made=[],
-            session_id=session_id,
-        )
+    # Build ordered list of models to try.
+    # If Groq key is set, try it first — 14 400 req/day free, separate quota.
+    # Then fall through Gemini models in order.
+    models_to_try: list[str] = []
+    if settings.GROQ_API_KEY:
+        models_to_try.append(f"{_GROQ_PREFIX}{settings.GROQ_MODEL}")
+    models_to_try += [settings.GEMINI_MODEL] + list(settings.GEMINI_FALLBACK_MODELS)
+    last_exc: Exception | None = None
 
-    messages: list[Any] = result.get("messages", [])
+    for model_name in models_to_try:
+        try:
+            llm = _get_llm(model_name)
+            graph = create_react_agent(
+                model=llm,
+                tools=tools,
+                prompt=_SYSTEM_PROMPT,
+                checkpointer=_memory_saver,
+            )
+            result = graph.invoke(
+                {"messages": [HumanMessage(content=message)]},
+                config=config,
+            )
+            # Success — extract and return answer.
+            messages: list[Any] = result.get("messages", [])
+            answer = ""
+            for msg in reversed(messages):
+                if isinstance(msg, AIMessage) and not getattr(msg, "tool_calls", None):
+                    answer = msg.content if isinstance(msg.content, str) else str(msg.content)
+                    break
+            return ChatResponse(
+                answer=answer,
+                sources=_extract_sources(messages),
+                tool_calls_made=_extract_tool_names(messages),
+                session_id=session_id,
+            )
+        except Exception as exc:
+            exc_str = str(exc)
+            # Treat quota/rate-limit errors from both Gemini and Groq as retriable.
+            is_quota = (
+                "RESOURCE_EXHAUSTED" in exc_str
+                or "rate_limit_exceeded" in exc_str
+                or "429" in exc_str
+            )
+            if is_quota:
+                logger.warning(
+                    "Model %s quota exhausted, trying next fallback. session=%s",
+                    model_name,
+                    session_id,
+                )
+                last_exc = exc
+                continue  # try next model
+            # Non-quota error — log and return immediately
+            logger.error("agent_chat error session=%s model=%s: %s", session_id, model_name, exc)
+            return ChatResponse(
+                answer=(
+                    "I encountered an error processing your request. "
+                    "Please try again or rephrase your question."
+                ),
+                sources=[],
+                tool_calls_made=[],
+                session_id=session_id,
+            )
 
-    # Final AI response: last AIMessage without pending tool_calls
-    answer = ""
-    for msg in reversed(messages):
-        if isinstance(msg, AIMessage) and not getattr(msg, "tool_calls", None):
-            answer = msg.content if isinstance(msg.content, str) else str(msg.content)
-            break
-
+    # All models exhausted quota
+    logger.error("All models quota exhausted. session=%s last_error=%s", session_id, last_exc)
     return ChatResponse(
-        answer=answer,
-        sources=_extract_sources(messages),
-        tool_calls_made=_extract_tool_names(messages),
+        answer=(
+            "All AI models have hit their free-tier daily quota. "
+            "Quota resets at midnight Pacific. You can monitor usage at https://ai.dev/rate-limit."
+        ),
+        sources=[],
+        tool_calls_made=[],
         session_id=session_id,
     )

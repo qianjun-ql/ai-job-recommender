@@ -108,6 +108,50 @@ def _filter_novel(ner_skills: list[str]) -> list[str]:
     return [s for s in ner_skills if s.lower() not in SKILL_ALIASES_LOWER]
 
 
+# ── Corpus skill whitelist (lazy-loaded from skill_frequency.csv) ─────────────
+# Used at inference time to reject novel NER tokens that never appeared in
+# any of the training job descriptions (noise like "helping", "engaging", etc.).
+# Minimum pct_of_jobs to qualify — rejects low-frequency generic tokens
+# (e.g. "continuously" 1.5%, "growth" 0.9%) that survived bulk filtering.
+_CORPUS_MIN_PCT: float = 0.015  # must appear in ≥1.5% of job corpus
+_CORPUS_SKILLS_LOWER: frozenset[str] | None = None
+
+
+def _get_corpus_whitelist() -> frozenset[str]:
+    """Lazy-load skill_frequency.csv and return lowercase skill names above quality threshold."""
+    global _CORPUS_SKILLS_LOWER
+    if _CORPUS_SKILLS_LOWER is not None:
+        return _CORPUS_SKILLS_LOWER
+    if settings.SKILL_FREQUENCY.exists():
+        try:
+            import csv
+
+            with open(settings.SKILL_FREQUENCY, newline="") as f:
+                reader = csv.DictReader(f)
+                _CORPUS_SKILLS_LOWER = frozenset(
+                    row["skill"].lower()
+                    for row in reader
+                    if float(row["pct_of_jobs"]) >= _CORPUS_MIN_PCT
+                )
+        except Exception:
+            _CORPUS_SKILLS_LOWER = frozenset()
+    else:
+        _CORPUS_SKILLS_LOWER = frozenset()
+    return _CORPUS_SKILLS_LOWER
+
+
+def _filter_against_corpus(skills: list[str]) -> list[str]:
+    """
+    Keep only NER-novel skills that appear in our known skill corpus.
+    Rejects free-text noise ("helping", "leveraging the latest technologies",
+    "continuously", etc.) that JobBERT sometimes tags in job descriptions.
+    """
+    whitelist = _get_corpus_whitelist()
+    if not whitelist:  # corpus not built yet — pass through unchanged
+        return skills
+    return [s for s in skills if s.lower() in whitelist]
+
+
 # Stopwords / noise tokens loaded from models/ner_stopwords.json.
 # Edit that file to add/remove entries — no code changes needed.
 _NER_STOPWORDS: frozenset[str] = frozenset(
@@ -198,7 +242,12 @@ def extract_skills(description: str) -> list[str]:
     """
     dict_skills = extract_by_dictionary(description)
     ner_skills = extract_by_jobbert(description)  # returns [] if pipe unavailable
-    return dict_skills + _filter_novel(ner_skills)
+    novel = _filter_novel(ner_skills)
+    # Cross-validate novel NER tokens against our skill corpus to reject noise
+    # (e.g. "helping", "continuously", "work on exciting projects").
+    # Bulk extract_all() uses a separate frequency filter; this keeps inference clean.
+    validated_novel = _filter_against_corpus(novel)
+    return dict_skills + validated_novel
 
 
 def extract_all(df: pd.DataFrame) -> dict[str, list[str]]:

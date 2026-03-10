@@ -75,7 +75,9 @@ User Query / Skills Input
     ├─► FR-10 RAGAS Evaluation (offline)
     │       └── faithfulness · answer_relevancy · context_precision · context_recall
     │
-    └─► FR-09 React Frontend
+    └─► FR-09 Django + React Frontend
+            ├── Django (proxy layer + future auth)
+            └── React 18 + TypeScript + Tailwind + Recharts
 ```
 
 ---
@@ -308,25 +310,38 @@ source       STRING NOT NULL
 
 ---
 
-### FR-09 — React Frontend
+### FR-09 — Django + React Frontend
 
 **Priority:** P2 · **Owner:** Frontend
 
-**Inputs:** FastAPI endpoints (FR-07) · Chat endpoint (FR-08)
+**Architecture decision:** Django sits between React and FastAPI. React never calls FastAPI directly — Django proxies all ML requests. This shields the ML service from the public internet, enables future auth without rewriting, and follows the industry pattern (Python ML service behind an internal API).
+
+**Inputs:** Django proxy views → FastAPI endpoints (FR-07, FR-08)
 
 **Processing:**
 
-1. Skill input form + role selector
-2. Results dashboard: matched jobs, skill gap chart, project cards
-3. Chat interface with message history + tool call transparency (shows which tools agent used)
-4. Skill frequency visualization (bar chart)
-5. Responsive design — mobile + desktop
+**Django layer** (`frontend/django_backend/`):
 
-**Outputs:** Deployed React app communicating with FastAPI backend
+1. Proxy views: forward `/api/ml/analyze`, `/api/ml/chat`, `/api/ml/top_skills` to FastAPI
+2. Auth app (`accounts/`): register, login, logout — Django built-in auth, foundation for Phase 2 profiles
+3. Django REST Framework for JSON API responses to React
 
-**Tech:** TypeScript + React 18 · Tailwind CSS · Recharts · Axios
+**React layer** (`frontend/react_app/`):
 
-**Done When ✅** All FR-07 endpoints accessible via UI · chat interface works · loads in < 2s
+1. `SkillInput.tsx` — tag chip input (Enter to add, × to remove) + role selector
+2. `AnalyzePage.tsx` — calls `/api/ml/analyze`, renders job cards + gap chart + project cards
+3. `ChatPage.tsx` — calls `/api/ml/chat`, maintains message thread, shows tool call badges per message
+4. `SkillFreqChart.tsx` — Recharts horizontal bar chart from `/api/ml/top_skills`
+5. `App.tsx` — tab toggle between Analyze and Chat (no React Router needed)
+6. Responsive design — Tailwind `sm:` / `md:` breakpoints
+
+**Outputs:** Running Django server (`:8001`) + Vite dev server (`:5173`) · single `make django` + `make frontend` to start
+
+**Tech:** Django 5 + DRF · React 18 + TypeScript · Vite · Tailwind CSS · Recharts · Axios
+
+**Deploy:** React → Azure Static Web Apps (free tier) · Django → Azure App Service (B1, GitHub Education credit) · FastAPI → Azure App Service (internal, not public)
+
+**Done When ✅** All FR-07 endpoints accessible via UI · chat interface works · Django proxies correctly · loads in < 2s
 
 ---
 
@@ -481,17 +496,19 @@ data/raw/ → pipelines/ingest.py → data/processed/jobs_cleaned.csv
 → pipelines/extract_skills.py → data/processed/job_skills.json
 → pipelines/embed.py → models/faiss_jobs.index
 
-api/main.py (FastAPI)
+api/main.py (FastAPI — internal only, not public)
 → services/matcher.py FR-04
 → services/gap.py FR-05
 → services/recommender.py FR-06 ← @observe() Langfuse
 → services/chatbot.py FR-08 ← ReAct Agent + @observe() Langfuse
 
+frontend/ FR-09
+→ django_backend/ Django 5 + DRF: proxy views + auth
+→ react_app/ React 18 + TypeScript + Tailwind + Recharts
+
 eval/
 → precision_at_k.py FR-04 evaluation
 → ragas_eval.py FR-10 RAG evaluation
-
-react-frontend/ FR-09
 
 ## Commands
 
@@ -499,7 +516,8 @@ make ingest # pipelines/ingest.py
 make extract # pipelines/extract_skills.py
 make embed # pipelines/embed.py
 make api # uvicorn api.main:app --reload --port 8000
-make frontend # cd react-frontend && npm start
+make django # python frontend/django_backend/manage.py runserver 8001
+make frontend # cd frontend/react_app && npm run dev
 make test # pytest tests/ -v
 make eval # python eval/precision_at_k.py && python eval/ragas_eval.py
 make docker # docker-compose up --build
@@ -581,16 +599,25 @@ ai-job-recommender/
 │       ├── recommender.py       # FR-06
 │       └── chatbot.py           # FR-08 (Agentic RAG + tools)
 │
-├── react-frontend/              # FR-09
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── SkillInput.tsx
-│   │   │   ├── JobResults.tsx
-│   │   │   ├── SkillGapChart.tsx
-│   │   │   ├── ProjectCards.tsx
-│   │   │   └── ChatInterface.tsx  # Shows tool_calls_made
-│   │   └── App.tsx
-│   └── package.json
+├── frontend/                    # FR-09
+│   ├── django_backend/          # Django 5 + DRF
+│   │   ├── manage.py
+│   │   ├── config/              # settings, urls, wsgi
+│   │   ├── accounts/            # register, login, logout
+│   │   └── proxy/               # views forwarding to FastAPI
+│   └── react_app/               # React 18 + Vite
+│       ├── src/
+│       │   ├── api/             # typed Axios client
+│       │   ├── components/
+│       │   │   ├── SkillInput.tsx
+│       │   │   ├── JobCard.tsx
+│       │   │   ├── GapChart.tsx
+│       │   │   ├── ProjectCard.tsx
+│       │   │   ├── SkillFreqChart.tsx
+│       │   │   └── ChatInterface.tsx  # Shows tool_calls_made
+│       │   └── App.tsx
+│       ├── vite.config.ts
+│       └── package.json
 │
 ├── docker/
 │   ├── Dockerfile.api
@@ -634,37 +661,39 @@ ai-job-recommender/
 
 # 08 Technology Stack
 
-| Layer         | Technology                                                   | Rationale                                      |
-| :------------ | :----------------------------------------------------------- | :--------------------------------------------- |
-| Language      | Python 3.11                                                  | Type hints, performance improvements           |
-| API           | FastAPI + Uvicorn                                            | Auto OpenAPI docs; async-ready                 |
-| Data          | pandas 2.x + pyarrow                                         | Parquet support; fast filtering on 50k rows    |
-| NLP           | JobBERT fine-tuned on SkillSpan (`jjzha/jobbert-base-cased`) | Domain-specific NER; F1 ≥ 0.85 on job postings |
-| Embeddings    | sentence-transformers all-MiniLM-L6-v2                       | Local, no API cost, 384-dim, strong quality    |
-| Vector DB     | FAISS IndexFlatIP                                            | < 100ms on 50k vectors; no external service    |
-| LLM           | Gemini 2.0 Flash (google-genai)                              | Free tier; structured JSON output; fast        |
-| Agent         | LangChain ReAct Agent                                        | Tool-use decision loop; conversation memory    |
-| RAG Eval      | RAGAS                                                        | Automated faithfulness + relevancy scoring     |
-| Observability | Langfuse                                                     | LLM tracing, cost tracking, prompt versioning  |
-| Validation    | Pydantic v2                                                  | All API I/O + settings management              |
-| Frontend      | React 18 + TypeScript                                        | Hireable stack; type-safe; chat UI             |
-| Styling       | Tailwind CSS                                                 | Rapid UI development                           |
-| Charts        | Recharts                                                     | Skill frequency visualizations                 |
-| Testing       | pytest + pytest-benchmark                                    | Unit + performance tests                       |
-| Container     | Docker + Docker Compose                                      | Production deployment; reproducible env        |
-| Storage       | CSV/Parquet → PostgreSQL (Phase 2)                           | CSV for Phase 1; Postgres when multi-user      |
+| Layer          | Technology                                                   | Rationale                                                                    |
+| :------------- | :----------------------------------------------------------- | :--------------------------------------------------------------------------- |
+| Language       | Python 3.11                                                  | Type hints, performance improvements                                         |
+| API            | FastAPI + Uvicorn                                            | Auto OpenAPI docs; async-ready                                               |
+| Data           | pandas 2.x + pyarrow                                         | Parquet support; fast filtering on 50k rows                                  |
+| NLP            | JobBERT fine-tuned on SkillSpan (`jjzha/jobbert-base-cased`) | Domain-specific NER; F1 ≥ 0.85 on job postings                               |
+| Embeddings     | sentence-transformers all-MiniLM-L6-v2                       | Local, no API cost, 384-dim, strong quality                                  |
+| Vector DB      | FAISS IndexFlatIP                                            | < 100ms on 50k vectors; no external service                                  |
+| LLM            | Gemini 2.0 Flash (google-genai)                              | Free tier; structured JSON output; fast                                      |
+| Agent          | LangChain ReAct Agent                                        | Tool-use decision loop; conversation memory                                  |
+| RAG Eval       | RAGAS                                                        | Automated faithfulness + relevancy scoring                                   |
+| Observability  | Langfuse                                                     | LLM tracing, cost tracking, prompt versioning                                |
+| Validation     | Pydantic v2                                                  | All API I/O + settings management                                            |
+| Frontend       | React 18 + TypeScript + Vite                                 | Hireable stack; type-safe; fast HMR                                          |
+| User-facing BE | Django 5 + Django REST Framework                             | Auth built-in; proxy layer; Calgary/.NET market familiar with Django pattern |
+| Styling        | Tailwind CSS                                                 | Rapid UI development                                                         |
+| Charts         | Recharts                                                     | Skill frequency visualizations                                               |
+| Deploy         | Azure Static Web Apps + App Service (GitHub Education $100)  | Calgary market signal; free via student credit                               |
+| Testing        | pytest + pytest-benchmark                                    | Unit + performance tests                                                     |
+| Container      | Docker + Docker Compose                                      | Production deployment; reproducible env                                      |
+| Storage        | CSV/Parquet → PostgreSQL (Phase 2)                           | CSV for Phase 1; Postgres when multi-user                                    |
 
 ---
 
 # 09 Milestones & Deliverables
 
-| Phase            | Timeline | Deliverables                                                              | Done When                                                                |
-| :--------------- | :------- | :------------------------------------------------------------------------ | :----------------------------------------------------------------------- |
-| P1 — Data        | Week 1–2 | FR-01 ✅, FR-02 ✅, +4th dataset for 10k rows                             | `jobs_cleaned.csv` ≥ 10k · `skill_frequency` ≥ 200 skills                |
-| P2 — ML Core     | Week 3–4 | FR-03 Embeddings + FAISS, FR-04 Matching, FR-05 Gap                       | All FRs pass tests · Precision@5 ≥ 0.80                                  |
-| P3 — LLM + Agent | Week 5   | FR-06 LLM Recommendations, FR-08 Agentic RAG, FR-10 RAGAS, FR-11 Langfuse | Agent calls tools correctly · RAGAS meets targets · all LLM calls traced |
-| P4 — API         | Week 6   | FR-07 FastAPI complete, auth + rate limiting, all tests                   | POST /analyze < 500ms · /chat < 3s · /docs loads                         |
-| P5 — Deploy      | Week 7–8 | FR-09 React Frontend, Docker Compose, public deployment                   | Docker Compose up · public URL live · README complete                    |
+| Phase            | Timeline | Deliverables                                                              | Done When                                                                                           |
+| :--------------- | :------- | :------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------- |
+| P1 — Data        | Week 1–2 | FR-01 ✅, FR-02 ✅, +4th dataset for 10k rows                             | `jobs_cleaned.csv` ≥ 10k · `skill_frequency` ≥ 200 skills                                           |
+| P2 — ML Core     | Week 3–4 | FR-03 Embeddings + FAISS, FR-04 Matching, FR-05 Gap                       | All FRs pass tests · Precision@5 ≥ 0.80                                                             |
+| P3 — LLM + Agent | Week 5   | FR-06 LLM Recommendations, FR-08 Agentic RAG, FR-10 RAGAS, FR-11 Langfuse | Agent calls tools correctly · RAGAS meets targets · all LLM calls traced                            |
+| P4 — API         | Week 6   | FR-07 FastAPI complete, auth + rate limiting, all tests                   | POST /analyze < 500ms · /chat < 3s · /docs loads                                                    |
+| P5 — Deploy      | Week 7–8 | FR-09 Django + React Frontend, Dockerfiles, Azure deploy                  | Django proxy works · React UI live · Azure Static Web Apps + App Service deployed · README complete |
 
 ---
 
