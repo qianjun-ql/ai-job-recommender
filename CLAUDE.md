@@ -10,12 +10,15 @@ data/raw/ → pipelines/ingest.py → data/processed/jobs_cleaned.csv
 → pipelines/extract_skills.py → data/processed/job_skills.json
 → pipelines/embed.py → models/faiss_jobs.index
 
-api/main.py (FastAPI)
+api/main.py (FastAPI — ML layer, internal only)
 → services/matcher.py (FR-04)
 → services/gap.py (FR-05)
 → services/recommender.py (FR-06)
+→ services/chatbot.py (FR-08)
 
-ui/app.py (Streamlit)
+frontend/ (Django + React — FR-09, user-facing layer)
+→ django_backend/ Django project: auth, user profiles, proxy views to FastAPI
+→ react_app/ React 18 + TypeScript + Tailwind CSS + Recharts
 
 ## Commands
 
@@ -23,7 +26,8 @@ make ingest # pipelines/ingest.py
 make extract # pipelines/extract_skills.py
 make embed # pipelines/embed.py
 make api # uvicorn api.main:app --reload --port 8000
-make ui # streamlit run ui/app.py
+make django # python frontend/django_backend/manage.py runserver 8001
+make frontend # cd frontend/react_app && npm run dev
 make test # pytest tests/ -v
 make eval # python eval/precision_at_k.py
 

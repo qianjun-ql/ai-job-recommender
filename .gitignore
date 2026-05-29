@@ -212,3 +212,5 @@ __pycache__/
 .venv/
 *.pyc
 data/processed/.hashes/
+models/jobbert-skill-ner/
+models/faiss_jobs.index

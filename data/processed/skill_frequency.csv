@@ -1,182 +1,3237 @@
 skill,count,pct_of_jobs
-Python,1503,0.5206
-Microsoft Office,1230,0.426
-SQL,1120,0.3879
-Scala,835,0.2892
-Git,802,0.2778
-AWS,774,0.2681
-ETL,610,0.2113
-Statistics,536,0.1857
-Agile,463,0.1604
-Azure,441,0.1528
-Spark,438,0.1517
-PyTorch,433,0.15
-LLM,393,0.1361
-Rust,388,0.1344
-TensorFlow,383,0.1327
-Deep Learning,348,0.1205
-GCP,337,0.1167
-Big Data,334,0.1157
-NLP,319,0.1105
-Tableau,283,0.098
-CI/CD,282,0.0977
-Power BI,258,0.0894
-Data Analytics,229,0.0793
-Kubernetes,224,0.0776
-JavaScript,216,0.0748
-Docker,215,0.0745
-Databricks,172,0.0596
-Snowflake,171,0.0592
-Natural Language Processing,169,0.0585
-scikit-learn,168,0.0582
-Go,162,0.0561
-Java,152,0.0526
-R,147,0.0509
-Airflow,146,0.0506
-Computer Vision,141,0.0488
-Google Cloud,139,0.0481
-Kafka,133,0.0461
-pandas,131,0.0454
-PostgreSQL,117,0.0405
-REST API,115,0.0398
-Large Language Models,111,0.0384
-SQL Server,111,0.0384
-Hugging Face,104,0.036
-BigQuery,104,0.036
-PySpark,99,0.0343
-NumPy,96,0.0333
-GitHub,93,0.0322
-Redshift,93,0.0322
-Keras,88,0.0305
-Terraform,87,0.0301
-C/C++,77,0.0267
-dbt,75,0.026
-"Computer Science, Engineering",70,0.0242
-Bash,65,0.0225
-OpenAI API,64,0.0222
-TypeScript,61,0.0211
-Azure Data Factory,59,0.0204
-MongoDB,56,0.0194
-MLflow,53,0.0184
-LangChain,52,0.018
-Ph.D.,44,0.0152
-PowerBI,44,0.0152
-MapReduce,43,0.0149
-GitLab,39,0.0135
-Spring Boot,37,0.0128
-Microsoft Azure,30,0.0104
-FastAPI,29,0.01
-Amazon Web Services,29,0.01
-XGBoost,29,0.01
-Elasticsearch,28,0.0097
-Matplotlib,28,0.0097
-AI/ML Engineer,28,0.0097
-PL/SQL,27,0.0094
-Mental Health,27,0.0094
-Life and Serious Injury,27,0.0094
-Health Plans,27,0.0094
-Health Savings,27,0.0094
-Disability Programs,27,0.0094
-Stock Option Program,27,0.0094
-"Computer Science, Statistics",27,0.0094
-Google Analytics,26,0.009
-GraphQL,26,0.009
-Commitment to Diversity,26,0.009
-Artificial Intelligence,25,0.0087
-MS Office,25,0.0087
-"Computer Science, Engineering,",25,0.0087
-Computer Engineering,24,0.0083
-Information Technology,23,0.008
-"Tableau, Power BI",23,0.008
-OpenAI,21,0.0073
-Node.js,21,0.0073
-ML Engineers,21,0.0073
-ML Infrastructure,21,0.0073
-Operations Research,21,0.0073
-Apache Spark,20,0.0069
-US Citizenship,20,0.0069
-VMware,19,0.0066
-ML Ops,19,0.0066
-PowerShell,19,0.0066
-PhD.,19,0.0066
-Project Management,18,0.0062
-SageMaker,18,0.0062
-Apache Airflow,18,0.0062
-Causal Inference,18,0.0062
-NeurIPS,18,0.0062
-Glassdoor Best Place to Work,18,0.0062
-TikTok,17,0.0059
-Linear Algebra,17,0.0059
-"Computer Science, Data Science",17,0.0059
-Redis,17,0.0059
-DynamoDB,17,0.0059
-Microsoft Excel,17,0.0059
-Marketing Technology,17,0.0059
-Data Modeling,16,0.0055
-ChatGPT,16,0.0055
-NASDAQ,16,0.0055
-Software Engineers,16,0.0055
-SharePoint,16,0.0055
-Spark ML,16,0.0055
-Supply Chain,15,0.0052
-Data Quality,15,0.0052
-"Python, Ruby",15,0.0052
-Fortune 500,14,0.0048
-Parental Leave,14,0.0048
-Neo4j,14,0.0048
-Information Systems,14,0.0048
-"Computer Science, Statistics,",14,0.0048
-Financial Services,14,0.0048
-Plotly,14,0.0048
-Target Earnings,14,0.0048
-MATLAB,14,0.0048
-CSS3,14,0.0048
-AutoCAD,14,0.0048
-AI Engineer,13,0.0045
-Systems Engineering,13,0.0045
-"Data Science, Statistics",13,0.0045
-LlamaIndex,13,0.0045
-Business Intelligence,13,0.0045
-HTML5,13,0.0045
-JazzHR,12,0.0042
-NodeJS,12,0.0042
-CloudFormation,12,0.0042
-Data Warehousing,12,0.0042
-Project Managers,12,0.0042
-Applied Mathematics,12,0.0042
-Reinforcement Learning,12,0.0042
-"Vision, Life Insurance",12,0.0042
-Spark MLLib,12,0.0042
-NLP/NLU,11,0.0038
-Software Development Engineer,11,0.0038
-Product Management,11,0.0038
-Recruiting Partner,11,0.0038
-Big Query,11,0.0038
-Google BigQuery,11,0.0038
-"Operations Research,",11,0.0038
-Software Engineer,11,0.0038
-Hugging Face Transformers,10,0.0035
-Artificial Intelligence (AI,10,0.0035
-Machine Learning Operations,10,0.0035
-"Extract, Transform, Load (ETL",10,0.0035
-Data Analysts,10,0.0035
-Data Analysis,10,0.0035
-Google Sheets,10,0.0035
-Business Objects,10,0.0035
-RemoteDuration,10,0.0035
-Fidelity Investments,10,0.0035
-QualificationsBachelor,10,0.0035
-FanDuel,10,0.0035
-FanDuel TV,10,0.0035
-FanDuel Group,10,0.0035
-Industrial Engineering,10,0.0035
-EDUCATION,10,0.0035
-Gender Identity,10,0.0035
-Employee Purchase Program,10,0.0035
-Student Loan Program,10,0.0035
-Wellness Incentives,10,0.0035
-Software Development,10,0.0035
-HuggingFace,10,0.0035
-REMOTE,10,0.0035
-Chemical Engineering,10,0.0035
-Weights & Biases,3,0.001
+Python,5432,0.5432
+SQL,3530,0.353
+AWS,2979,0.2979
+Agile,2110,0.211
+Azure,2018,0.2018
+Java,1941,0.1941
+Statistics,1897,0.1897
+C/C++,1857,0.1857
+R,1666,0.1666
+ETL,1657,0.1657
+Big Data,1573,0.1573
+Spark,1512,0.1512
+GCP,1497,0.1497
+NLP,1419,0.1419
+PyTorch,1399,0.1399
+TensorFlow,1297,0.1297
+LLM,1276,0.1276
+Deep Learning,1273,0.1273
+CI/CD,1224,0.1224
+Git,1207,0.1207
+Kubernetes,1138,0.1138
+Docker,1061,0.1061
+Snowflake,877,0.0877
+JavaScript,852,0.0852
+Go,839,0.0839
+Data Modeling,835,0.0835
+Tableau,824,0.0824
+Kafka,818,0.0818
+learning,812,0.0812
+Data Warehousing,807,0.0807
+Data Analytics,806,0.0806
+Power BI,757,0.0757
+Dev,745,0.0745
+Microsoft Excel,728,0.0728
+##s,717,0.0717
+Airflow,695,0.0695
+s degree,672,0.0672
+Computer Vision,661,0.0661
+Databricks,638,0.0638
+Scala,629,0.0629
+Col,628,0.0628
+##elo,616,0.0616
+MLOps,586,0.0586
+PySpark,582,0.0582
+degree,543,0.0543
+software development,536,0.0536
+pandas,535,0.0535
+Bash,521,0.0521
+scikit-learn,514,0.0514
+opti,506,0.0506
+##bor,504,0.0504
+models,490,0.049
+collaborate,475,0.0475
+science,474,0.0474
+bachelor,469,0.0469
+PostgreSQL,435,0.0435
+testing,420,0.042
+business,418,0.0418
+Terraform,417,0.0417
+"design,",408,0.0408
+security,403,0.0403
+SQL Server,395,0.0395
+GitHub,394,0.0394
+automation,390,0.039
+communication skills,390,0.039
+##ing,383,0.0383
+Bachelor,381,0.0381
+pro,371,0.0371
+cloud,368,0.0368
+analytics,365,0.0365
+teams,360,0.036
+HTML,356,0.0356
+technologies,355,0.0355
+Con,352,0.0352
+REST API,352,0.0352
+Reinforcement Learning,347,0.0347
+applications,345,0.0345
+deployment,344,0.0344
+technical,343,0.0343
+Redshift,336,0.0336
+##le,334,0.0334
+Hugging Face,329,0.0329
+c + +,328,0.0328
+Pro,328,0.0328
+architecture,319,0.0319
+Microsoft Office,313,0.0313
+machine,309,0.0309
+data engineering,308,0.0308
+communication,307,0.0307
+data analysis,303,0.0303
+TypeScript,300,0.03
+collaborate with cross - functional teams,284,0.0284
+DynamoDB,281,0.0281
+NumPy,277,0.0277
+CSS,277,0.0277
+BigQuery,276,0.0276
+##mple,275,0.0275
+problem - solving skills,274,0.0274
+performance,274,0.0274
+processing,272,0.0272
+optimization,265,0.0265
+LLMs,264,0.0264
+##ly,263,0.0263
+motivated,260,0.026
+support,257,0.0257
+modeling,256,0.0256
+Node.js,252,0.0252
+##ws,250,0.025
+MongoDB,249,0.0249
+OpenAI API,247,0.0247
+bachelorâs degree,246,0.0246
+##gi,243,0.0243
+drive,242,0.0242
+products,239,0.0239
+infrastructure,237,0.0237
+leadership,236,0.0236
+pre,236,0.0236
+Keras,234,0.0234
+mathematics,233,0.0233
+building,230,0.023
+quality,228,0.0228
+implementation,224,0.0224
+analytical,222,0.0222
+integration,222,0.0222
+##la,219,0.0219
+databases,219,0.0219
+product,216,0.0216
+driven,216,0.0216
+dbt,212,0.0212
+design and,212,0.0212
+Per,211,0.0211
+collaborate with,210,0.021
+processes,209,0.0209
+effectively,208,0.0208
+##dent,208,0.0208
+system,205,0.0205
+Azure Data Factory,203,0.0203
+projects,199,0.0199
+##l,195,0.0195
+recommendations,194,0.0194
+##ization,191,0.0191
+trust,191,0.0191
+master,190,0.019
+##ytic,190,0.019
+##zure,189,0.0189
+operations,188,0.0188
+LangChain,186,0.0186
+programming languages,186,0.0186
+lever,183,0.0183
+learn,182,0.0182
+"designing,",180,0.018
+techniques,179,0.0179
+ads,179,0.0179
+developing,178,0.0178
+best practices,177,0.0177
+master ' s degree,177,0.0177
+practices,177,0.0177
+improve,177,0.0177
+GitLab,176,0.0176
+intelligence,176,0.0176
+MATLAB,176,0.0176
+##active,174,0.0174
+model,174,0.0174
+##i,173,0.0173
+visual search,172,0.0172
+Ana,171,0.0171
+build AI tools,171,0.0171
+building high quality ML datasets at,171,0.0171
+build foundational tools and data pipelines,171,0.0171
+establishing and executing the strategy,171,0.0171
+"ingest, normalize and clean the valuable data",171,0.0171
+train ML models,171,0.0171
+ensure,170,0.017
+Main,170,0.017
+computer engineering,169,0.0169
+##hon,168,0.0168
+algorithms,168,0.0168
+##p,168,0.0168
+distributed computing,166,0.0166
+cloud platforms,166,0.0166
+data mining,165,0.0165
+build,164,0.0164
+self,160,0.016
+Man,158,0.0158
+MLflow,157,0.0157
+planning,156,0.0156
+anal,155,0.0155
+Master,155,0.0155
+mentor,155,0.0155
+##ytics,153,0.0153
+time,152,0.0152
+coding,152,0.0152
+code,151,0.0151
+collaboration,151,0.0151
+genera,150,0.015
+platforms,150,0.015
+##L,148,0.0148
+electrical engineering,148,0.0148
+requirements,148,0.0148
+production,148,0.0148
+##hd,147,0.0147
+continuously,147,0.0147
+pipeline,146,0.0146
+##ric features,146,0.0146
+ensuring,145,0.0145
+PowerShell,145,0.0145
+foster,145,0.0145
+problems,145,0.0145
+design and implementation of pipelines between data systems,145,0.0145
+data ops,145,0.0145
+identification of infrastructure components and data stack,145,0.0145
+"notifications,",145,0.0145
+growth /,145,0.0145
+##L data,145,0.0145
+##gile,144,0.0144
+monitoring,141,0.0141
+##c,140,0.014
+llms,137,0.0137
+framework,136,0.0136
+information retrieval,136,0.0136
+analytical skills,135,0.0135
+reporting,134,0.0134
+scale,134,0.0134
+Ten,134,0.0134
+##flow,134,0.0134
+##ava,132,0.0132
+real,131,0.0131
+capabilities,128,0.0128
+problem - solving,128,0.0128
+c #,127,0.0127
+multi,127,0.0127
+Elasticsearch,127,0.0127
+modern,126,0.0126
+communication and,126,0.0126
+creative,125,0.0125
+develop and,124,0.0124
+develop,123,0.0123
+innovation,123,0.0123
+environment,123,0.0123
+value,123,0.0123
+customer,122,0.0122
+passionate,122,0.0122
+data management,122,0.0122
+design patterns,121,0.0121
+end,121,0.0121
+lead,121,0.0121
+training,120,0.012
+helping,120,0.012
+statistical,120,0.012
+problem,119,0.0119
+solve,119,0.0119
+languages,118,0.0118
+strategy,118,0.0118
+MapReduce,117,0.0117
+test,117,0.0117
+analytic,117,0.0117
+designing and,116,0.0116
+partner,116,0.0116
+stakeholders,116,0.0116
+needs,115,0.0115
+process,115,0.0115
+", and",115,0.0115
+solving,114,0.0114
+platform,114,0.0114
+Spring Boot,114,0.0114
+large,113,0.0113
+application,113,0.0113
+GraphQL,113,0.0113
+data scientists,113,0.0113
+##ate with cross - functional teams,112,0.0112
+auto,112,0.0112
+identify and,112,0.0112
+collaborative,110,0.011
+##QL,110,0.011
+large - scale system design,109,0.0109
+phd,109,0.0109
+masterâs degree,109,0.0109
+##tive,108,0.0108
+##able,108,0.0108
+work closely with,107,0.0107
+developing and,107,0.0107
+data structures,107,0.0107
+troubles,107,0.0107
+project,106,0.0106
+application development,106,0.0106
+debugging,106,0.0106
+data visualization,105,0.0105
+complex,104,0.0104
+visualization,104,0.0104
+analytical and,103,0.0103
+##sorFlow,103,0.0103
+con,103,0.0103
+governance,102,0.0102
+data storage,102,0.0102
+cross,102,0.0102
+finance,102,0.0102
+##al,101,0.0101
+Pre,101,0.0101
+##ps,100,0.01
+environments,100,0.01
+challenges,100,0.01
+independently,99,0.0099
+innovative,99,0.0099
+Redis,99,0.0099
+documentation,99,0.0099
+model development,98,0.0098
+mobile,98,0.0098
+statistical modeling,98,0.0098
+search,97,0.0097
+help,97,0.0097
+standards,96,0.0096
+industry,96,0.0096
+high,95,0.0095
+Rust,95,0.0095
+database,95,0.0095
+methods,95,0.0095
+insights,95,0.0095
+deploy,94,0.0094
+work closely with cross - functional teams,94,0.0094
+quantitative,94,0.0094
+contributing,93,0.0093
+prototyping,93,0.0093
+linux,93,0.0093
+physics,93,0.0093
+scientists,92,0.0092
+prioriti,92,0.0092
+Causal Inference,92,0.0092
+transformation,92,0.0092
+drive innovation,92,0.0092
+react,91,0.0091
+code reviews,91,0.0091
+libraries,91,0.0091
+Matplotlib,91,0.0091
+growth,90,0.009
+com,90,0.009
+solve complex problems,89,0.0089
+##actively,89,0.0089
+relational databases,89,0.0089
+ci /,89,0.0089
+##yt,88,0.0088
+driving,88,0.0088
+bachelor ' s degree,88,0.0088
+big data technologies,88,0.0088
+DevOps,88,0.0088
+vision,87,0.0087
+delivery,87,0.0087
+supporting,87,0.0087
+information,87,0.0087
+strategic,87,0.0087
+web,87,0.0087
+based,87,0.0087
+"Design,",87,0.0087
+Mathematics,87,0.0087
+shape,86,0.0086
+devops,86,0.0086
+customers,86,0.0086
+. net,86,0.0086
+data processing,85,0.0085
+Data Engineering,85,0.0085
+"develop,",85,0.0085
+##ation,85,0.0085
+deep,84,0.0084
+open,84,0.0084
+XGBoost,84,0.0084
+storage,84,0.0084
+results,84,0.0084
+generative ai,83,0.0083
+users,83,0.0083
+project management,83,0.0083
+cloud computing,82,0.0082
+computer,82,0.0082
+business intelligence,82,0.0082
+work with,82,0.0082
+making,81,0.0081
+problem solving,81,0.0081
+Linear Algebra,81,0.0081
+engineers,81,0.0081
+machine learning algorithms,80,0.008
+Men,80,0.008
+methodologies,80,0.008
+data visualization tools,80,0.008
+bachelorâ,79,0.0079
+CloudFormation,79,0.0079
+hardware,78,0.0078
+advanced,78,0.0078
+user,78,0.0078
+ui design,78,0.0078
+participate,78,0.0078
+leading,78,0.0078
+tuning,78,0.0078
+##y,78,0.0078
+tasks,78,0.0078
+contribute,78,0.0078
+cases,77,0.0077
+Trans,77,0.0077
+data governance,77,0.0077
+data scientist,77,0.0077
+service,76,0.0076
+model deployment,76,0.0076
+microsoft,76,0.0076
+maintenance,76,0.0076
+develop solutions,76,0.0076
+curious,76,0.0076
+visual,76,0.0076
+##WS,76,0.0076
+scaling,75,0.0075
+FastAPI,75,0.0075
+evaluation,75,0.0075
+##lu,75,0.0075
+##ch,75,0.0075
+sales,74,0.0074
+reliability and,74,0.0074
+work independently,74,0.0074
+troubleshooting,74,0.0074
+data structures / algorithms,74,0.0074
+##ment,74,0.0074
+"mathematics,",74,0.0074
+scripting languages,74,0.0074
+attention to detail,73,0.0073
+AI /,73,0.0073
+networking and,73,0.0073
+distributed systems,73,0.0073
+experimentation,73,0.0073
+art,73,0.0073
+economics,73,0.0073
+C + +,73,0.0073
+PL/SQL,73,0.0073
+enterprise,72,0.0072
+technical leadership,72,0.0072
+assist,72,0.0072
+cloud technologies,72,0.0072
+feature engineering,72,0.0072
+define and,71,0.0071
+technical skills,71,0.0071
+identify opportunities,71,0.0071
+innova,71,0.0071
+communicate,71,0.0071
+Spark ML,71,0.0071
+drive new features,71,0.0071
+building models and APIs,71,0.0071
+fast,70,0.007
+networking,70,0.007
+model training,70,0.007
+Eva,70,0.007
+to detail,70,0.007
+Del,70,0.007
+LlamaIndex,69,0.0069
+implementing,69,0.0069
+##b,69,0.0069
+simulation,69,0.0069
+##par,69,0.0069
+PhD,69,0.0069
+##t,68,0.0068
+business needs,68,0.0068
+robotics,68,0.0068
+##tion,68,0.0068
+##ova,68,0.0068
+jira,68,0.0068
+"computer science,",68,0.0068
+information systems,68,0.0068
+##d,67,0.0067
+marketing,67,0.0067
+collaborating,67,0.0067
+provide,67,0.0067
+operations research,67,0.0067
+managing,67,0.0067
+language,66,0.0066
+best,66,0.0066
+##â,66,0.0066
+developing accessible technologies,66,0.0066
+business requirements,66,0.0066
+efficiency,66,0.0066
+pipelines,66,0.0066
+"statistics,",66,0.0066
+##rea,66,0.0066
+back,65,0.0065
+interpersonal skills,65,0.0065
+shaping,65,0.0065
+scripting,65,0.0065
+solve complex business problems,65,0.0065
+Inter,65,0.0065
+hands,64,0.0064
+content,64,0.0064
+front,64,0.0064
+generation,64,0.0064
+maintain,64,0.0064
+fine,64,0.0064
+machine learning models,64,0.0064
+system design,64,0.0064
+Under,64,0.0064
+Learning,64,0.0064
+decisions,64,0.0064
+Oracle,64,0.0064
+Data Factory,64,0.0064
+valid,63,0.0063
+software design and architecture,63,0.0063
+Opti,63,0.0063
+Stay,63,0.0063
+efficient,63,0.0063
+enthusiastic,63,0.0063
+validation,63,0.0063
+machine learning framework,63,0.0063
+designing,62,0.0062
+leverage,62,0.0062
+##cal,62,0.0062
+##er,62,0.0062
+Microsoft,62,0.0062
+##ive,62,0.0062
+life,62,0.0062
+machine learning techniques,62,0.0062
+"analytical,",62,0.0062
+gather requirements,62,0.0062
+warehouse,62,0.0062
+execute,61,0.0061
+edge,61,0.0061
+containerization,61,0.0061
+create,61,0.0061
+self -,61,0.0061
+cybersecurity,61,0.0061
+##I,61,0.0061
+initiatives,61,0.0061
+c / c + +,61,0.0061
+implement,61,0.0061
+##ci,61,0.0061
+providing,61,0.0061
+understand business requirements,61,0.0061
+analyze data,60,0.006
+healthcare,60,0.006
+##ti,60,0.006
+continuous delivery,60,0.006
+##m,59,0.0059
+VMware,59,0.0059
+power,59,0.0059
+solve problems,59,0.0059
+generative a,59,0.0059
+spear,59,0.0059
+features,59,0.0059
+functional,59,0.0059
+patterns,59,0.0059
+mining,59,0.0059
+##ability,59,0.0059
+impact,59,0.0059
+deliver solutions,59,0.0059
+##ython,59,0.0059
+Apache,59,0.0059
+partner with,58,0.0058
+##ion,58,0.0058
+big,58,0.0058
+ETL processes,58,0.0058
+"research,",57,0.0057
+cloud services,57,0.0057
+product management,57,0.0057
+act,57,0.0057
+"identify,",57,0.0057
+sas,57,0.0057
+##ate with stakeholders,57,0.0057
+manage,56,0.0056
+quickly,56,0.0056
+performance tuning,56,0.0056
+##v,56,0.0056
+Part,56,0.0056
+detail - oriented,56,0.0056
+solution,56,0.0056
+Glue,56,0.0056
+Design and,56,0.0056
+network,56,0.0056
+math,55,0.0055
+angular,55,0.0055
+closely,55,0.0055
+s degree in,55,0.0055
+inn,55,0.0055
+##ate with,55,0.0055
+structured,55,0.0055
+"developing,",54,0.0054
+collection,54,0.0054
+Generative AI,54,0.0054
+detail,54,0.0054
+trends,54,0.0054
+Sol,54,0.0054
+and data,54,0.0054
+language models,53,0.0053
+strategies,53,0.0053
+generative,53,0.0053
+writing,53,0.0053
+recommendation systems,53,0.0053
+lead and,53,0.0053
+deliver,53,0.0053
+windows,53,0.0053
+architect,53,0.0053
+neural networks,53,0.0053
+operational,52,0.0052
+principles,52,0.0052
+effective,52,0.0052
+Computer Engineering,52,0.0052
+##a,52,0.0052
+EMR,52,0.0052
+compliance,51,0.0051
+##og,51,0.0051
+control,51,0.0051
+serve,51,0.0051
+##eval,51,0.0051
+performance optimization,51,0.0051
+Analytics,51,0.0051
+work closely,51,0.0051
+data integration,51,0.0051
+reliability,51,0.0051
+predictive modeling,51,0.0051
+##tain and enforce the business contracts,51,0.0051
+top of new technologies,51,0.0051
+systems engineering,50,0.005
+delivering,50,0.005
+##avascript,50,0.005
+##g,50,0.005
+continuous improvement,50,0.005
+##ologies,50,0.005
+source,50,0.005
+critical thinking,50,0.005
+build and,50,0.005
+world,50,0.005
+deep learning framework,50,0.005
+research and,50,0.005
+unit testing,50,0.005
+##cel,50,0.005
+represented and stored,50,0.005
+improve our big data architectures and systems,50,0.005
+conceptual,49,0.0049
+experiences,49,0.0049
+applied,49,0.0049
+transform,49,0.0049
+tech,49,0.0049
+##tes,49,0.0049
+understand requirements,49,0.0049
+outcomes,49,0.0049
+##ec,49,0.0049
+execution,49,0.0049
+que,49,0.0049
+CI / CD,49,0.0049
+Lev,49,0.0049
+##gile methodologies,49,0.0049
+SSIS,49,0.0049
+##cycle,48,0.0048
+algorithms and,48,0.0048
+issues,48,0.0048
+data architecture,48,0.0048
+##ful,48,0.0048
+"testing,",48,0.0048
+microservices,48,0.0048
+the team,48,0.0048
+Degree,48,0.0048
+collaboration skills,48,0.0048
+##ling,48,0.0048
+Analy,48,0.0048
+generative models,47,0.0047
+- edge,47,0.0047
+paced,47,0.0047
+identify,47,0.0047
+bachelorâs,47,0.0047
+creating,47,0.0047
+solve business problems,47,0.0047
+prompt engineering,47,0.0047
+applied mathematics,47,0.0047
+collaborate with stakeholders,47,0.0047
+hands - on,47,0.0047
+understand data requirements,47,0.0047
+##su,47,0.0047
+relational,47,0.0047
+##umpy,46,0.0046
+take,46,0.0046
+actively,46,0.0046
+take on new problems,46,0.0046
+tracking,46,0.0046
+team player,46,0.0046
+##til,46,0.0046
+implement solutions,46,0.0046
+resol,46,0.0046
+perform,46,0.0046
+Support,46,0.0046
+##ka,46,0.0046
+##S,46,0.0046
+improve engagement in existing features,46,0.0046
+delivers analysis,46,0.0046
+##ga,45,0.0045
+##te,45,0.0045
+maintaining,45,0.0045
+"data processing,",45,0.0045
+data and,45,0.0045
+##cikit,45,0.0045
+continuous integration,45,0.0045
+components,45,0.0045
+programs,45,0.0045
+itera,45,0.0045
+understanding,45,0.0045
+collaborating with cross - functional teams,45,0.0045
+problem - solving and,45,0.0045
+##orch,45,0.0045
+##h,44,0.0044
+define,44,0.0044
+accelerate,44,0.0044
+mentorship,44,0.0044
+computing,44,0.0044
+Economics,44,0.0044
+classification,44,0.0044
+opportunities,44,0.0044
+activities,44,0.0044
+forecasting,44,0.0044
+networks,44,0.0044
+##f,44,0.0044
+core,44,0.0044
+extraction,44,0.0044
+data pipelines,44,0.0044
+C #,44,0.0044
+reports,43,0.0043
+##D,43,0.0043
+assisting,43,0.0043
+stack,43,0.0043
+decision,43,0.0043
+"cs,",43,0.0043
+sql ),43,0.0043
+collaborating with,43,0.0043
+organized,43,0.0043
+secure,43,0.0043
+##gra,43,0.0043
+programming language,43,0.0043
+NoSQL databases,43,0.0043
+use cases,42,0.0042
+user experience,42,0.0042
+Google Analytics,42,0.0042
+distributed,42,0.0042
+##acle,42,0.0042
+flexible,42,0.0042
+##fka,42,0.0042
+##cript,42,0.0042
+problem solve,42,0.0042
+detection,42,0.0042
+parsing,42,0.0042
+Science,42,0.0042
+clearly,42,0.0042
+"Computer Science,",42,0.0042
+administration,42,0.0042
+building and,42,0.0042
+project managers,42,0.0042
+Infrastructure,42,0.0042
+streamline,41,0.0041
+managers,41,0.0041
+node. js,41,0.0041
+python programming,41,0.0041
+curiosity,41,0.0041
+software design,41,0.0041
+mentor and,41,0.0041
+organizational skills,41,0.0041
+micro,40,0.004
+object detection,40,0.004
+cloud infrastructure,40,0.004
+Cloud,40,0.004
+creativity,40,0.004
+jax,40,0.004
+configuration,40,0.004
+communicate effectively,40,0.004
+automated,40,0.004
+continuous,40,0.004
+leadership qualities,40,0.004
+data systems,40,0.004
+orchestration,40,0.004
+communication and collaboration skills,40,0.004
+hypothesis testing,40,0.004
+building data pipelines,40,0.004
+##cks,40,0.004
+and written communication skills,40,0.004
+of data,40,0.004
+Synapse,40,0.004
+program,39,0.0039
+Neo4j,39,0.0039
+Doc,39,0.0039
+building models,39,0.0039
+business application,39,0.0039
+community,39,0.0039
+key,39,0.0039
+efficiently,39,0.0039
+lifecycle,39,0.0039
+method,39,0.0039
+manufacturing,39,0.0039
+applying,39,0.0039
+business analytics,39,0.0039
+review,39,0.0039
+customer needs,39,0.0039
+influence,39,0.0039
+##uni,39,0.0039
+version control systems,39,0.0039
+functions,38,0.0038
+software architecture,38,0.0038
+think,38,0.0038
+##ia,38,0.0038
+predict,38,0.0038
+"ce,",38,0.0038
+high - performance computing,38,0.0038
+text,38,0.0038
+workflow,38,0.0038
+Over,38,0.0038
+dashboards,38,0.0038
+##eve,38,0.0038
+##less,38,0.0038
+formula,38,0.0038
+##gu,38,0.0038
+program management,38,0.0038
+Plotly,38,0.0038
+visualizations,38,0.0038
+"engineering,",37,0.0037
+visualization tools,37,0.0037
+workload,37,0.0037
+global,37,0.0037
+document,37,0.0037
+product development,37,0.0037
+customer experience,37,0.0037
+frameworks,37,0.0037
+containerization technologies,37,0.0037
+##ms,37,0.0037
+maxi,37,0.0037
+utilize,37,0.0037
+building machine learning models,37,0.0037
+financial,37,0.0037
+manipulation,37,0.0037
+multiple,37,0.0037
+Auto,37,0.0037
+##O,37,0.0037
+s Degree,37,0.0037
+translate,37,0.0037
+Data Lake,37,0.0037
+enhance,36,0.0036
+concepts,36,0.0036
+post,36,0.0036
+c /,36,0.0036
+model evaluation,36,0.0036
+ml infrastructure,36,0.0036
+full,36,0.0036
+build solutions,36,0.0036
+fast - paced,36,0.0036
+predictive analytics,36,0.0036
+create and,36,0.0036
+analyze,36,0.0036
+collaborate closely with,36,0.0036
+cult,36,0.0036
+a team,36,0.0036
+data engineers,36,0.0036
+##bu,36,0.0036
+"react,",36,0.0036
+##cikit - learn,36,0.0036
+programming skills,36,0.0036
+NoSQL,36,0.0036
+batch,36,0.0036
+sources,36,0.0036
+data collection,36,0.0036
+configu,36,0.0036
+versioning,36,0.0036
+requirements gathering,36,0.0036
+CI / CD pipeline,36,0.0036
+leadership skills,35,0.0035
+participate in code reviews,35,0.0035
+driving innovation,35,0.0035
+customer service,35,0.0035
+##M,35,0.0035
+unlock,35,0.0035
+reviews,35,0.0035
+Google,35,0.0035
+numerical optimization,35,0.0035
+explore,35,0.0035
+developers,35,0.0035
+expertise,35,0.0035
+structures,35,0.0035
+server,35,0.0035
+recommendation,35,0.0035
+"planning,",35,0.0035
+resources,35,0.0035
+##sta,35,0.0035
+idea,35,0.0035
+plan,35,0.0035
+coding standards,35,0.0035
+spring,35,0.0035
+##sets,35,0.0035
+", data",35,0.0035
+Databri,35,0.0035
+use data,35,0.0035
+work effectively in a team environment,34,0.0034
+field,34,0.0034
+solving problems,34,0.0034
+thinking,34,0.0034
+workflows,34,0.0034
+collaborate and,34,0.0034
+advance,34,0.0034
+rest,34,0.0034
+clients,34,0.0034
+##it,34,0.0034
+fine - tuning,34,0.0034
+##n,34,0.0034
+goals,34,0.0034
+##tri,34,0.0034
+##tin,34,0.0034
+scalability,34,0.0034
+tensorflow ),34,0.0034
+updated,34,0.0034
+data quality,34,0.0034
+acquisition,34,0.0034
+signal processing,34,0.0034
+culture,34,0.0034
+mapping,34,0.0034
+##mp,34,0.0034
+emerging technologies,34,0.0034
+Snowf,34,0.0034
+learn new technologies,34,0.0034
+Communication,34,0.0034
+##lytics,34,0.0034
+##tics,34,0.0034
+optimize business processes,34,0.0034
+super,33,0.0033
+advancing,33,0.0033
+experiment,33,0.0033
+understand,33,0.0033
+efforts,33,0.0033
+teamwork,33,0.0033
+##tive a,33,0.0033
+##calability,33,0.0033
+"##hd,",33,0.0033
+quality assurance,33,0.0033
+clustering,33,0.0033
+chain,33,0.0033
+cross -,33,0.0033
+understand business needs,33,0.0033
+and software,33,0.0033
+Ser,33,0.0033
+##es,33,0.0033
+debu,33,0.0033
+##ry,33,0.0033
+apply,33,0.0033
+risk management,33,0.0033
+financial services,33,0.0033
+open source,33,0.0033
+Physics,33,0.0033
+success,33,0.0033
+level,33,0.0033
+data - driven,33,0.0033
+data querying languages,33,0.0033
+data manipulation,33,0.0033
+functional teams,32,0.0032
+resolve issues,32,0.0032
+focused,32,0.0032
+rdbms,32,0.0032
+snow,32,0.0032
+##ubernetes,32,0.0032
+operating systems,32,0.0032
+##ing and,32,0.0032
+collaborate closely with cross - functional teams,32,0.0032
+provide technical leadership,32,0.0032
+safe,32,0.0032
+##l models,32,0.0032
+dynamic,32,0.0032
+staff,32,0.0032
+database management,32,0.0032
+database design,32,0.0032
+scalable,32,0.0032
+comply,32,0.0032
+supervised,32,0.0032
+deliverables,32,0.0032
+"communication,",32,0.0032
+analyzing large datasets,32,0.0032
+Athena,32,0.0032
+oracle,32,0.0032
+the organization,32,0.0032
+drive efficiencies,32,0.0032
+##pi,31,0.0031
+real -,31,0.0031
+utilizing,31,0.0031
+Collabor,31,0.0031
+##ers,31,0.0031
+setting technical direction,31,0.0031
+##âs degree,31,0.0031
+##A,31,0.0031
+sentiment analysis,31,0.0031
+red,31,0.0031
+fine -,31,0.0031
+custom,31,0.0031
+rag,31,0.0031
+rapidly,31,0.0031
+"analyze,",31,0.0031
+datasets,31,0.0031
+##urity,31,0.0031
+##e,31,0.0031
+stream,31,0.0031
+##fi,31,0.0031
+understand and,31,0.0031
+##ference,31,0.0031
+develop reports,31,0.0031
+Information Systems,31,0.0031
+##ware,30,0.003
+"performance,",30,0.003
+##ic,30,0.003
+learning new technologies,30,0.003
+craft,30,0.003
+masterâ,30,0.003
+consulting,30,0.003
+fraud detection,30,0.003
+low,30,0.003
+leading project teams,30,0.003
+data structures or algorithms,30,0.003
+##ting,30,0.003
+API,30,0.003
+personalization,30,0.003
+analyze and,30,0.003
+##i /,30,0.003
+client,30,0.003
+RDS,30,0.003
+inference,30,0.003
+fac,30,0.003
+inter,30,0.003
+state,30,0.003
+release,30,0.003
+Work closely with,30,0.003
+Dep,30,0.003
+initiative,30,0.003
+sprint planning,30,0.003
+behavior,30,0.003
+working with,30,0.003
+specifications,30,0.003
+backend,30,0.003
+nosql,30,0.003
+source control management,30,0.003
+extract,30,0.003
+communications,30,0.003
+orchestra,30,0.003
+serving,30,0.003
+end - to,30,0.003
+improvement,30,0.003
+approaches,30,0.003
+support data - driven decision - making processes,30,0.003
+gather and analyze data,30,0.003
+interfaces,29,0.0029
+architect and,29,0.0029
+"data structures,",29,0.0029
+Partner,29,0.0029
+identify opportunities for optimization,29,0.0029
+fine tuning,29,0.0029
+##ign,29,0.0029
+##r,29,0.0029
+bachelor ' s,29,0.0029
+web services,29,0.0029
+reliable,29,0.0029
+oriented,29,0.0029
+##ve,29,0.0029
+adapt,29,0.0029
+internal,29,0.0029
+net,29,0.0029
+##pis,29,0.0029
+object - oriented programming,29,0.0029
+domain,29,0.0029
+##P,29,0.0029
+continuous learning,29,0.0029
+configuration management,29,0.0029
+##ate,29,0.0029
+advanced analytics,29,0.0029
+improving,29,0.0029
+object,29,0.0029
+critical,29,0.0029
+supply chain,29,0.0029
+access,29,0.0029
+##ies,29,0.0029
+##mu,29,0.0029
+data stack,29,0.0029
+assists,29,0.0029
+provide insights,29,0.0029
+A / B testing methodologies,29,0.0029
+##p models and algorithms,29,0.0029
+provide customized solutions,29,0.0029
+and existing systems,28,0.0028
+controls,28,0.0028
+implement and,28,0.0028
+information security,28,0.0028
+"##ws,",28,0.0028
+GPT,28,0.0028
+blockchain,28,0.0028
+"development,",28,0.0028
+health,28,0.0028
+metrics,28,0.0028
+"security,",28,0.0028
+vector databases,28,0.0028
+plans,28,0.0028
+##aging,28,0.0028
+##era,28,0.0028
+engagement,28,0.0028
+understand client needs,28,0.0028
+guide,28,0.0028
+business objectives,28,0.0028
+meetings,28,0.0028
+current,28,0.0028
+integrate,28,0.0028
+mentoring,28,0.0028
+cloud environments,28,0.0028
+discovery,28,0.0028
+##uous,28,0.0028
+##work,28,0.0028
+data transformation,28,0.0028
+landscape,28,0.0028
+automated testing,28,0.0028
+"python,",28,0.0028
+statistical techniques,28,0.0028
+grow,28,0.0028
+solving complex problems,28,0.0028
+oversight,28,0.0028
+data warehouses,28,0.0028
+##vide mentorship,28,0.0028
+Extra,28,0.0028
+xml,28,0.0028
+"Java,",28,0.0028
+predictive,28,0.0028
+"##age data collection, cleansing, and manipulation processes",28,0.0028
+ensure data is readily accessible and easy,28,0.0028
+analyzing and interpreting large datasets,28,0.0028
+analyzing large and complex datasets,28,0.0028
+highlighting key findings and recommendations,28,0.0028
+valuable insights and recommendations,28,0.0028
+##e and present data - driven reports and insights to stakeholders,28,0.0028
+"improve data integrity, accuracy, and completeness",28,0.0028
+statistical techniques and tools,28,0.0028
+##ify data quality issues,28,0.0028
+identify business questions,28,0.0028
+a competitive edge,28,0.0028
+business impact,27,0.0027
+script,27,0.0027
+generative AI,27,0.0027
+developing solutions,27,0.0027
+tensor,27,0.0027
+existing,27,0.0027
+scientific,27,0.0027
+##h. d,27,0.0027
+emerging,27,0.0027
+break down technical problems,27,0.0027
+analyze large datasets,27,0.0027
+engage,27,0.0027
+##ping,27,0.0027
+product managers,27,0.0027
+##pp,27,0.0027
+google,27,0.0027
+##cp,27,0.0027
+scal,27,0.0027
+handling,27,0.0027
+pyt,27,0.0027
+streaming,27,0.0027
+* *,27,0.0027
+cyber security,27,0.0027
+DataOps,27,0.0027
+cleaning,27,0.0027
+cutting - edge projects,27,0.0027
+##est,27,0.0027
+SAS,27,0.0027
+improve our,27,0.0027
+and safety,27,0.0027
+TDD,27,0.0027
+data exploration,27,0.0027
+"##p, maintain and analyze performance metrics and reports",27,0.0027
+##sh,26,0.0026
+account,26,0.0026
+solution design,26,0.0026
+monitor,26,0.0026
+various,26,0.0026
+"architect,",26,0.0026
+switch teams,26,0.0026
+standard,26,0.0026
+Python programming,26,0.0026
+entrepreneurial,26,0.0026
+##calable,26,0.0026
+##sp,26,0.0026
+gathering,26,0.0026
+ensure compliance,26,0.0026
+collaborate with cross -,26,0.0026
+- based,26,0.0026
+creation,26,0.0026
+technical expertise,26,0.0026
+- driven,26,0.0026
+design solutions,26,0.0026
+identifying and,26,0.0026
+duties,26,0.0026
+machine learning engineering,26,0.0026
+regression,26,0.0026
+develop innovative solutions,26,0.0026
+Partner with,26,0.0026
+Gene,26,0.0026
+##rs,26,0.0026
+problem - solve,26,0.0026
+segmentation,26,0.0026
+##ating with,26,0.0026
+unit,26,0.0026
+AWS services,26,0.0026
+dash,26,0.0026
+##mizing,26,0.0026
+##imation,26,0.0026
+Kinesis,26,0.0026
+##mbda,26,0.0026
+Code,26,0.0026
+ETL tools,26,0.0026
+- time and batch,26,0.0026
+"Design, develop and deliver data products to production",26,0.0026
+"share,",26,0.0026
+working with data ops at,26,0.0026
+implementation of pipelines,26,0.0026
+identification of infrastructure components,26,0.0026
+AI - centric features,26,0.0026
+##L data pipeline,26,0.0026
+"/ notifications,",26,0.0026
+ML Data OPs,26,0.0026
+##ve technical problems,26,0.0026
+streamline how,26,0.0026
+- range,26,0.0026
+business stakeholders,25,0.0025
+unix,25,0.0025
+documents,25,0.0025
+build processes,25,0.0025
+business processes,25,0.0025
+analyzing data,25,0.0025
+work ethic,25,0.0025
+cutting edge technology,25,0.0025
+web search,25,0.0025
+foundation models,25,0.0025
+"working in a complex, matrixed organization",25,0.0025
+"testing, maintaining, or launching software products",25,0.0025
+privacy,25,0.0025
+solve real - world problems,25,0.0025
+##ux,25,0.0025
+Lea,25,0.0025
+##ses,25,0.0025
+##T,25,0.0025
+mathematical,25,0.0025
+procedures,25,0.0025
+##ac,25,0.0025
+##ecurity,25,0.0025
+innovate,25,0.0025
+versatile,25,0.0025
+defining,25,0.0025
+passion,25,0.0025
+collaborate with teams,25,0.0025
+ownership,25,0.0025
+recommender systems,25,0.0025
+switch teams and projects,25,0.0025
+collaborate with data scientists,25,0.0025
+computer architecture,25,0.0025
+##ytorch,25,0.0025
+##tegra,25,0.0025
+safety,25,0.0025
+data models,25,0.0025
+scheduling,25,0.0025
+##lake,25,0.0025
+queries,25,0.0025
+and deployment,25,0.0025
+cd pipelines,25,0.0025
+interact,25,0.0025
+translate them into technical solutions,25,0.0025
+##boards,25,0.0025
+business value,25,0.0025
+new and existing systems,25,0.0025
+nosql databases,25,0.0025
+maintain code quality,25,0.0025
+Effect,25,0.0025
+team leadership,25,0.0025
+migration,25,0.0025
+the software platform,25,0.0025
+software engineering principles,25,0.0025
+##bri,25,0.0025
+mathematical software,25,0.0025
+problem - solving abilities,25,0.0025
+analytical mindset,25,0.0025
+variety,25,0.0025
+edge real -,25,0.0025
+Moving implementation,25,0.0025
+achieve high quality and reliability,25,0.0025
+time streaming technologies,25,0.0025
+s or,25,0.0025
+and policies,25,0.0025
+"Design, develop and deliver data products to",25,0.0025
+high - scale data,25,0.0025
+deliver analysis,25,0.0025
+and batch,25,0.0025
+engagement in existing,25,0.0025
+"the scale, performance, and capabilities",25,0.0025
+##pose ideas,25,0.0025
+"##fine and extend our internal standards for style, maintenance, and best practices",25,0.0025
+with our,25,0.0025
+Data Analysis,25,0.0025
+provide actionable insights,25,0.0025
+Machine,25,0.0025
+deploying,24,0.0024
+ai /,24,0.0024
+##co,24,0.0024
+concept,24,0.0024
+integrity,24,0.0024
+masters,24,0.0024
+active,24,0.0024
+##or,24,0.0024
+on new problems,24,0.0024
+##tor,24,0.0024
+business development,24,0.0024
+parallel and,24,0.0024
+digital,24,0.0024
+##ogle,24,0.0024
+json,24,0.0024
+ecosystem,24,0.0024
+##form,24,0.0024
+present findings,24,0.0024
+development of,24,0.0024
+starter,24,0.0024
+partners,24,0.0024
+##up,24,0.0024
+##ized,24,0.0024
+Electrical Engineering,24,0.0024
+JSON,24,0.0024
+web development,24,0.0024
+data platforms,24,0.0024
+##gging,24,0.0024
+decision - making,24,0.0024
+verbal and written communication skills,24,0.0024
+care,24,0.0024
+pattern recognition,24,0.0024
+large - scale,24,0.0024
+human,24,0.0024
+tests,24,0.0024
+##cessing,24,0.0024
+##ries,24,0.0024
+self - starter,24,0.0024
+ml framework,24,0.0024
+feedback,24,0.0024
+##vide,24,0.0024
+deliver high quality solutions,24,0.0024
+Operations Research,24,0.0024
+insurance,24,0.0024
+statistical methods,24,0.0024
+lead a team,24,0.0024
+"define,",24,0.0024
+consumer,24,0.0024
+conduct,24,0.0024
+Work with,24,0.0024
+messaging,24,0.0024
+matter,24,0.0024
+risk,24,0.0024
+MLO,24,0.0024
+Writing tests,24,0.0024
+provide productive feedback,24,0.0024
+"##ify new opportunities, tools, and services",24,0.0024
+recommend corrective actions,24,0.0024
+##pate in detailed technical design sessions,24,0.0024
+"identify the root cause,",24,0.0024
+keeping up with the latest technologies and practices,24,0.0024
+Spark development,24,0.0024
+empathizing with client goals,24,0.0024
+building Restful APIs,24,0.0024
+television advertising,24,0.0024
+##elop new and enhance existing application services,24,0.0024
+Support and troubleshoot issues,24,0.0024
+Scala 2,24,0.0024
+developing clean and maintainable code,24,0.0024
+Looker,24,0.0024
+presentation,24,0.0024
+##put,24,0.0024
+drive data - driven decision - making,24,0.0024
+"uncover trends, opportunities, and insights",24,0.0024
+##ft,23,0.0023
+supervision,23,0.0023
+data sets,23,0.0023
+commu,23,0.0023
+"testing, and launching software products",23,0.0023
+##se,23,0.0023
+"multi - modal,",23,0.0023
+##time,23,0.0023
+"classification,",23,0.0023
+developing and implementing machine learning models,23,0.0023
+data security,23,0.0023
+"java,",23,0.0023
+apis,23,0.0023
+energetic,23,0.0023
+understand project requirements,23,0.0023
+salesforce,23,0.0023
+usa,23,0.0023
+Act,23,0.0023
+' s,23,0.0023
+dedicated,23,0.0023
+collaborate with team members,23,0.0023
+rapid,23,0.0023
+microso,23,0.0023
+hands -,23,0.0023
+business analysis,23,0.0023
+. net core,23,0.0023
+##ria,23,0.0023
+operational stability,23,0.0023
+enable,23,0.0023
+company,23,0.0023
+database technologies,23,0.0023
+presentation skills,23,0.0023
+independent,23,0.0023
+resolution,23,0.0023
+Spa,23,0.0023
+Trouble,23,0.0023
+building and pioneering in the technology space,23,0.0023
+driving a major transformation,23,0.0023
+analysts,23,0.0023
+##esign,23,0.0023
+enabling,23,0.0023
+lake,23,0.0023
+ML Op,23,0.0023
+monitor data pipelines,23,0.0023
+uncovering insights,23,0.0023
+SSRS,23,0.0023
+or no side - effects,23,0.0023
+running spark jobs on ephemeral EMR clusters,23,0.0023
+Self - directed,23,0.0023
+##stand and adapt to our,23,0.0023
+and non - relation,23,0.0023
+develop relationships,23,0.0023
+' s evolving business requirements,23,0.0023
+creating well - architected solutions containing thoroughly tested code,23,0.0023
+HDFS,23,0.0023
+shape product development,23,0.0023
+help to,23,0.0023
+bachelors degree,23,0.0023
+industry trends,22,0.0022
+advancement,22,0.0022
+electrical,22,0.0022
+accuracy,22,0.0022
+manage and,22,0.0022
+##so,22,0.0022
+##lops,22,0.0022
+##ity,22,0.0022
+"math,",22,0.0022
+relationships,22,0.0022
+work with stakeholders,22,0.0022
+informed decisions,22,0.0022
+conduct experiments,22,0.0022
+others,22,0.0022
+researching and,22,0.0022
+integrating,22,0.0022
+##o,22,0.0022
+Colla,22,0.0022
+image processing,22,0.0022
+cross - business projects,22,0.0022
+confluence,22,0.0022
+RAG,22,0.0022
+clean,22,0.0022
+evaluate and,22,0.0022
+responsible,22,0.0022
+talented,22,0.0022
+enhancing,22,0.0022
+##te and,22,0.0022
+mac,22,0.0022
+network security,22,0.0022
+business problems,22,0.0022
+successfully,22,0.0022
+conduct research,22,0.0022
+objectives,22,0.0022
+##che,22,0.0022
+new technologies,22,0.0022
+##uously,22,0.0022
+##ys,22,0.0022
+machine learning algorithms and tools,22,0.0022
+openshift,22,0.0022
+ruby,22,0.0022
+devices,22,0.0022
+tackle,22,0.0022
+organizational,22,0.0022
+non,22,0.0022
+data infrastructure,22,0.0022
+##rnetes,22,0.0022
+flows,22,0.0022
+communicator,22,0.0022
+Linux,22,0.0022
+GPU,22,0.0022
+organization,22,0.0022
+statistical models,22,0.0022
+warehouses,22,0.0022
+metric,22,0.0022
+support the,22,0.0022
+create solutions,22,0.0022
+marrying data with emerging technologies,22,0.0022
+support and,22,0.0022
+analyses,22,0.0022
+experiments,22,0.0022
+anti,22,0.0022
+participating,22,0.0022
+"##ing,",22,0.0022
+equipment,22,0.0022
+##zation,22,0.0022
+using data,22,0.0022
+##ws services,22,0.0022
+data lake,22,0.0022
+"##ting, designing, and deploying ETL and ELT flows for consuming from third party data sources",22,0.0022
+Building the tools,22,0.0022
+##ating with data scientists,22,0.0022
+##ving data quality and performance issues,22,0.0022
+"deploy, monitor, and maintain Machine Learning models in a production environment",22,0.0022
+##L tools,22,0.0022
+ensuring consistent and seamless model,22,0.0022
+and roll -,22,0.0022
+##aC,22,0.0022
+##ating with software and data engineers,22,0.0022
+performing troubleshooting and debugging,22,0.0022
+Leading the integration of Machine Learning models,22,0.0022
+understand data needs,22,0.0022
+drive business decisions,22,0.0022
+SQL ),22,0.0022
+Internet,22,0.0022
+cloud analytics,22,0.0022
+Power,22,0.0022
+software development life cycle,21,0.0021
+stay,21,0.0021
+"business,",21,0.0021
+monitor and,21,0.0021
+##SQL,21,0.0021
+lead projects,21,0.0021
+"model evaluation, optimization,",21,0.0021
+Finance,21,0.0021
+object - oriented design,21,0.0021
+positive,21,0.0021
+analyzing and,21,0.0021
+"lead,",21,0.0021
+requirements analysis,21,0.0021
+data lakes,21,0.0021
+"build,",21,0.0021
+##hd degree,21,0.0021
+##roid,21,0.0021
+mentor junior engineers,21,0.0021
+team members,21,0.0021
+and machine,21,0.0021
+##ize,21,0.0021
+identify areas for improvement,21,0.0021
+"debugging,",21,0.0021
+"manage project priorities, deadlines, and deliverables",21,0.0021
+audit,21,0.0021
+##as,21,0.0021
+"collect,",21,0.0021
+retail,21,0.0021
+##ual,21,0.0021
+common,21,0.0021
+language processing,21,0.0021
+"machine learning,",21,0.0021
+mini,21,0.0021
+sets,21,0.0021
+exploration,21,0.0021
+proactively,21,0.0021
+policies,21,0.0021
+innovative solutions,21,0.0021
+writing and,21,0.0021
+write code,21,0.0021
+demonstrate,21,0.0021
+algorithm development,21,0.0021
+##gile development,21,0.0021
+recognition,21,0.0021
+evaluate,21,0.0021
+"networking,",21,0.0021
+PyT,21,0.0021
+scientist,21,0.0021
+cycle,21,0.0021
+data sources,21,0.0021
+developer,21,0.0021
+deliver robust cloud - based solutions,21,0.0021
+participating in internal & external technology communities,21,0.0021
+build models,21,0.0021
+problem solving skills,21,0.0021
+Salesforce,21,0.0021
+Lead,21,0.0021
+cloud architecture,21,0.0021
+##uild,21,0.0021
+complete,21,0.0021
+the business,21,0.0021
+product owners,21,0.0021
+biology,21,0.0021
+T - SQL,21,0.0021
+Flink,21,0.0021
+build credibility through structure and clarity,21,0.0021
+shape the future of people - facing and business -,21,0.0021
+"licensing,",21,0.0021
+low latency,21,0.0021
+"Statistics,",21,0.0021
+vulnerability management,21,0.0021
+assessment,21,0.0021
+execute A / B tests and experiments,21,0.0021
+translate them into data and analysis requirements,21,0.0021
+work closely with stakeholders,20,0.002
+run,20,0.002
+##tech,20,0.002
+ass,20,0.002
+improvements,20,0.002
+antici,20,0.002
+forward,20,0.002
+ML framework,20,0.002
+interface,20,0.002
+feature delivery,20,0.002
+lead efforts,20,0.002
+collaborate closely,20,0.002
+scripts,20,0.002
+resolve,20,0.002
+assessments,20,0.002
+mit,20,0.002
+troubleshoot issues,20,0.002
+"architecture,",20,0.002
+embedded systems,20,0.002
+forecast,20,0.002
+deep learning models,20,0.002
+flask,20,0.002
+authentication,20,0.002
+managing and,20,0.002
+work independently and as part of a team,20,0.002
+building solutions,20,0.002
+loading,20,0.002
+written,20,0.002
+test automation,20,0.002
+york,20,0.002
+market,20,0.002
+##labor,20,0.002
+feature,20,0.002
+cross - functional collaboration,20,0.002
+"analysis,",20,0.002
+video,20,0.002
+construction,20,0.002
+assurance,20,0.002
+##ro,20,0.002
+cloud technology,20,0.002
+cost,20,0.002
+machine learning concepts,20,0.002
+diag,20,0.002
+banking,20,0.002
+performing,20,0.002
+Applied Mathematics,20,0.002
+algorithm,20,0.002
+databri,20,0.002
+identifies hidden problems and patterns in data,20,0.002
+"data science,",20,0.002
+SQL /,20,0.002
+staying on top of tech trends,20,0.002
+working closely with,20,0.002
+general,20,0.002
+APIs,20,0.002
+##rating,20,0.002
+##gile development methodologies,20,0.002
+make recommendations,20,0.002
+computational,20,0.002
+clear,20,0.002
+word,20,0.002
+snowf,20,0.002
+understand their data needs,20,0.002
+"plan,",20,0.002
+"physics,",20,0.002
+Talend,20,0.002
+Factory,20,0.002
+Big,20,0.002
+ing,20,0.002
+data platform,20,0.002
+real - time streaming technologies,20,0.002
+"present data,",20,0.002
+and adjustments,20,0.002
+streaming processes,20,0.002
+perform hands - on delivery of data analytics projects,20,0.002
+support data visualizations and integrations,20,0.002
+applicable programming languages,20,0.002
+Designs and implements best in class data ingestion strategies,20,0.002
+##rites code using multiple languages,20,0.002
+semantic layers and models,20,0.002
+implementation of data governance programs and best practices,20,0.002
+data warehouse and,20,0.002
+##ps methodologies on projects,20,0.002
+##rites custom integration logic,20,0.002
+"##ivers high - performance, scalable, repeatable, and secure deliverables",20,0.002
+mart structures,20,0.002
+project est,20,0.002
+RPA ),20,0.002
+"correctly applies frameworks, architectural",20,0.002
+Listens to client needs,20,0.002
+performs performance tuning and optimization efforts of end - to - end solutions,20,0.002
+##ments models,20,0.002
+work breakdown structure creation,20,0.002
+##ign solution with business requirements and delivery schedule,20,0.002
+"##Ops,",20,0.002
+providing aggregated project status for project and program managers,20,0.002
+the cleaning and transforming of data from source systems into analytics models,20,0.002
+with SLA compliance of solutions,20,0.002
+oversee team ( s,20,0.002
+API integrations,20,0.002
+development principles,20,0.002
+##reates written functional and technical designs,20,0.002
+in project status and stand meetings,20,0.002
+automation (,20,0.002
+resource staff,20,0.002
+the development and unit testing of solutions,20,0.002
+quantitative field,20,0.002
+ai models,19,0.0019
+leaders,19,0.0019
+task,19,0.0019
+##in,19,0.0019
+"identify trends, patterns, and insights",19,0.0019
+skilled,19,0.0019
+change,19,0.0019
+GenAI,19,0.0019
+set,19,0.0019
+React,19,0.0019
+decision trees,19,0.0019
+language modeling,19,0.0019
+critical thinking skills,19,0.0019
+backend development,19,0.0019
+actionable insights,19,0.0019
+hard,19,0.0019
+document and,19,0.0019
+artificial,19,0.0019
+leveraging data,19,0.0019
+ranking,19,0.0019
+troubleshooting skills,19,0.0019
+ios,19,0.0019
+people,19,0.0019
+##ili,19,0.0019
+Word,19,0.0019
+recommend,19,0.0019
+growing,19,0.0019
+django,19,0.0019
+computational biology,19,0.0019
+generate insights,19,0.0019
+schedule,19,0.0019
+robust,19,0.0019
+identifying opportunities,19,0.0019
+work with cross - functional teams,19,0.0019
+media,19,0.0019
+solving challenging problems,19,0.0019
+software engineers,19,0.0019
+embedded,19,0.0019
+web applications,19,0.0019
+web technologies,19,0.0019
+##itive,19,0.0019
+and verbal communication skills,19,0.0019
+collaboration and,19,0.0019
+improve performance,19,0.0019
+time series analysis,19,0.0019
+judgment,19,0.0019
+Art,19,0.0019
+- scale,19,0.0019
+##vise,19,0.0019
+researchers,19,0.0019
+working closely,19,0.0019
+anomaly detection,19,0.0019
+"data,",19,0.0019
+##ance,19,0.0019
+scripting language,19,0.0019
+collaborate with the,19,0.0019
+preparation,19,0.0019
+data preparation,19,0.0019
+prediction,19,0.0019
+ELT,19,0.0019
+verification,19,0.0019
+closely with,19,0.0019
+produces architecture and design artifacts for complex applications,19,0.0019
+rag ),19,0.0019
+with cross - functional teams,19,0.0019
+distributed microservices,19,0.0019
+Docume,19,0.0019
+optimize,19,0.0019
+and tools,19,0.0019
+excellence,19,0.0019
+system administration,19,0.0019
+cutting,19,0.0019
+"##s,",19,0.0019
+multi -,19,0.0019
+remote,19,0.0019
+cross - functional teams,19,0.0019
+natural,19,0.0019
+quant,19,0.0019
+##st,19,0.0019
+operating,19,0.0019
+measurement,19,0.0019
+sqs,19,0.0019
+econometrics,19,0.0019
+installation,19,0.0019
+Det,19,0.0019
+##au,19,0.0019
+ETL /,19,0.0019
+data extraction,19,0.0019
+"coding,",19,0.0019
+##formatica,19,0.0019
+regulations,19,0.0019
+##lyze large data sets,19,0.0019
+"critical thinking, and",19,0.0019
+developing machine learning models,19,0.0019
+work cross - functionally,18,0.0018
+push,18,0.0018
+basic,18,0.0018
+flow,18,0.0018
+designs,18,0.0018
+road,18,0.0018
+large vision models,18,0.0018
+technology du,18,0.0018
+"cross - functional, and",18,0.0018
+Lang,18,0.0018
+self - driven,18,0.0018
+think beyond routine or conventional approaches,18,0.0018
+##bility,18,0.0018
+dock,18,0.0018
+ETL development,18,0.0018
+work in a fast - paced environment,18,0.0018
+guide teams,18,0.0018
+"researching,",18,0.0018
+complexity,18,0.0018
+available,18,0.0018
+##ord,18,0.0018
+structure,18,0.0018
+roadmap,18,0.0018
+##low,18,0.0018
+public,18,0.0018
+##3,18,0.0018
+government,18,0.0018
+front - end,18,0.0018
+##ma,18,0.0018
+production environments,18,0.0018
+ensure code quality,18,0.0018
+"angular,",18,0.0018
+software development lifecycle,18,0.0018
+##ed,18,0.0018
+##ous,18,0.0018
+transforming,18,0.0018
+facilitate,18,0.0018
+##ate closely with,18,0.0018
+stay updated,18,0.0018
+analytical and problem - solving skills,18,0.0018
+English,18,0.0018
+##per,18,0.0018
+tooling,18,0.0018
+leader,18,0.0018
+decision making,18,0.0018
+full - stack development,18,0.0018
+technically,18,0.0018
+display,18,0.0018
+establish and,18,0.0018
+warehousing,18,0.0018
+develop insights,18,0.0018
+understand their needs,18,0.0018
+cloud - based,18,0.0018
+data cleaning,18,0.0018
+design and deliver trusted market - leading technology products,18,0.0018
+augmented generation,18,0.0018
+travel,18,0.0018
+direction,18,0.0018
+perl,18,0.0018
+firm,18,0.0018
+conduct code reviews,18,0.0018
+smart,18,0.0018
+- on,18,0.0018
+operation,18,0.0018
+BI tools,18,0.0018
+large datasets,18,0.0018
+technical support,18,0.0018
+##ql,18,0.0018
+quantitative analysis,18,0.0018
+PowerPoint,18,0.0018
+large scale,18,0.0018
+##vesti,18,0.0018
+##cala,18,0.0018
+##izations,18,0.0018
+##house,18,0.0018
+data wrangling,18,0.0018
+"html,",18,0.0018
+##reate,17,0.0017
+findings,17,0.0017
+Business,17,0.0017
+prioritization,17,0.0017
+##vid,17,0.0017
+launch,17,0.0017
+- generation technologies,17,0.0017
+defining and,17,0.0017
+lead the,17,0.0017
+##bugging,17,0.0017
+revolution,17,0.0017
+series,17,0.0017
+data preprocessing,17,0.0017
+transformer,17,0.0017
+source control,17,0.0017
+##cs,17,0.0017
+encryption,17,0.0017
+##hoot and,17,0.0017
+propose solutions,17,0.0017
+champion,17,0.0017
+leveraging,17,0.0017
+text generation,17,0.0017
+nlp ),17,0.0017
+"algorithms,",17,0.0017
+what,17,0.0017
+image,17,0.0017
+development and,17,0.0017
+consistently,17,0.0017
+effectiveness,17,0.0017
+PhD in,17,0.0017
+risks,17,0.0017
+entity recognition,17,0.0017
+firmware,17,0.0017
+"regression,",17,0.0017
+employees,17,0.0017
+- time,17,0.0017
+interpersonal,17,0.0017
+tools and,17,0.0017
+software solutions,17,0.0017
+them,17,0.0017
+##bersecurity,17,0.0017
+chat,17,0.0017
+setting,17,0.0017
+change management,17,0.0017
+designers,17,0.0017
+leading and,17,0.0017
+php,17,0.0017
+class,17,0.0017
+optimization techniques,17,0.0017
+presentations,17,0.0017
+discipline,17,0.0017
+next,17,0.0017
+time series,17,0.0017
+cuda,17,0.0017
+##vidia,17,0.0017
+strategic planning,17,0.0017
+problem solver,17,0.0017
+guiding,17,0.0017
+promote,17,0.0017
+##du,17,0.0017
+system architecture,17,0.0017
+accurately,17,0.0017
+war,17,0.0017
+events,17,0.0017
+resource,17,0.0017
+cloud platform,17,0.0017
+##uant,17,0.0017
+things,17,0.0017
+functionality,17,0.0017
+real - time,17,0.0017
+swift,17,0.0017
+shipping,17,0.0017
+autonomous,17,0.0017
+llms ),17,0.0017
+Intelligence,17,0.0017
+mechanical engineering,17,0.0017
+solving business problems,17,0.0017
+transportation,17,0.0017
+curation,17,0.0017
+##hooting,17,0.0017
+data technologies,17,0.0017
+##das,17,0.0017
+bachelor ' s degree in,17,0.0017
+creates secure and high - quality production code,17,0.0017
+methodology,17,0.0017
+guidelines,17,0.0017
+"search,",17,0.0017
+ideation,17,0.0017
+inform,17,0.0017
+##atic,17,0.0017
+ensure our products,17,0.0017
+analyzing,17,0.0017
+build systems,17,0.0017
+images,17,0.0017
+deployments,17,0.0017
+##ith,17,0.0017
+ins,17,0.0017
+Develo,17,0.0017
+##2,17,0.0017
+API development,17,0.0017
+est,17,0.0017
+full stack development,17,0.0017
+data ing,17,0.0017
+industry standards,17,0.0017
+Integration,17,0.0017
+the data,17,0.0017
+Business Intelligence,17,0.0017
+stored procedures,17,0.0017
+##nk,17,0.0017
+Ada,17,0.0017
+developing innovative solutions,17,0.0017
+solve product or business problems,17,0.0017
+identify trends,17,0.0017
+machine learning /,17,0.0017
+cancer research,17,0.0017
+exploit modern parallel environments,17,0.0017
+distributed clusters,17,0.0017
+logistics,16,0.0016
+proprietary,16,0.0016
+dynamics,16,0.0016
+fuel,16,0.0016
+in a collaborative environment,16,0.0016
+guidance,16,0.0016
+conversation,16,0.0016
+designing solutions,16,0.0016
+NLP ),16,0.0016
+##ial Intelligence,16,0.0016
+applied math,16,0.0016
+latest,16,0.0016
+thought leadership,16,0.0016
+sequential decision making ),16,0.0016
+"architecting,",16,0.0016
+people management,16,0.0016
+operational efficiency,16,0.0016
+meta,16,0.0016
+diverse,16,0.0016
+"storage,",16,0.0016
+flexibility,16,0.0016
+information re,16,0.0016
+constantly,16,0.0016
+selenium,16,0.0016
+##C,16,0.0016
+apps,16,0.0016
+Inn,16,0.0016
+developing software,16,0.0016
+mentor junior team members,16,0.0016
+SAP,16,0.0016
+##ble,16,0.0016
+variety of,16,0.0016
+##ub,16,0.0016
+Security,16,0.0016
+prototype,16,0.0016
+performance analysis,16,0.0016
+deliver innovative solutions,16,0.0016
+cd pipeline,16,0.0016
+build data pipelines,16,0.0016
+##ce,16,0.0016
+problem solving and,16,0.0016
+track,16,0.0016
+BERT,16,0.0016
+stay current,16,0.0016
+business operations,16,0.0016
+process improvement,16,0.0016
+##netes,16,0.0016
+"azure,",16,0.0016
+cross - functional,16,0.0016
+robotic,16,0.0016
+Data Integration,16,0.0016
+ml models,16,0.0016
+business partners,16,0.0016
+powerpoint,16,0.0016
+external,16,0.0016
+business goals,16,0.0016
+testing and,16,0.0016
+code development,16,0.0016
+ensuring design constraints are met,16,0.0016
+accountable,16,0.0016
+packages,16,0.0016
+leading an engineering team,16,0.0016
+"create,",16,0.0016
+rds,16,0.0016
+autonomy,16,0.0016
+machine learning model development,16,0.0016
+seamlessly,16,0.0016
+model performance,16,0.0016
+eager,16,0.0016
+highly,16,0.0016
+developing applications,16,0.0016
+##ments,16,0.0016
+##ively,16,0.0016
+interpretation,16,0.0016
+##breast,16,0.0016
+##ls,16,0.0016
+design /,16,0.0016
+develop software,16,0.0016
+Data Management,16,0.0016
+data migration,16,0.0016
+leading projects,16,0.0016
+logging,16,0.0016
+with the,16,0.0016
+integration testing,16,0.0016
+Postg,16,0.0016
+site,16,0.0016
+##ts,16,0.0016
+##gression,16,0.0016
+define projects,16,0.0016
+address complex business challenges,16,0.0016
+engineer,16,0.0016
+develop predictive models,16,0.0016
+Ruby,16,0.0016
+data solutions,16,0.0016
+driving innovative solutions,16,0.0016
+disaster recovery,16,0.0016
+relational and,16,0.0016
+data science techniques,16,0.0016
+data profiling,16,0.0016
+Platform,16,0.0016
+modeling techniques,16,0.0016
+querying databases,16,0.0016
+develop data - driven solutions,16,0.0016
+progress,15,0.0015
+graph,15,0.0015
+AI / ML,15,0.0015
+learn and,15,0.0015
+- paced,15,0.0015
+image classification,15,0.0015
+develop code,15,0.0015
+challenging,15,0.0015
+achieve,15,0.0015
+adaptable,15,0.0015
+software test engineering,15,0.0015
+write,15,0.0015
+##plica,15,0.0015
+responding to the human voice,15,0.0015
+"training,",15,0.0015
+version,15,0.0015
+take initiative,15,0.0015
+tradeoffs,15,0.0015
+of the,15,0.0015
+work closely with data scientists,15,0.0015
+ml algorithms,15,0.0015
+phd degree,15,0.0015
+market trends,15,0.0015
+conversion,15,0.0015
+ai technologies,15,0.0015
+natural language understanding,15,0.0015
+##Ms,15,0.0015
+- to -,15,0.0015
+##force,15,0.0015
+ideas,15,0.0015
+charting new paths,15,0.0015
+center,15,0.0015
+formats,15,0.0015
+influe,15,0.0015
+##ty,15,0.0015
+back - end,15,0.0015
+powered,15,0.0015
+##âs,15,0.0015
+cutting - edge technologies,15,0.0015
+drive solutions,15,0.0015
+performance monitoring,15,0.0015
+physical,15,0.0015
+embeddings,15,0.0015
+Sales,15,0.0015
+proactive,15,0.0015
+incident response,15,0.0015
+database systems,15,0.0015
+completion,15,0.0015
+##on,15,0.0015
+technical troubleshooting,15,0.0015
+"cleaning,",15,0.0015
+bioinformatics,15,0.0015
+##ate with data scientists,15,0.0015
+teamwork skills,15,0.0015
+client needs,15,0.0015
+native,15,0.0015
+mechanical,15,0.0015
+coordination,15,0.0015
+##R,15,0.0015
+##ine,15,0.0015
+C /,15,0.0015
+range,15,0.0015
+"css,",15,0.0015
+your team,15,0.0015
+protection,15,0.0015
+continuous improvement of software applications and systems,15,0.0015
+"a secure, stable, and scalable way",15,0.0015
+portfolio,15,0.0015
+train,15,0.0015
+acting,15,0.0015
+devops practices,15,0.0015
+device,15,0.0015
+ph. d,15,0.0015
+full stack systems,15,0.0015
+imaging,15,0.0015
+##w,15,0.0015
+##matic,15,0.0015
+##itlab,15,0.0015
+confi,15,0.0015
+node,15,0.0015
+##kit,15,0.0015
+agents,15,0.0015
+##mize,15,0.0015
+drive business value,15,0.0015
+"building,",15,0.0015
+##ration,15,0.0015
+##cie,15,0.0015
+facing,15,0.0015
+Data Architecture,15,0.0015
+##mmuni,15,0.0015
+business strategy,15,0.0015
+microservices architecture,15,0.0015
+large - scale data,15,0.0015
+generate actionable insights,15,0.0015
+python ),15,0.0015
+masters degree,15,0.0015
+subject matter expert,15,0.0015
+Help,15,0.0015
+Masters,15,0.0015
+data analytic,15,0.0015
+collaboratively,15,0.0015
+improve model performance,15,0.0015
+data initiatives,15,0.0015
+Teradata,15,0.0015
+##rying,15,0.0015
+"solving complex business problems in a fast - paced, collaborative, inclusive, and iterative delivery environment",15,0.0015
+leads,15,0.0015
+Synapse Analytics,15,0.0015
+interesting data challenges,15,0.0015
+metadata,15,0.0015
+s Degree in,15,0.0015
+pl /,15,0.0015
+data mapping,15,0.0015
+types,15,0.0015
+"designs,",15,0.0015
+transition,15,0.0015
+complex data,15,0.0015
+analytic skills,15,0.0015
+derive actionable insights,15,0.0015
+Scikit,15,0.0015
+applied research,15,0.0015
+industry best practices,15,0.0015
+modelling,14,0.0014
+system integration,14,0.0014
+leverage data,14,0.0014
+kubeflow,14,0.0014
+##flows,14,0.0014
+code generation,14,0.0014
+challenge the status quo,14,0.0014
+##tive AI,14,0.0014
+implement best practices,14,0.0014
+##query,14,0.0014
+masterâs,14,0.0014
+bs degree,14,0.0014
+"text,",14,0.0014
+"image,",14,0.0014
+ensure data quality,14,0.0014
+machine learning libraries,14,0.0014
+owning / driving roadmap strategy and definition,14,0.0014
+##mo,14,0.0014
+data strategy,14,0.0014
+learning techniques,14,0.0014
+##hoot,14,0.0014
+innovations,14,0.0014
+public cloud,14,0.0014
+engage with,14,0.0014
+intensive,14,0.0014
+Service,14,0.0014
+deadline,14,0.0014
+define requirements,14,0.0014
+scope,14,0.0014
+production support,14,0.0014
+kotlin,14,0.0014
+self - motivation,14,0.0014
+office,14,0.0014
+##ot,14,0.0014
+drug discovery,14,0.0014
+recommend solutions,14,0.0014
+directly,14,0.0014
+##id,14,0.0014
+build pipelines,14,0.0014
+agent,14,0.0014
+operate,14,0.0014
+personal,14,0.0014
+support decision - making,14,0.0014
+##ube,14,0.0014
+written and verbal communication skills,14,0.0014
+##azon,14,0.0014
+communicating and,14,0.0014
+project requirements,14,0.0014
+pipeline development,14,0.0014
+threats,14,0.0014
+strategically,14,0.0014
+harness,14,0.0014
+bachelors,14,0.0014
+life cycle,14,0.0014
+building scalable systems,14,0.0014
+. net framework,14,0.0014
+designs and,14,0.0014
+natural language,14,0.0014
+##ber,14,0.0014
+##lask,14,0.0014
+rigorous,14,0.0014
+IAM,14,0.0014
+virtualization,14,0.0014
+distribution,14,0.0014
+# #,14,0.0014
+develop strategies,14,0.0014
+coaching,14,0.0014
+data acquisition,14,0.0014
+react native,14,0.0014
+code review,14,0.0014
+##ge,14,0.0014
+"software,",14,0.0014
+identify issues,14,0.0014
+##le team,14,0.0014
+maintains algorithms,14,0.0014
+"Research,",14,0.0014
+defense,14,0.0014
+"train,",14,0.0014
+##go,14,0.0014
+policy,14,0.0014
+action,14,0.0014
+"identifying,",14,0.0014
+develop tools,14,0.0014
+Models,14,0.0014
+make,14,0.0014
+infrastructure as code,14,0.0014
+CI / CD pipelines,14,0.0014
+build products,14,0.0014
+penetration testing,14,0.0014
+##iti,14,0.0014
+practice,14,0.0014
+prevention,14,0.0014
+ML ),14,0.0014
+##vo,14,0.0014
+costs,14,0.0014
+software engineering concepts,14,0.0014
+##ables,14,0.0014
+certification,14,0.0014
+Cassandra,14,0.0014
+solve real world problems,14,0.0014
+inform business decisions,14,0.0014
+Architect,14,0.0014
+evidence,14,0.0014
+##sing,14,0.0014
+##Ops,14,0.0014
+extract insights,14,0.0014
+Step Functions,14,0.0014
+Data Scientist,14,0.0014
+project management skills,14,0.0014
+work collaboratively,14,0.0014
+working with large datasets,14,0.0014
+creating and,14,0.0014
+sharepoint,14,0.0014
+store,14,0.0014
+##gile environment,14,0.0014
+drive decision - making,14,0.0014
+querying,14,0.0014
+relation,14,0.0014
+##p and,14,0.0014
+Informatica,14,0.0014
+data analysts,14,0.0014
+##QL Server,14,0.0014
+on efficiency,14,0.0014
+secret,14,0.0014
+Deep,14,0.0014
+business intelligence tools,14,0.0014
+identifying and solving some of,14,0.0014
+tackle upcoming challenges,14,0.0014
+building optimal data artifacts (,14,0.0014
+designing and building some of the,14,0.0014
+##fine our systems,14,0.0014
+design logging solutions,14,0.0014
+craft experiences,14,0.0014
+##ring data security and quality,14,0.0014
+suggest architecture and development approaches and data management standards,14,0.0014
+"##mize growth, strategy, and user experience",14,0.0014
+extensive data sets,14,0.0014
+data - driven stories,14,0.0014
+address key questions,14,0.0014
+address complex analytical problems,14,0.0014
+build scalable data solutions,14,0.0014
+"identify new opportunities,",14,0.0014
+create scalable data models,14,0.0014
+datasets and visualizations,14,0.0014
+a trusted strategic partner,14,0.0014
+query,14,0.0014
+ingest,14,0.0014
+coding languages,14,0.0014
+SDLC,14,0.0014
+"Python,",14,0.0014
+troubleshoot,14,0.0014
+j2ee,14,0.0014
+##com,14,0.0014
+##os,14,0.0014
+identify opportunities for improvement,14,0.0014
+technical documentation,14,0.0014
+large data,14,0.0014
+cleansing,14,0.0014
+interpret,14,0.0014
+New Media,14,0.0014
+table,14,0.0014
+New Media industry,14,0.0014
+own and,14,0.0014
+machine - learning,14,0.0014
+jquery,14,0.0014
+applying theoretical models,14,0.0014
+national intelligence,14,0.0014
+linux environments,13,0.0013
+communication and presentation skills,13,0.0013
+startup,13,0.0013
+drive business growth,13,0.0013
+data -,13,0.0013
+drive value,13,0.0013
+##nica,13,0.0013
+ansible,13,0.0013
+workloads,13,0.0013
+commercial,13,0.0013
+provide feedback,13,0.0013
+##graph,13,0.0013
+ensuring alignment,13,0.0013
+"science,",13,0.0013
+"model deployment,",13,0.0013
+machine learning technologies,13,0.0013
+deploy machine learning models,13,0.0013
+summarization,13,0.0013
+large language,13,0.0013
+audio,13,0.0013
+offerings,13,0.0013
+protocols,13,0.0013
+proof,13,0.0013
+traditional,13,0.0013
+monitoring tools,13,0.0013
+contract,13,0.0013
+complex problems,13,0.0013
+productivity,13,0.0013
+coordinate,13,0.0013
+transfer learning,13,0.0013
+##vability,13,0.0013
+stores,13,0.0013
+roadma,13,0.0013
+data labeling,13,0.0013
+Model,13,0.0013
+##q,13,0.0013
+##mar,13,0.0013
+conferences,13,0.0013
+pursue,13,0.0013
+tune,13,0.0013
+##nx,13,0.0013
+social media,13,0.0013
+driving your performance and career growth,13,0.0013
+##timize,13,0.0013
+assets,13,0.0013
+capacity,13,0.0013
+provide support,13,0.0013
+SCI,13,0.0013
+##che spark,13,0.0013
+analytical thinking,13,0.0013
+master ' s,13,0.0013
+algorithmic,13,0.0013
+text mining,13,0.0013
+inspire,13,0.0013
+evangel,13,0.0013
+##xi,13,0.0013
+big data processing,13,0.0013
+derive insights,13,0.0013
+developing algorithms,13,0.0013
+a fast - paced environment,13,0.0013
+ongoing,13,0.0013
+provide guidance,13,0.0013
+ensure that,13,0.0013
+user experiences,13,0.0013
+communication and interpersonal skills,13,0.0013
+business outcomes,13,0.0013
+ML models,13,0.0013
+informed,13,0.0013
+data & analytics,13,0.0013
+cloud computing platforms,13,0.0013
+building systems,13,0.0013
+energy,13,0.0013
+collaborate with data engineers,13,0.0013
+process and,13,0.0013
+handle,13,0.0013
+communities,13,0.0013
+"##te,",13,0.0013
+software tools,13,0.0013
+vector,13,0.0013
+perception,13,0.0013
+storytelling,13,0.0013
+perform statistical analysis,13,0.0013
+- to,13,0.0013
+##ship,13,0.0013
+pan,13,0.0013
+software development practices,13,0.0013
+run synchronously with appropriate systems,13,0.0013
+##vice,13,0.0013
+Active,13,0.0013
+requests,13,0.0013
+developing models,13,0.0013
+work closely with clients,13,0.0013
+"analyzing,",13,0.0013
+implementing best practices,13,0.0013
+##az,13,0.0013
+stack development,13,0.0013
+container,13,0.0013
+date,13,0.0013
+synthesis,13,0.0013
+learner,13,0.0013
+maven,13,0.0013
+deliver results,13,0.0013
+##mize performance,13,0.0013
+planning and,13,0.0013
+pay,13,0.0013
+mission,13,0.0013
+materials,13,0.0013
+"secure, stable, and scalable",13,0.0013
+##te with,13,0.0013
+"enhance, build, and deliver trusted market - leading technology products",13,0.0013
+conduct exploratory data analysis,13,0.0013
+PhD degree,13,0.0013
+retri,13,0.0013
+cloud environment,13,0.0013
+engine,13,0.0013
+questions,13,0.0013
+review and,13,0.0013
+tables,13,0.0013
+##gile methodology,13,0.0013
+focus,13,0.0013
+##tical,13,0.0013
+Jira,13,0.0013
+files,13,0.0013
+##ns,13,0.0013
+data anal,13,0.0013
+front - end technologies,13,0.0013
+case,13,0.0013
+neural deep learning methods,13,0.0013
+build machine learning models,13,0.0013
+contracts,13,0.0013
+##lessly,13,0.0013
+statistical /,13,0.0013
+build tools,13,0.0013
+Self,13,0.0013
+extract meaningful insights,13,0.0013
+##rk,13,0.0013
+glue,13,0.0013
+Snow,13,0.0013
+CRM,13,0.0013
+RDBMS,13,0.0013
+Presto,13,0.0013
+to challenges or,13,0.0013
+##zing projects,13,0.0013
+convince and influence your partners using clear insights and recommendations,13,0.0013
+sprint,13,0.0013
+improve data quality,13,0.0013
+PL /,13,0.0013
+Data Lakes,13,0.0013
+investigate and,13,0.0013
+sci,13,0.0013
+automating manual processes,13,0.0013
+mechanisms,13,0.0013
+data warehousing concepts,13,0.0013
+drive strategic decisions,13,0.0013
+Reporting,13,0.0013
+##structure,13,0.0013
+interfa,13,0.0013
+servers,13,0.0013
+event,13,0.0013
+build predictive models,13,0.0013
+"discover,",13,0.0013
+machine learning frameworks,13,0.0013
+app,13,0.0013
+segment,13,0.0013
+statistical software,13,0.0013
+applied statistics,13,0.0013
+machine learning research,13,0.0013
+different,12,0.0012
+monitoring and,12,0.0012
+. NET,12,0.0012
+pushing,12,0.0012
+##po,12,0.0012
+detail oriented,12,0.0012
+##vent,12,0.0012
+metadata management,12,0.0012
+##K,12,0.0012
+alignment,12,0.0012
+cutting - edge,12,0.0012
+provisioning,12,0.0012
+solve challenging problems,12,0.0012
+solve business challenges,12,0.0012
+javascript framework,12,0.0012
+product marketing,12,0.0012
+adaptability,12,0.0012
+devo,12,0.0012
+develops and,12,0.0012
+working independently,12,0.0012
+remediation,12,0.0012
+college,12,0.0012
+##cover hidden relationships from vast troves of data,12,0.0012
+##oop,12,0.0012
+strategic decisions,12,0.0012
+Fine,12,0.0012
+##end,12,0.0012
+enhancements,12,0.0012
+stable diffusion,12,0.0012
+develop new products,12,0.0012
+troubleshooting and,12,0.0012
+statistics and,12,0.0012
+"design, develop, test, deploy, maintain, and enhance software solutions",12,0.0012
+high school diploma,12,0.0012
+demand,12,0.0012
+innovate and deliver solutions,12,0.0012
+ambitious,12,0.0012
+Post,12,0.0012
+and automation,12,0.0012
+career,12,0.0012
+##park,12,0.0012
+##point,12,0.0012
+##lflow,12,0.0012
+##rne,12,0.0012
+restful apis,12,0.0012
+diffusion models,12,0.0012
+thought,12,0.0012
+schedules,12,0.0012
+researching,12,0.0012
+co -,12,0.0012
+saas,12,0.0012
+##vis,12,0.0012
+cloudwatch,12,0.0012
+##pi development,12,0.0012
+chatbots,12,0.0012
+vector stores,12,0.0012
+threat modeling,12,0.0012
+large -,12,0.0012
+work closely with product managers,12,0.0012
+synthesi,12,0.0012
+architectural,12,0.0012
+speed,12,0.0012
+retrieval,12,0.0012
+updates,12,0.0012
+conception,12,0.0012
+##vices,12,0.0012
+engaging,12,0.0012
+mentor junior developers,12,0.0012
+detect,12,0.0012
+rules,12,0.0012
+lead by example,12,0.0012
+and analysis,12,0.0012
+##cc,12,0.0012
+##ki,12,0.0012
+parallel and distributed computing,12,0.0012
+model design,12,0.0012
+performance and,12,0.0012
+transformations,12,0.0012
+usage,12,0.0012
+##k,12,0.0012
+##board,12,0.0012
+cloud security,12,0.0012
+##vops,12,0.0012
+season,12,0.0012
+customer success,12,0.0012
+Custom,12,0.0012
+establish,12,0.0012
+systems analysis,12,0.0012
+performance testing,12,0.0012
+java /,12,0.0012
+independent judgment,12,0.0012
+translate them,12,0.0012
+machine learning operations,12,0.0012
+emr,12,0.0012
+innovative thinking,12,0.0012
+a collaborative environment,12,0.0012
+clinical,12,0.0012
+##kins,12,0.0012
+solve real - world challenges,12,0.0012
+accountability,12,0.0012
+Master ' s degree,12,0.0012
+collect data,12,0.0012
+##ges,12,0.0012
+Architecture,12,0.0012
+##act,12,0.0012
+accurate,12,0.0012
+Monitor,12,0.0012
+partner closely with,12,0.0012
+logic,12,0.0012
+sharing,12,0.0012
+resolve technical issues,12,0.0012
+memory,12,0.0012
+specific,12,0.0012
+upgrades,12,0.0012
+provide solutions,12,0.0012
+perform root cause analysis,12,0.0012
+strategic thinking,12,0.0012
+develop models,12,0.0012
+##vc,12,0.0012
+first,12,0.0012
+##da,12,0.0012
+availability,12,0.0012
+##data,12,0.0012
+process optimization,12,0.0012
+plan and,12,0.0012
+Azure Databricks,12,0.0012
+quick,12,0.0012
+sciences,12,0.0012
+alerting,12,0.0012
+integrations,12,0.0012
+functional testing,12,0.0012
+bringing,12,0.0012
+"design, development,",12,0.0012
+records,12,0.0012
+function,12,0.0012
+managed,12,0.0012
+neural,12,0.0012
+power automate,12,0.0012
+actions,12,0.0012
+learn new skills,12,0.0012
+##rum,12,0.0012
+##ehous,12,0.0012
+##ml,12,0.0012
+accelerate innovation,12,0.0012
+software programming,12,0.0012
+lakes,12,0.0012
+"##izing,",12,0.0012
+code and system health,12,0.0012
+diagnosis and resolution,12,0.0012
+##io,12,0.0012
+technical solutions,12,0.0012
+design and implement scalable systems,12,0.0012
+compensation,12,0.0012
+spring framework,12,0.0012
+modules,12,0.0012
+DB2,12,0.0012
+Transform,12,0.0012
+business analysts,12,0.0012
+##ad,12,0.0012
+MDM,12,0.0012
+SQL development,12,0.0012
+Dataflow,12,0.0012
+##pate,12,0.0012
+hybrid,12,0.0012
+hibernate,12,0.0012
+remotely,12,0.0012
+##ida,12,0.0012
+transfer,12,0.0012
+definition,12,0.0012
+data - driven decision - making,12,0.0012
+drive powerful experiences,12,0.0012
+equity,12,0.0012
+deliver actionable insights,12,0.0012
+data analyst,12,0.0012
+sub,12,0.0012
+technical writing,12,0.0012
+excited,12,0.0012
+##form data analysis,12,0.0012
+measures,12,0.0012
+integrated,12,0.0012
+test - driven development,12,0.0012
+writing code,12,0.0012
+"programming,",12,0.0012
+statistician,12,0.0012
+information assurance,12,0.0012
+interpersonal and communication skills,12,0.0012
+communicate findings,12,0.0012
+drive projects to completion,12,0.0012
+##p production machine learning solutions,12,0.0012
+standard machine,12,0.0012
+drive excellence across teams,12,0.0012
+collect and synthesize requirements,12,0.0012
+multicore SMP,12,0.0012
+large scale systems data analysis,12,0.0012
+enhance the user experience,12,0.0012
+engage customers,12,0.0012
+exciting,12,0.0012
+##vision,11,0.0011
+product design,11,0.0011
+implement strategies,11,0.0011
+dns,11,0.0011
+outreach,11,0.0011
+matching,11,0.0011
+evaluate technical feasibility,11,0.0011
+cloud - based platforms,11,0.0011
+##sing and,11,0.0011
+working with cross - functional teams,11,0.0011
+improve processes,11,0.0011
+learn quickly,11,0.0011
+application architecture,11,0.0011
+direct,11,0.0011
+networking and data storage,11,0.0011
+speech / audio,11,0.0011
+Angular,11,0.0011
+cloud development,11,0.0011
+models and algorithms,11,0.0011
+classical,11,0.0011
+collaborate with cross,11,0.0011
+deliver impactful solutions,11,0.0011
+"compute,",11,0.0011
+chatbot,11,0.0011
+investigation,11,0.0011
+incident,11,0.0011
+retrieval - augmented generation,11,0.0011
+tokenization,11,0.0011
+advanced anal,11,0.0011
+drive business success,11,0.0011
+sea,11,0.0011
+implement improvements,11,0.0011
+roadmaps,11,0.0011
+adoption,11,0.0011
+journey,11,0.0011
+ambiguity,11,0.0011
+entrepreneurial spirit,11,0.0011
+human fine - tuning,11,0.0011
+snowpoint ventures,11,0.0011
+manually,11,0.0011
+Documentation,11,0.0011
+Quality,11,0.0011
+Training,11,0.0011
+optimal performance,11,0.0011
+information management,11,0.0011
+performance management,11,0.0011
+##ves,11,0.0011
+successful,11,0.0011
+"troubleshooting,",11,0.0011
+deep neural networks,11,0.0011
+time management,11,0.0011
+##rt,11,0.0011
+deploy models,11,0.0011
+professional,11,0.0011
+disc,11,0.0011
+perform code reviews,11,0.0011
+uncover hidden relationships from vast troves of data,11,0.0011
+prevent,11,0.0011
+influence and,11,0.0011
+response,11,0.0011
+llama,11,0.0011
+production deployment,11,0.0011
+"automation,",11,0.0011
+high - performance,11,0.0011
+managing technical products or online services,11,0.0011
+audiences,11,0.0011
+operational excellence,11,0.0011
+data pre,11,0.0011
+bias,11,0.0011
+##load,11,0.0011
+high -,11,0.0011
+ci / cd pipelines,11,0.0011
+location,11,0.0011
+and best practices,11,0.0011
+provide constructive feedback,11,0.0011
+working across functions,11,0.0011
+##lot,11,0.0011
+etl processes,11,0.0011
+##dlc,11,0.0011
+develop a,11,0.0011
+entire,11,0.0011
+deliver high - quality solutions,11,0.0011
+share knowledge,11,0.0011
+exploratory data analysis,11,0.0011
+project planning,11,0.0011
+##yTorch,11,0.0011
+identity,11,0.0011
+corporate,11,0.0011
+code quality,11,0.0011
+consult,11,0.0011
+reinforce,11,0.0011
+cutting edge,11,0.0011
+Flask,11,0.0011
+##L models,11,0.0011
+collaborate across teams,11,0.0011
+online,11,0.0011
+real - time systems,11,0.0011
+scikit,11,0.0011
+and innovation,11,0.0011
+ETL pipelines,11,0.0011
+identity management,11,0.0011
+traffic,11,0.0011
+advertising,11,0.0011
+data - driven decisions,11,0.0011
+troubleshoot and,11,0.0011
+united states,11,0.0011
+provides,11,0.0011
+SageM,11,0.0011
+##ines,11,0.0011
+looker,11,0.0011
+graphs,11,0.0011
+gather data,11,0.0011
+##d learning,11,0.0011
+work in a collaborative environment,11,0.0011
+keep,11,0.0011
+"infrastructure,",11,0.0011
+technical and,11,0.0011
+committed,11,0.0011
+##nose and,11,0.0011
+budget,11,0.0011
+##i solutions,11,0.0011
+uses,11,0.0011
+regularly,11,0.0011
+control systems,11,0.0011
+meet deadlines,11,0.0011
+point,11,0.0011
+load,11,0.0011
+##tra,11,0.0011
+focusing,11,0.0011
+mot,11,0.0011
+drives,11,0.0011
+container orchestration services,11,0.0011
+##boarding,11,0.0011
+off,11,0.0011
+##mat,11,0.0011
+Weights & Biases,11,0.0011
+par,11,0.0011
+##ics,11,0.0011
+lifecycle management,11,0.0011
+sense of,11,0.0011
+data modeling techniques,11,0.0011
+humble,11,0.0011
+"defining,",11,0.0011
+software and,11,0.0011
+provide technical guidance,11,0.0011
+latency,11,0.0011
+digital marketing,11,0.0011
+active directory,11,0.0011
+##sure,11,0.0011
+claims,11,0.0011
+"communicate,",11,0.0011
+##bs,11,0.0011
+campaigns,11,0.0011
+identification,11,0.0011
+capital,11,0.0011
+make informed decisions,11,0.0011
+##bed,11,0.0011
+##gile software development,11,0.0011
+interpreting data,11,0.0011
+depth,11,0.0011
+clusters,11,0.0011
+guide and,11,0.0011
+friendly,11,0.0011
+explainability,11,0.0011
+goog,11,0.0011
+Util,11,0.0011
+observability,11,0.0011
+##eva,11,0.0011
+leadership and,11,0.0011
+ensure data integrity,11,0.0011
+communicate and,11,0.0011
+build the,11,0.0011
+get things done,11,0.0011
+"modeling,",11,0.0011
+analyze complex datasets,11,0.0011
+containers,11,0.0011
+shape the,11,0.0011
+##ithub,11,0.0011
+matter experts,11,0.0011
+vue,11,0.0011
+build relationships,11,0.0011
+solving complex challenges,11,0.0011
+Recommen,11,0.0011
+software engineering best practices,11,0.0011
+evolution,11,0.0011
+front -,11,0.0011
+streaming data,11,0.0011
+aid,11,0.0011
+provide technical support,11,0.0011
+delivering solutions,11,0.0011
+expanding,11,0.0011
+Azure Data Lake,11,0.0011
+##vide technical leadership,11,0.0011
+SNS,11,0.0011
+query optimization,11,0.0011
+think creatively,11,0.0011
+##pel,11,0.0011
+Python /,11,0.0011
+Database,11,0.0011
+##duct,11,0.0011
+accounting,11,0.0011
+SSAS,11,0.0011
+architecture design,11,0.0011
+Delta Lake,11,0.0011
+data services,11,0.0011
+Inc,11,0.0011
+of the data,11,0.0011
+determine,11,0.0011
+"databases,",11,0.0011
+sdlc,11,0.0011
+Val,11,0.0011
+web application development,11,0.0011
+informatica,11,0.0011
+"sas,",11,0.0011
+"cloud services,",11,0.0011
+spark ),11,0.0011
+re -,11,0.0011
+"database management,",11,0.0011
+customer segmentation,11,0.0011
+##ibility,11,0.0011
+"evaluate, and implement new technologies",11,0.0011
+##mize development efficiency,11,0.0011
+evaluating,11,0.0011
+clearance,11,0.0011
+conduct analysis,11,0.0011
+routing,11,0.0011
+business administration,11,0.0011
+experimental,11,0.0011
+feature store,11,0.0011
+analytical methods,11,0.0011
+model building,11,0.0011
+probability,11,0.0011
+ground,11,0.0011
+understand their questions and needs,11,0.0011
+##ct,11,0.0011
+bachelorâs degree in,11,0.0011
+interactions,10,0.001
+##klearn,10,0.001
+oversee,10,0.001
+recruiting,10,0.001
+##mize model performance,10,0.001
+vulnerability,10,0.001
+power platform,10,0.001
+prototype new technology,10,0.001
+##ntin,10,0.001
+telecommunications,10,0.001
+complex challenges,10,0.001
+conversational,10,0.001
+improve operational efficiency,10,0.001
+in a fast - paced environment,10,0.001
+testing framework,10,0.001
+in code reviews,10,0.001
+ten,10,0.001
+foundational models,10,0.001
+Python development,10,0.001
+logistic regression,10,0.001
+automotive,10,0.001
+user interface design,10,0.001
+test hypotheses,10,0.001
+front end,10,0.001
+- world,10,0.001
+ensuring alignment with business goals,10,0.001
+customer engagement,10,0.001
+sap,10,0.001
+leading the,10,0.001
+imp,10,0.001
+rest apis,10,0.001
+technical excellence,10,0.001
+bedrock,10,0.001
+serverless,10,0.001
+work directly with customers,10,0.001
+generative artificial intelligence,10,0.001
+localization,10,0.001
+##mlessly,10,0.001
+finding business insights,10,0.001
+Work closely with cross - functional teams,10,0.001
+springboot,10,0.001
+vehicle,10,0.001
+self - motivated,10,0.001
+creating solutions,10,0.001
+##oft,10,0.001
+benefits,10,0.001
+stay up - to - date,10,0.001
+Work closely,10,0.001
+software engineer,10,0.001
+present,10,0.001
+identify new opportunities,10,0.001
+collaborate cross - functionally,10,0.001
+##itHub,10,0.001
+explore and,10,0.001
+with business objectives,10,0.001
+machine learning tools,10,0.001
+##gin,10,0.001
+##et,10,0.001
+running,10,0.001
+the needs,10,0.001
+##l solutions,10,0.001
+industrial,10,0.001
+ventures,10,0.001
+##pu,10,0.001
+) processes,10,0.001
+met,10,0.001
+extract actionable insights,10,0.001
+manage multiple projects simultaneously,10,0.001
+guide the team,10,0.001
+providing insights,10,0.001
+Ph. D,10,0.001
+serves,10,0.001
+relevant,10,0.001
+distributed training,10,0.001
+continually,10,0.001
+cutting - edge technology,10,0.001
+##rive in a fast - paced environment,10,0.001
+Business Administration,10,0.001
+"design, development",10,0.001
+##tive models,10,0.001
+frontend,10,0.001
+Open,10,0.001
+sleeves,10,0.001
+##rification,10,0.001
+knowledge management,10,0.001
+calls,10,0.001
+bench,10,0.001
+developed,10,0.001
+enterprise architecture,10,0.001
+molecular biology,10,0.001
+studies,10,0.001
+CI / CD tools,10,0.001
+future,10,0.001
+engagements,10,0.001
+firewalls,10,0.001
+industrial engineering,10,0.001
+"critical thinking,",10,0.001
+sensor fusion,10,0.001
+virtual,10,0.001
+executing,10,0.001
+Data Visualization,10,0.001
+predictive models,10,0.001
+front - end development,10,0.001
+large data sets,10,0.001
+and collaboration,10,0.001
+supervised and,10,0.001
+start,10,0.001
+application security,10,0.001
+knowledge sharing,10,0.001
+"mentor, tech lead",10,0.001
+implementing solutions,10,0.001
+data cleansing,10,0.001
+departments,10,0.001
+prototypes,10,0.001
+software development life,10,0.001
+system performance,10,0.001
+soap,10,0.001
+identifying,10,0.001
+kinesis,10,0.001
+hipaa,10,0.001
+education,10,0.001
+"design, and",10,0.001
+identify patterns,10,0.001
+daily,10,0.001
+"design, and ship new features",10,0.001
+"spark,",10,0.001
+"design, implementation,",10,0.001
+##tor and,10,0.001
+department,10,0.001
+drive improvements to coding hygiene and system architecture,10,0.001
+##encies,10,0.001
+ml ),10,0.001
+"secure, stable, and scalable way",10,0.001
+sum,10,0.001
+and technologies,10,0.001
+customer satisfaction,10,0.001
+office 365,10,0.001
+"electrical,",10,0.001
+overall,10,0.001
+Web,10,0.001
+reduce costs,10,0.001
+pricing,10,0.001
+data visual,10,0.001
+Data Governance,10,0.001
+relational database,10,0.001
+hands on,10,0.001
+promoting,10,0.001
+’ s,10,0.001
+data driven,10,0.001
+"testing, maintaining or launching software products",10,0.001
+collaborate on projects,10,0.001
+##media,10,0.001
+purpose,10,0.001
+improve efficiency,10,0.001
+Bachelor ' s degree in,10,0.001
+and development,10,0.001
+##en,10,0.001
+turn,10,0.001
+##ra,10,0.001
+share,10,0.001
+leading a team,10,0.001
+##ly detection,10,0.001
+relentless,10,0.001
+vba,10,0.001
+ml /,10,0.001
+##no,10,0.001
+translate them into technical specifications,10,0.001
+sensors,10,0.001
+work in,10,0.001
+third,10,0.001
+business growth,10,0.001
+##ched,10,0.001
+text classification,10,0.001
+work with the,10,0.001
+enhance decision - making,10,0.001
+##ets,10,0.001
+recommendation engines,10,0.001
+Cha,10,0.001
+"leading,",10,0.001
+Automation,10,0.001
+stakeholder,10,0.001
+exchange,10,0.001
+ECS,10,0.001
+Mat,10,0.001
+Open Source,10,0.001
+"extract,",10,0.001
+data engineering principles,10,0.001
+ADLS,10,0.001
+SQS,10,0.001
+"test,",10,0.001
+data engineer,10,0.001
+Data analysis,10,0.001
+troubleshooting issues,10,0.001
+##yna,10,0.001
+AWS cloud services,10,0.001
+database development,10,0.001
+##ousing,10,0.001
+analyze business requirements,10,0.001
+Data Quality,10,0.001
+design reviews,10,0.001
+Data Pi,10,0.001
+computer programming,10,0.001
+data marts,10,0.001
+management information systems,10,0.001
+data validation,10,0.001
+changes,10,0.001
+JIRA,10,0.001
+provide recommendations,10,0.001
+git ),10,0.001
+drive continuous improvement,10,0.001
+collaborate with digital product managers,10,0.001
+big data tools,10,0.001
+dashboard development,10,0.001
+assess,10,0.001
+coordinate and,10,0.001
+cloud storage,10,0.001
+trials,10,0.001
+ensure optimal performance,10,0.001
+##script,10,0.001
+##ering,10,0.001
+Gen,10,0.001
+identify problems,10,0.001
+make decisions,10,0.001
+##ition,10,0.001
+resourceful,10,0.001
+visual studio,10,0.001
+entity resolution,10,0.001
+machine learning methods,10,0.001
+design experiments,10,0.001
+lead the team,10,0.001
+business analyst,10,0.001
+building predictive models,10,0.001
+topic modeling,10,0.001
+"develops,",10,0.001
+business acum,10,0.001
+A / B testing,10,0.001
+firewall,10,0.001
+Math,10,0.001
+##boration,10,0.001
+communicate findings effectively,10,0.001
+and existing,10,0.001
+drive impact,10,0.001
+"clustering,",10,0.001
+collaborative environment,10,0.001
+complex data sets,10,0.001
+##ed Data,10,0.001
+loop,10,0.001
+create real - world impact,10,0.001
+network protocols,10,0.001
+Trainium,10,0.001
+architectural patterns,10,0.001
+representation learning,10,0.001
+ensuring high performance and responsiveness to front - end requests,10,0.001
+"define, design, and ship new features and services",10,0.001
+##te machine learning models and algorithms into applications,10,0.001
+developing and managing high - traffic web applications,10,0.001
+##napchat,10,0.001
+Work on backend services and databases,10,0.001
+tackle complex issues,10,0.001
+backend service automation,10,0.001
+real - time log streaming,10,0.001
+end and,10,0.001
+##ment responsive UIs,10,0.001
+end programming,10,0.001
+"##elop and maintain scalable, robust, and high - performance web applications and services",10,0.001
+top - tier,10,0.001
+Meta,10,0.001
+improve product performance,10,0.001
+massive social data and prediction problems,10,0.001
+"range of recommendation, classification, and optimization problems",10,0.001
+. net technologies,10,0.001

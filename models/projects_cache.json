@@ -1,0 +1,159 @@
+[
+  {
+    "role": "ML Engineer",
+    "projects": [
+      {
+        "title": "End-to-End Text Classification Pipeline",
+        "description": "Build a complete NLP pipeline that fine-tunes a BERT-based model on a custom dataset. Include data preprocessing, training with HuggingFace Transformers, evaluation metrics (F1, precision, recall), and a FastAPI inference endpoint. Deploy to GitHub with a reproducible training script.",
+        "skills_addressed": [
+          "Python",
+          "PyTorch",
+          "transformers",
+          "FastAPI",
+          "NLP"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_hours": 30
+      },
+      {
+        "title": "Real-Time Feature Store with Redis",
+        "description": "Design and implement a feature store that serves ML features at low latency. Ingest raw events, compute features with Pandas, store in Redis, and expose a REST API for model serving. Include TTL-based cache invalidation and a monitoring dashboard.",
+        "skills_addressed": ["Python", "Redis", "FastAPI", "Docker", "MLOps"],
+        "difficulty": "Intermediate",
+        "estimated_hours": 35
+      },
+      {
+        "title": "Model Monitoring Dashboard",
+        "description": "Build a drift detection and model monitoring system. Track prediction distributions over time, detect data drift using statistical tests (KS test, PSI), and visualise degradation with Streamlit. Trigger alerts when drift exceeds a threshold.",
+        "skills_addressed": [
+          "Python",
+          "Scikit-learn",
+          "Streamlit",
+          "MLOps",
+          "statistics"
+        ],
+        "difficulty": "Advanced",
+        "estimated_hours": 40
+      }
+    ]
+  },
+  {
+    "role": "AI Engineer",
+    "projects": [
+      {
+        "title": "Retrieval-Augmented Generation Chatbot",
+        "description": "Build a RAG system over a document corpus. Use LangChain, FAISS for vector retrieval, and an LLM for answer generation. Add citation of source documents, streaming responses, and a Streamlit UI. Evaluate with RAGAS.",
+        "skills_addressed": [
+          "Python",
+          "LangChain",
+          "FAISS",
+          "OpenAI API",
+          "Streamlit"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_hours": 35
+      },
+      {
+        "title": "LLM Evaluation Framework",
+        "description": "Design and implement an automated evaluation suite for LLM outputs. Cover faithfulness, relevancy, and hallucination detection using RAGAS. Build a CI pipeline that runs evals on every prompt change and blocks regressions.",
+        "skills_addressed": ["Python", "RAGAS", "LangChain", "CI/CD", "LLMOps"],
+        "difficulty": "Advanced",
+        "estimated_hours": 40
+      },
+      {
+        "title": "Agentic Tool-Use System",
+        "description": "Build a LangChain ReAct agent with at least 3 custom tools: web search, code execution, and a database lookup. Implement conversation memory, tool-call logging with Langfuse, and a FastAPI endpoint that streams the agent's reasoning steps.",
+        "skills_addressed": [
+          "Python",
+          "LangChain",
+          "FastAPI",
+          "Langfuse",
+          "agents"
+        ],
+        "difficulty": "Advanced",
+        "estimated_hours": 38
+      }
+    ]
+  },
+  {
+    "role": "Data Scientist",
+    "projects": [
+      {
+        "title": "A/B Test Analysis Toolkit",
+        "description": "Implement a rigorous A/B testing framework with power analysis, sequential testing (SPRT), and bootstrap confidence intervals. Build a report generator that auto-interprets results and flags common pitfalls (peeking, multiple comparisons).",
+        "skills_addressed": [
+          "Python",
+          "statistics",
+          "Pandas",
+          "Scipy",
+          "data analysis"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_hours": 28
+      },
+      {
+        "title": "Churn Prediction with Explainability",
+        "description": "Train a gradient boosting model on customer behaviour data. Apply SHAP for feature importance and individual prediction explanations. Build an interactive Streamlit dashboard that lets stakeholders explore what drives churn.",
+        "skills_addressed": [
+          "Python",
+          "XGBoost",
+          "SHAP",
+          "Streamlit",
+          "Scikit-learn"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_hours": 32
+      }
+    ]
+  },
+  {
+    "role": "Data Engineer",
+    "projects": [
+      {
+        "title": "Batch ETL Pipeline with Airflow",
+        "description": "Build an Apache Airflow DAG that ingests raw CSVs from S3, validates schema with Great Expectations, transforms with dbt, and loads to a Postgres data warehouse. Include SLA alerts and a lineage diagram.",
+        "skills_addressed": ["Python", "Airflow", "SQL", "dbt", "AWS S3"],
+        "difficulty": "Advanced",
+        "estimated_hours": 40
+      },
+      {
+        "title": "Streaming Data Pipeline",
+        "description": "Implement a Kafka → Spark Structured Streaming → Delta Lake pipeline. Process events in micro-batches, handle late arrivals with watermarks, and write partitioned Parquet to S3. Add a real-time Grafana dashboard.",
+        "skills_addressed": ["Python", "Kafka", "Spark", "Delta Lake", "AWS"],
+        "difficulty": "Advanced",
+        "estimated_hours": 38
+      }
+    ]
+  },
+  {
+    "role": "SWE",
+    "projects": [
+      {
+        "title": "Distributed Task Queue",
+        "description": "Build a Redis-backed task queue with workers, priority lanes, retry with exponential backoff, and dead-letter queues. Expose a FastAPI management UI. Write load tests with Locust demonstrating throughput.",
+        "skills_addressed": [
+          "Python",
+          "Redis",
+          "FastAPI",
+          "Docker",
+          "system design"
+        ],
+        "difficulty": "Advanced",
+        "estimated_hours": 36
+      },
+      {
+        "title": "REST API with Full Test Coverage",
+        "description": "Build a production-quality FastAPI service with Pydantic validation, JWT authentication, PostgreSQL via SQLAlchemy, Alembic migrations, and 90%+ test coverage with pytest. Include GitHub Actions CI that runs tests and linting on every PR.",
+        "skills_addressed": [
+          "Python",
+          "FastAPI",
+          "PostgreSQL",
+          "pytest",
+          "CI/CD"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_hours": 30
+      }
+    ]
+  }
+]
